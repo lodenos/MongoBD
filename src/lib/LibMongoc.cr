@@ -1,7 +1,8 @@
+@[Link(ldflags: "-lmongoc-1.0")]
 lib LibMongoc
   ### Initialization and Cleanup
-  fun init = mongoc_init(Void) : Void
-  fun cleanup = mongoc_cleanup(Void) : Void
+  fun init = mongoc_init : Void
+  fun cleanup = mongoc_cleanup : Void
 
   ### Logging
   # http://mongoc.org/libmongoc/1.16.2/logging.html
