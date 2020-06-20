@@ -21,7 +21,7 @@ lib LibMongoc
   # http://mongoc.org/libmongoc/1.16.2/gridfs.html
 
   ### mongoc_auto_encryption_opts_t
-  # typedef struct _mongoc_auto_encryption_opts_t mongoc_auto_encryption_opts_t;
+  # typedef struct _mongoc_auto_encryption_opts_t mongoc_auto_encryption_opts_t
   type AutoEncryptionOpts = Void
 
   fun auto_encryption_opts_new = mongoc_auto_encryption_opts_new : AutoEncryptionOpts*
@@ -61,7 +61,7 @@ lib LibMongoc
   fun bulk_operation_update_one_with_opts = mongoc_bulk_operation_update_one_with_opts(bulk : BulkOperation*, selector : BSON*, document : BSON*, opts : BSON*, error : BSON_error*) : Bool
 
   ### mongoc_change_stream_t
-  # typedef struct _mongoc_change_stream_t mongoc_change_stream_t;
+  # typedef struct _mongoc_change_stream_t mongoc_change_stream_t
   type ChangeStream = Void
 
   fun client_watch = mongoc_client_watch(client : Client*, pipeline : BSON*, opts : BSON*) : ChangeStream*
@@ -73,7 +73,7 @@ lib LibMongoc
   fun change_stream_destroy = mongoc_change_stream_destroy(stream : ChangeStream*) : Void
 
   ### mongoc_client_encryption_t
-  # typedef struct _mongoc_client_encryption_t mongoc_client_encryption_t;
+  # typedef struct _mongoc_client_encryption_t mongoc_client_encryption_t
   type ClientEncryption = Void
 
   fun client_encryption_new = mongoc_client_encryption_new(opts : ClientEncryptionOpts*, error : BSON_error*) : ClientEncryption*
@@ -92,76 +92,77 @@ lib LibMongoc
   fun client_encryption_datakey_opts_set_keyaltnames = mongoc_client_encryption_datakey_opts_set_keyaltnames(opts : ClientEncryptionDatakeyOpts*, keyaltnames : Int8**, keyaltnames_count : UInt32) : Void
 
   ### mongoc_client_encryption_encrypt_opts_t
-  # typedef struct _mongoc_client_encryption_encrypt_opts_t mongoc_client_encryption_encrypt_opts_t;
+  # typedef struct _mongoc_client_encryption_encrypt_opts_t mongoc_client_encryption_encrypt_opts_t
   type ClientEncryptionEncryptOpts = Void
 
-  # mongoc_client_encryption_encrypt_opts_t* mongoc_client_encryption_encrypt_opts_new();
-  # void mongoc_client_encryption_encrypt_opts_destroy(mongoc_client_encryption_encrypt_opts_t *opts);
-  # void mongoc_client_encryption_encrypt_opts_set_keyid(mongoc_client_encryption_encrypt_opts_t *opts, const bson_value_t *keyid);
-  # void mongoc_client_encryption_encrypt_opts_set_keyaltname(mongoc_client_encryption_encrypt_opts_t *opts, const char *keyaltname);
-  # void mongoc_client_encryption_encrypt_opts_set_algorithm(mongoc_client_encryption_encrypt_opts_t *opts, const char *algorithm);
+  fun client_encryption_encrypt_opts_new = mongoc_client_encryption_encrypt_opts_new : ClientEncryptionEncryptOpts*
+  fun client_encryption_encrypt_opts_destroy = mongoc_client_encryption_encrypt_opts_destroy(opts : ClientEncryptionEncryptOpts*) : Void
+  fun client_encryption_encrypt_opts_set_keyid = mongoc_client_encryption_encrypt_opts_set_keyid(opts : ClientEncryptionEncryptOpts*, keyid : BSON_value*) : Void
+  fun client_encryption_encrypt_opts_set_keyaltname = mongoc_client_encryption_encrypt_opts_set_keyaltname(opts : ClientEncryptionEncryptOpts*, keyaltname : Int8*) : Void
+  fun client_encryption_encrypt_opts_set_algorithm = mongoc_client_encryption_encrypt_opts_set_algorithm(opts : ClientEncryptionEncryptOpts*, algorithm : Int8*) : Void
   #define MONGOC_AEAD_AES_256_CBC_HMAC_SHA_512_RANDOM "AEAD_AES_256_CBC_HMAC_SHA_512-Random"
   #define MONGOC_AEAD_AES_256_CBC_HMAC_SHA_512_DETERMINISTIC "AEAD_AES_256_CBC_HMAC_SHA_512-Deterministic"
 
   ### mongoc_client_encryption_opts_t
-  # typedef struct _mongoc_client_encryption_opts_t mongoc_client_encryption_opts_t;
+  # typedef struct _mongoc_client_encryption_opts_t mongoc_client_encryption_opts_t
   type ClientEncryptionOpts = Void
 
-  # mongoc_client_encryption_opts_t* mongoc_client_encryption_opts_new(void);
-  # void mongoc_client_encryption_opts_destroy(mongoc_client_encryption_opts_t *opts);
-  # void mongoc_client_encryption_opts_set_keyvault_client(mongoc_client_encryption_opts_t *opts, mongoc_client_t *keyvault_client);
-  # void mongoc_client_encryption_opts_set_keyvault_namespace(mongoc_client_encryption_opts_t *opts, const char *db, const char *coll);
-  # void mongoc_client_encryption_opts_set_kms_providers(mongoc_client_encryption_opts_t *opts, const bson_t *kms_providers);
+  fun client_encryption_opts_new = mongoc_client_encryption_opts_new : ClientEncryptionOpts*
+  fun client_encryption_opts_destroy = mongoc_client_encryption_opts_destroy(opts : ClientEncryptionOpts*) : Void
+  fun client_encryption_opts_set_keyvault_client = mongoc_client_encryption_opts_set_keyvault_client(opts : ClientEncryptionOpts*, keyvault_client : Client*) : Void
+  fun client_encryption_opts_set_keyvault_namespace = mongoc_client_encryption_opts_set_keyvault_namespace(opts : ClientEncryptionOpts*, db : Int8*, coll : Int8*) : Void
+  fun client_encryption_opts_set_kms_providers = mongoc_client_encryption_opts_set_kms_providers(opts : ClientEncryptionOpts*, kms_providers : BSON*) : Void
 
   ### mongoc_client_pool_t
   # typedef struct _mongoc_client_pool_t mongoc_client_pool_t
   type ClientPool = Void
 
-  # void mongoc_client_pool_destroy(mongoc_client_pool_t *pool);
-  # bool mongoc_client_pool_enable_auto_encryption(mongoc_client_pool_t *pool, mongoc_auto_encryption_opts_t* opts, bson_error_t* error);
-  # void mongoc_client_pool_max_size(mongoc_client_pool_t *pool, uint32_t max_pool_size);
-  # void mongoc_client_pool_min_size(mongoc_client_pool_t *pool, uint32_t min_pool_size) BSON_GNUC_DEPRECATED;
-  # mongoc_client_pool_t* mongoc_client_pool_new(const mongoc_uri_t *uri);
-  # mongoc_client_t* mongoc_client_pool_pop(mongoc_client_pool_t *pool);
-  # void mongoc_client_pool_push(mongoc_client_pool_t *pool, mongoc_client_t *client);
-  # bool mongoc_client_pool_set_apm_callbacks(mongoc_client_pool_t *pool, mongoc_apm_callbacks_t *callbacks, void *context);
-  # bool mongoc_client_pool_set_appname(mongoc_client_pool_t *pool, const char *appname)
-  # bool mongoc_client_pool_set_error_api(mongoc_client_pool_t *client, int32_t version);
+  fun client_pool_destroy = mongoc_client_pool_destroy(pool : ClientPool*) : Void
+  fun client_pool_enable_auto_encryption = mongoc_client_pool_enable_auto_encryption(pool : ClientPool*, opts : AutoEncryptionOpts*, error : BSON_error*) : Bool
+  fun client_pool_max_size = mongoc_client_pool_max_size(pool : ClientPool*, max_pool_size : UInt32) : Void
+  fun client_pool_min_size = mongoc_client_pool_min_size(pool : ClientPool*, min_pool_size : UInt32) : Void # BSON_GNUC_DEPRECATED
+  # fun client_pool_new = mongoc_client_pool_new(uri : mongoc_uri_t *) : ClientPool*
+
+  fun client_pool_pop = mongoc_client_pool_pop(pool : ClientPool*) : Client*
+  fun client_pool_push = mongoc_client_pool_push(pool : ClientPool*, client : Client*) : Void
+  fun client_pool_set_apm_callbacks = mongoc_client_pool_set_apm_callbacks(pool : ClientPool*, callbacks : ApmCallbacks*, context : Void*) : Bool
+  fun client_pool_set_appname = mongoc_client_pool_set_appname(pool : ClientPool*, appname : Int8*) : Bool
+  fun client_pool_set_error_api = mongoc_client_pool_set_error_api(client : ClientPool*, version : Int32) : Bool
   #ifdef MONGOC_ENABLE_SSL
-  # void mongoc_client_pool_set_ssl_opts(mongoc_client_pool_t *pool, const mongoc_ssl_opt_t *opts);
+  # void mongoc_client_pool_set_ssl_opts(mongoc_client_pool_t *pool, const mongoc_ssl_opt_t *opts)
   #endif
-  # mongoc_client_t* mongoc_client_pool_try_pop(mongoc_client_pool_t *pool);
+  fun client_pool_try_pop = mongoc_client_pool_try_pop(pool : ClientPool*) : Client*
 
   ### mongoc_client_session_t
   type ClientSession = Void
 
-  # bool mongoc_client_session_start_transaction(mongoc_client_session_t *session, const mongoc_transaction_opt_t *opts, bson_error_t *error);
-  # bool mongoc_client_session_in_transaction(const mongoc_client_session_t *session);
-  # mongoc_transaction_state_t mongoc_client_session_get_transaction_state(const mongoc_client_session_t *session);
-  # bool mongoc_client_session_commit_transaction(mongoc_client_session_t *session, bson_t *reply, bson_error_t *error);
-  # bool mongoc_client_session_abort_transaction(mongoc_client_session_t *session, bson_error_t *error);
-  # void mongoc_client_session_advance_cluster_time(mongoc_client_session_t *session, const bson_t *cluster_time);
-  # void mongoc_client_session_advance_operation_time(mongoc_client_session_t *session, uint32_t timestamp, uint32_t increment);
-  # bool mongoc_client_session_with_transaction(mongoc_client_session_t *session, mongoc_client_session_with_transaction_cb_t cb, const mongoc_transaction_opt_t *opts, void *ctx, bson_t *reply, bson_error_t *error);
-  # bool mongoc_client_session_append(const mongoc_client_session_t *client_session, bson_t *opts, bson_error_t *error);
-  # mongoc_client_t* mongoc_client_session_get_client(const mongoc_client_session_t *session);
-  # const bson_t* mongoc_client_session_get_cluster_time(const mongoc_client_session_t *session);
-  # void mongoc_client_session_get_operation_time(const mongoc_client_session_t *session, uint32_t *timestamp, uint32_t *increment);
-  # const mongoc_session_opt_t* mongoc_client_session_get_opts(const mongoc_client_session_t *session);
-  # const bson_t* mongoc_client_session_get_lsid(mongoc_client_session_t *session);
-  # uint32_t mongoc_client_session_get_server_id(const mongoc_client_session_t *session);
-  # void mongoc_client_session_destroy(mongoc_client_session_t *session);
+  fun client_session_start_transaction = mongoc_client_session_start_transaction(session : ClientSession*, opts : TransactionOpt*, error : BSON_error*) : Bool
+  fun client_session_in_transaction = mongoc_client_session_in_transaction(session : ClientSession*) : Bool
+  fun client_session_get_transaction_state = mongoc_client_session_get_transaction_state(session : ClientSession*) : TransactionState
+  fun client_session_commit_transaction = mongoc_client_session_commit_transaction(session : ClientSession*, reply : BSON*, error : BSON_error*) : Bool
+  fun client_session_abort_transaction = mongoc_client_session_abort_transaction(session : ClientSession*, error : BSON_error*) : Bool
+  fun client_session_advance_cluster_time = mongoc_client_session_advance_cluster_time(session : ClientSession*, cluster_time : BSON*) : Void
+  fun client_session_advance_operation_time = mongoc_client_session_advance_operation_time(session : ClientSession*, timestamp : UInt32, increment : UInt32) : Void
+  fun client_session_with_transaction = mongoc_client_session_with_transaction(session : ClientSession*, cb : ClientSessionWithTransactionCb, opts : TransactionOpt*, ctx : Void*, reply : BSON*, error : BSON_error*) : Bool
+  fun client_session_append = mongoc_client_session_append(client_session : ClientSession*, opts : BSON*, error : BSON_error*) : Bool
+  fun client_session_get_client = mongoc_client_session_get_client(session : ClientSession*) : Client*
+  fun client_session_get_cluster_time = mongoc_client_session_get_cluster_time(session : ClientSession*) : BSON*
+  fun client_session_get_operation_time = mongoc_client_session_get_operation_time(session : ClientSession*, timestamp : UInt32*, increment : UInt32*) : Void
+  fun client_session_get_opts = mongoc_client_session_get_opts(session : ClientSession*) : SessionOpt*
+  fun client_session_get_lsid = mongoc_client_session_get_lsid(session : ClientSession*) : BSON*
+  fun client_session_get_server_id = mongoc_client_session_get_server_id(session : ClientSession*) : UInt32
+  fun client_session_destroy = mongoc_client_session_destroy(session : ClientSession*) : Void
 
   ### mongoc_client_session_with_transaction_cb_t
   # @ Typedef
-  # typedef bool (*mongoc_client_session_with_transaction_cb_t)(mongoc_client_session_t *session, void *ctx, bson_t **reply, bson_error_t *error);
-  # @ Function
-  # bool mongoc_client_session_with_transaction(mongoc_client_session_t *session, mongoc_client_session_with_transaction_cb_t cb, const mongoc_transaction_opt_t *opts, void *ctx, bson_t *reply, bson_error_t *error);
+  # typedef bool (*mongoc_client_session_with_transaction_cb_t)(mongoc_client_session_t *session, void *ctx, bson_t **reply, bson_error_t *error)
+
+  fun client_session_with_transaction = mongoc_client_session_with_transaction(session : ClientSession*, cb : ClientSessionWithTransactionCb, opts : TransactionOpt*, ctx : Void*, reply : BSON*, error : BSON_error*) : Bool
  
   ### mongoc_client_t
   # typedef struct _mongoc_client_t mongoc_client_t;
   type Client = Void
-  # typedef mongoc_stream_t *(*mongoc_stream_initiator_t)(const mongoc_uri_t *uri, const mongoc_host_list_t *host, void *user_data, bson_error_t *error);
+  # typedef mongoc_stream_t *(*mongoc_stream_initiator_t)(const mongoc_uri_t *uri, const mongoc_host_list_t *host, void *user_data, bson_error_t *error)
 
   fun client_command = mongoc_client_command(client : Client*, db_name : Int8*, flags : QueryFlags, skip : UInt32, limit : UInt32, batch_size : UInt32, query : BSON*, fields : BSON*, read_prefs : ReadPrefs*) : Cursor*
   fun client_command_simple = mongoc_client_command_simple(client : Client*, db_name : Int8*, command : BSON*, read_prefs : ReadPrefs*, reply : BSON*, error : BSON_error*) : Bool
@@ -197,7 +198,7 @@ lib LibMongoc
   fun client_set_read_concern = mongoc_client_set_read_concern(client : Client*, read_concern : ReadConcern*) : Void
   fun client_set_read_prefs = mongoc_client_set_read_prefs(client : Client*, read_prefs : ReadPrefs*) : Void
   # #ifdef MONGOC_ENABLE_SSL
-  # void mongoc_client_set_ssl_opts(mongoc_client_t *client, const mongoc_ssl_opt_t *opts);
+  # void mongoc_client_set_ssl_opts(mongoc_client_t *client, const mongoc_ssl_opt_t *opts)
   #endif
   # fun client_set_stream_initiator = mongoc_client_set_stream_initiator(client : Client*, initiator : StreamInitiator, user_data : Void*) : Void
   fun client_set_write_concern = mongoc_client_set_write_concern(client : Client*, write_concern : WriteConcern*) : Void
@@ -268,60 +269,60 @@ lib LibMongoc
   # typedef struct _mongoc_cursor_t mongoc_cursor_t;
   type Cursor = Void
 
-  # mongoc_cursor_t* mongoc_cursor_clone(const mongoc_cursor_t *cursor) BSON_GNUC_WARN_UNUSED_RESULT;
-  # const bson_t* mongoc_cursor_current(const mongoc_cursor_t *cursor);
-  # void mongoc_cursor_destroy(mongoc_cursor_t *cursor);
-  # bool mongoc_cursor_error(mongoc_cursor_t *cursor, bson_error_t *error);
-  # bool mongoc_cursor_error_document(mongoc_cursor_t *cursor, bson_error_t *error, const bson_t **reply);
-  # uint32_t mongoc_cursor_get_batch_size(const mongoc_cursor_t *cursor);
-  # uint32_t mongoc_cursor_get_hint(const mongoc_cursor_t *cursor);
-  # void mongoc_cursor_get_host(mongoc_cursor_t *cursor, mongoc_host_list_t *host);
-  # int64_t mongoc_cursor_get_id(const mongoc_cursor_t *cursor);
-  # int64_t mongoc_cursor_get_limit(mongoc_cursor_t *cursor);
-  # uint32_t mongoc_cursor_get_max_await_time_ms(mongoc_cursor_t *cursor);
-  # bool mongoc_cursor_is_alive(const mongoc_cursor_t *cursor) BSON_GNUC_DEPRECATED_FOR(mongoc_cursor_more);
-  # bool mongoc_cursor_more(mongoc_cursor_t *cursor);
-  # mongoc_cursor_t* mongoc_cursor_new_from_command_reply(mongoc_client_t *client, bson_t *reply, uint32_t server_id); BSON_GNUC_DEPRECATED_FOR(mongoc_cursor_new_from_command_reply_with_opts);
-  # mongoc_cursor_t* mongoc_cursor_new_from_command_reply_with_opts(mongoc_client_t *client, bson_t *reply, const bson_t *opts);
-  # bool mongoc_cursor_next(mongoc_cursor_t *cursor, const bson_t **bson);
-  # void mongoc_cursor_set_batch_size(mongoc_cursor_t *cursor, uint32_t batch_size);
-  # bool mongoc_cursor_set_hint(mongoc_cursor_t *cursor, uint32_t server_id);
-  # bool mongoc_cursor_set_limit(mongoc_cursor_t *cursor, int64_t limit);
-  # void mongoc_cursor_set_max_await_time_ms(mongoc_cursor_t *cursor, uint32_t max_await_time_ms);
+  fun cursor_clone = mongoc_cursor_clone(cursor : Cursor*) : Cursor* # BSON_GNUC_WARN_UNUSED_RESULT
+  fun cursor_current = mongoc_cursor_current(cursor : Cursor*) : BSON*
+  fun cursor_destroy = mongoc_cursor_destroy(cursor : Cursor*) : Void
+  fun cursor_error = mongoc_cursor_error(cursor : Cursor*, error : BSON_error*) : Bool
+  fun cursor_error_document = mongoc_cursor_error_document(cursor : Cursor*, error : BSON*, reply : BSON**) : Bool
+  fun cursor_get_batch_size = mongoc_cursor_get_batch_size(cursor : Cursor*) : UInt32
+  fun cursor_get_hint = mongoc_cursor_get_hint(cursor : Cursor*) : UInt32
+  fun cursor_get_host = mongoc_cursor_get_host(cursor : Cursor*, host : HostList*) : Void
+  fun cursor_get_id = mongoc_cursor_get_id(cursor : Cursor*) : Int64
+  fun cursor_get_limit = mongoc_cursor_get_limit(cursor : Cursor*) : Int64
+  fun cursor_get_max_await_time_ms = mongoc_cursor_get_max_await_time_ms(cursor : Cursor*) : UInt32
+  fun cursor_is_alive = mongoc_cursor_is_alive(cursor : Cursor*) : Bool # BSON_GNUC_DEPRECATED_FOR(mongoc_cursor_more)
+  fun cursor_more = mongoc_cursor_more(cursor : Cursor*) : Bool
+  fun cursor_new_from_command_reply = mongoc_cursor_new_from_command_reply(client : Client*, reply : BSON*, server_id : UInt32) : Cursor* # BSON_GNUC_DEPRECATED_FOR(mongoc_cursor_new_from_command_reply_with_opts)
+  fun cursor_new_from_command_reply_with_opts = mongoc_cursor_new_from_command_reply_with_opts(client : Client*, reply : BSON*, opts : BSON*) : Cursor*
+  fun cursor_next = mongoc_cursor_next(cursor : Cursor*, bson : BSON**) : Bool
+  fun cursor_set_batch_size = mongoc_cursor_set_batch_size(cursor : Cursor*, batch_size : UInt32) : Void
+  fun cursor_set_hint = mongoc_cursor_set_hint(cursor : Cursor*, server_id : UInt32) : Bool
+  fun cursor_set_limit = mongoc_cursor_set_limit(cursor : Cursor*, limit : Int64) : Bool
+  fun cursor_set_max_await_time_ms = mongoc_cursor_set_max_await_time_ms(cursor : Cursor*, max_await_time_ms : UInt32) : Void
 
   ### mongoc_database_t
   # typedef struct _mongoc_database_t mongoc_database_t;
   type Database = Void
 
-  # bool mongoc_database_add_user(mongoc_database_t *database, const char *username, const char *password, const bson_t *roles, const bson_t *custom_data, bson_error_t *error);
-  # mongoc_cursor_t* mongoc_database_aggregate(mongoc_database_t *database, const bson_t *pipeline, const bson_t *opts, const mongoc_read_prefs_t *read_prefs) BSON_GNUC_WARN_UNUSED_RESULT;
-  # mongoc_cursor_t* mongoc_database_command(mongoc_database_t *database, mongoc_query_flags_t flags, uint32_t skip, uint32_t limit, uint32_t batch_size, const bson_t *command, const bson_t *fields, const mongoc_read_prefs_t *read_prefs);
-  # bool mongoc_database_command_simple(mongoc_database_t *database, const bson_t *command, const mongoc_read_prefs_t *read_prefs, bson_t *reply, bson_error_t *error);
-  # bool mongoc_database_command_with_opts(mongoc_database_t *database, const bson_t *command, const mongoc_read_prefs_t *read_prefs, const bson_t *opts, bson_t *reply, bson_error_t *error);
-  # mongoc_database_t* mongoc_database_copy(mongoc_database_t *database);
-  # mongoc_collection_t* mongoc_database_create_collection(mongoc_database_t *database, const char *name, const bson_t *opts, bson_error_t *error);
-  # void mongoc_database_destroy(mongoc_database_t *database);
-  # bool mongoc_database_drop(mongoc_database_t *database, bson_error_t *error);
-  # bool mongoc_database_drop_with_opts(mongoc_database_t *database, const bson_t *opts, bson_error_t *error);
-  # mongoc_cursor_t* mongoc_database_find_collections(mongoc_database_t *database, const bson_t *filter, bson_error_t *error) BSON_GNUC_DEPRECATED_FOR(mongoc_database_find_collections_with_opts);
-  # mongoc_cursor_t* mongoc_database_find_collections_with_opts(mongoc_database_t *database, const bson_t *opts);
-  # mongoc_collection_t* mongoc_database_get_collection(mongoc_database_t *database, const char *name);
-  # char** mongoc_database_get_collection_names(mongoc_database_t *database, bson_error_t *error);
-  # char** mongoc_database_get_collection_names_with_opts(mongoc_database_t *database, const bson_t *opts, bson_error_t *error);
-  # const char* mongoc_database_get_name(mongoc_database_t *database);
-  # const mongoc_read_concern_t* mongoc_database_get_read_concern(const mongoc_database_t *database);
-  # const mongoc_read_prefs_t* mongoc_database_get_read_prefs(const mongoc_database_t *database);
-  # const mongoc_write_concern_t* mongoc_database_get_write_concern(const mongoc_database_t *database);
-  # bool mongoc_database_has_collection(mongoc_database_t *database, const char *name, bson_error_t *error);
-  # bool mongoc_database_read_command_with_opts(mongoc_database_t *database, const bson_t *command, const mongoc_read_prefs_t *read_prefs, const bson_t *opts, bson_t *reply, bson_error_t *error);
-  # bool mongoc_database_read_write_command_with_opts(mongoc_database_t *database, const bson_t *command, const mongoc_read_prefs_t *read_prefs /* UNUSED */, const bson_t *opts, bson_t *reply, bson_error_t *error);
-  # bool mongoc_database_remove_all_users(mongoc_database_t *database, bson_error_t *error);
-  # bool mongoc_database_remove_user(mongoc_database_t *database, const char *username, bson_error_t *error);
-  # void mongoc_database_set_read_concern(mongoc_database_t *database, const mongoc_read_concern_t *read_concern);
-  # void mongoc_database_set_read_prefs(mongoc_database_t *database, const mongoc_read_prefs_t *read_prefs);
-  # void mongoc_database_set_write_concern(mongoc_database_t *database, const mongoc_write_concern_t *write_concern);
-  # mongoc_change_stream_t* mongoc_database_watch(const mongoc_database_t *db, const bson_t *pipeline, const bson_t *opts);
-  # bool mongoc_database_write_command_with_opts(mongoc_database_t *database, const bson_t *command, const bson_t *opts, bson_t *reply, bson_error_t *error);
+  fun database_add_user = mongoc_database_add_user(mongoc_database_t *database, const char *username, const char *password, const bson_t *roles, const bson_t *custom_data, bson_error_t *error) : Bool
+  fun database_aggregate = mongoc_database_aggregate(mongoc_database_t *database, const bson_t *pipeline, const bson_t *opts, const mongoc_read_prefs_t *read_prefs) : mongoc_cursor_t* # BSON_GNUC_WARN_UNUSED_RESULT;
+  fun database_command = mongoc_database_command(mongoc_database_t *database, mongoc_query_flags_t flags, uint32_t skip, uint32_t limit, uint32_t batch_size, const bson_t *command, const bson_t *fields, const mongoc_read_prefs_t *read_prefs) : mongoc_cursor_t*
+  fun database_command_simple = mongoc_database_command_simple(mongoc_database_t *database, const bson_t *command, const mongoc_read_prefs_t *read_prefs, bson_t *reply, bson_error_t *error) : bool
+  fun database_command_with_opts = mongoc_database_command_with_opts(mongoc_database_t *database, const bson_t *command, const mongoc_read_prefs_t *read_prefs, const bson_t *opts, bson_t *reply, bson_error_t *error) : bool
+  fun database_copy = mongoc_(mongoc_database_t *database) : mongoc_database_t*
+  fun database_create_collection = mongoc_database_create_collection(mongoc_database_t *database, const char *name, const bson_t *opts, bson_error_t *error) : mongoc_collection_t*
+  fun database_destroy = mongoc_database_destroy(mongoc_database_t *database) : void
+  fun database_drop = mongoc_database_drop(mongoc_database_t *database, bson_error_t *error) : bool
+  fun database_drop_with_opts = mongoc_database_drop_with_opts(mongoc_database_t *database, const bson_t *opts, bson_error_t *error) : bool
+  fun database_find_collections = mongoc_database_find_collections(mongoc_database_t *database, const bson_t *filter, bson_error_t *error) : mongoc_cursor_t* # BSON_GNUC_DEPRECATED_FOR(mongoc_database_find_collections_with_opts)
+  fun database_find_collections_with_opts = mongoc_database_find_collections_with_opts(mongoc_database_t *database, const bson_t *opts) : mongoc_cursor_t*
+  fun database_get_collection = mongoc_database_get_collection(mongoc_database_t *database, const char *name) : mongoc_collection_t*
+  fun database_get_collection_names = mongoc_database_get_collection_names(mongoc_database_t *database, bson_error_t *error) : char**
+  fun database_get_collection_names_with_opts = mongoc_database_get_collection_names_with_opts(mongoc_database_t *database, const bson_t *opts, bson_error_t *error) : char**
+  fun database_get_name = mongoc_database_get_name(mongoc_database_t *database) : const char*
+  fun database_get_read_concern = mongoc_database_get_read_concern(const mongoc_database_t *database) : const mongoc_read_concern_t*
+  fun database_get_read_prefs = mongoc_database_get_read_prefs(const mongoc_database_t *database) : const mongoc_read_prefs_t*
+  fun database_get_write_concern = mongoc_database_get_write_concern(const mongoc_database_t *database) : const mongoc_write_concern_t*
+  fun database_has_collection = mongoc_database_has_collection(mongoc_database_t *database, const char *name, bson_error_t *error) : bool
+  fun database_read_command_with_opts = mongoc_database_read_command_with_opts(mongoc_database_t *database, const bson_t *command, const mongoc_read_prefs_t *read_prefs, const bson_t *opts, bson_t *reply, bson_error_t *error) : bool
+  fun database_read_write_command_with_opts = mongoc_database_read_write_command_with_opts(mongoc_database_t *database, const bson_t *command, const mongoc_read_prefs_t *read_prefs /* UNUSED */, const bson_t *opts, bson_t *reply, bson_error_t *error) : bool
+  fun database_remove_all_users = mongoc_database_remove_all_users(mongoc_database_t *database, bson_error_t *error) : bool
+  fun database_remove_user = mongoc_database_remove_user(mongoc_database_t *database, const char *username, bson_error_t *error) : bool
+  fun database_set_read_concern = mongoc_database_set_read_concern(mongoc_database_t *database, const mongoc_read_concern_t *read_concern) : void
+  fun database_set_read_prefs = mongoc_database_set_read_prefs(mongoc_database_t *database, const mongoc_read_prefs_t *read_prefs) : void
+  fun database_set_write_concern = mongoc_database_set_write_concern(mongoc_database_t *database, const mongoc_write_concern_t *write_concern) : void
+  fun database_watch = mongoc_database_watch(const mongoc_database_t *db, const bson_t *pipeline, const bson_t *opts) : mongoc_change_stream_t*
+  fun database_write_command_with_opts = mongoc_database_write_command_with_opts(mongoc_database_t *database, const bson_t *command, const bson_t *opts, bson_t *reply, bson_error_t *error) : bool 
 
   ### mongoc_delete_flags_t
   enum DeleteFlags
@@ -332,21 +333,21 @@ lib LibMongoc
   ### mongoc_find_and_modify_opts_t
   type FindAndModifyOpts = Void
 
-  # bool mongoc_find_and_modify_opts_append(mongoc_find_and_modify_opts_t *opts, const bson_t *extra);
-  # void mongoc_find_and_modify_opts_destroy(mongoc_find_and_modify_opts_t *find_and_modify_opts);
-  # bool mongoc_find_and_modify_opts_get_bypass_document_validation(const mongoc_find_and_modify_opts_t *opts);
-  # void mongoc_find_and_modify_opts_get_fields(const mongoc_find_and_modify_opts_t *opts, bson_t *fields);
-  # mongoc_find_and_modify_flags_t mongoc_find_and_modify_opts_get_flags(const mongoc_find_and_modify_opts_t *opts);
-  # uint32_t mongoc_find_and_modify_opts_get_max_time_ms(const mongoc_find_and_modify_opts_t *opts);
-  # void mongoc_find_and_modify_opts_get_sort(const mongoc_find_and_modify_opts_t *opts, bson_t *sort);
-  # void mongoc_find_and_modify_opts_get_update(const mongoc_find_and_modify_opts_t *opts, bson_t *update);
-  # mongoc_find_and_modify_opts_t* mongoc_find_and_modify_opts_new(void);
-  # bool mongoc_find_and_modify_opts_set_bypass_document_validation(mongoc_find_and_modify_opts_t *opts, bool bypass);
-  # bool mongoc_find_and_modify_opts_set_fields(mongoc_find_and_modify_opts_t *opts, const bson_t *fields);
-  # bool mongoc_find_and_modify_opts_set_flags(mongoc_find_and_modify_opts_t *opts, const mongoc_find_and_modify_flags_t flags);
-  # bool mongoc_find_and_modify_opts_set_max_time_ms(mongoc_find_and_modify_opts_t *opts, uint32_t max_time_ms);
-  # bool mongoc_find_and_modify_opts_set_sort(mongoc_find_and_modify_opts_t *opts, const bson_t *sort);
-  # bool mongoc_find_and_modify_opts_set_update(mongoc_find_and_modify_opts_t *opts, const bson_t *update);
+  fun find_and_modify_opts_append = mongoc_find_and_modify_opts_append(opts : FindAndModifyOpts*, const bson_t *extra) : Bool
+  fun find_and_modify_opts_destroy = mongoc_find_and_modify_opts_destroy(mongoc_find_and_modify_opts_t *find_and_modify_opts) : Void
+  fun find_and_modify_opts_get_bypass_document_validation = mongoc_find_and_modify_opts_get_bypass_document_validation(const opts : FindAndModifyOpts*) : Bool
+  fun find_and_modify_opts_get_fields = mongoc_find_and_modify_opts_get_fields(const opts : FindAndModifyOpts*, bson_t *fields) : Void
+  fun find_and_modify_opts_get_flags = mongoc_find_and_modify_opts_get_flags(const opts : FindAndModifyOpts*) : FindAndModifyFlags
+  fun find_and_modify_opts_get_max_time_ms = mongoc_find_and_modify_opts_get_max_time_ms(const opts : FindAndModifyOpts*) : UInt32
+  fun find_and_modify_opts_get_sort = mongoc_find_and_modify_opts_get_sort(const opts : FindAndModifyOpts*, bson_t *sort) : Void
+  fun find_and_modify_opts_get_update = mongoc_find_and_modify_opts_get_update(const opts : FindAndModifyOpts*, bson_t *update) : Void
+  fun find_and_modify_opts_new = mongoc_find_and_modify_opts_new : FindAndModifyOpts*
+  fun find_and_modify_opts_set_bypass_document_validation = mongoc_find_and_modify_opts_set_bypass_document_validation(opts : FindAndModifyOpts*, bool bypass) : Bool
+  fun find_and_modify_opts_set_fields = mongoc_find_and_modify_opts_set_fields(opts : FindAndModifyOpts*, const bson_t *fields) : Bool
+  fun find_and_modify_opts_set_flags = mongoc_find_and_modify_opts_set_flags(opts : FindAndModifyOpts*, const mongoc_find_and_modify_flags_t flags) : Bool
+  fun find_and_modify_opts_set_max_time_ms = mongoc_find_and_modify_opts_set_max_time_ms(opts : FindAndModifyOpts*, uint32_t max_time_ms) : Bool
+  fun find_and_modify_opts_set_sort = mongoc_find_and_modify_opts_set_sort(opts : FindAndModifyOpts*, const bson_t *sort) : Bool
+  fun find_and_modify_opts_set_update = mongoc_find_and_modify_opts_set_update(opts : FindAndModifyOpts*, const bson_t *update) : Bool
 
   ### mongoc_gridfs_file_list_t
   # typedef struct _mongoc_gridfs_file_list_t mongoc_gridfs_file_list_t;
@@ -370,75 +371,74 @@ lib LibMongoc
   # typedef struct _mongoc_gridfs_file_t mongoc_gridfs_file_t;
   type GridfsFile = Void
 
-  # void mongoc_gridfs_file_destroy(mongoc_gridfs_file_t *file);
-  # bool mongoc_gridfs_file_error(mongoc_gridfs_file_t *file, bson_error_t *error);
-  # const bson_t* mongoc_gridfs_file_get_aliases(mongoc_gridfs_file_t *file);
-  # int32_t mongoc_gridfs_file_get_chunk_size(mongoc_gridfs_file_t *file);
-  # const char* mongoc_gridfs_file_get_content_type(mongoc_gridfs_file_t *file);
-  # const char *mongoc_gridfs_file_get_filename(mongoc_gridfs_file_t *file);
-  # const bson_value_t* mongoc_gridfs_file_get_id(mongoc_gridfs_file_t *file);
-  # int64_t mongoc_gridfs_file_get_length(mongoc_gridfs_file_t *file);
-  # const char* mongoc_gridfs_file_get_md5(mongoc_gridfs_file_t *file);
-  # const bson_t* mongoc_gridfs_file_get_metadata(mongoc_gridfs_file_t *file);
-  # int64_t mongoc_gridfs_file_get_upload_date(mongoc_gridfs_file_t *file);
-  # ssize_t mongoc_gridfs_file_readv(mongoc_gridfs_file_t *file, mongoc_iovec_t *iov, size_t iovcnt, size_t min_bytes, uint32_t timeout_msec);
-  # bool mongoc_gridfs_file_remove(mongoc_gridfs_file_t *file, bson_error_t *error);
-  # bool mongoc_gridfs_file_save(mongoc_gridfs_file_t *file);
-  # int mongoc_gridfs_file_seek(mongoc_gridfs_file_t *file, int64_t delta, int whence);
-  # void mongoc_gridfs_file_set_aliases(mongoc_gridfs_file_t *file, const bson_t *bson);
-  # void mongoc_gridfs_file_set_content_type(mongoc_gridfs_file_t *file, const char *content_type);
-  # void mongoc_gridfs_file_set_filename(mongoc_gridfs_file_t *file, const char *filename);
-  # bool mongoc_gridfs_file_set_id(mongoc_gridfs_file_t *file, const bson_value_t *id, bson_error_t error);
-  # void mongoc_gridfs_file_set_md5(mongoc_gridfs_file_t *file, const char *md5);
-  # void mongoc_gridfs_file_set_metadata(mongoc_gridfs_file_t *file, const bson_t *metadata);
-  # uint64_t mongoc_gridfs_file_tell(mongoc_gridfs_file_t *file);
-  # ssize_t mongoc_gridfs_file_writev(mongoc_gridfs_file_t *file, const mongoc_iovec_t *iov, size_t iovcnt, uint32_t timeout_msec);
-  # mongoc_stream_t* mongoc_stream_gridfs_new(mongoc_gridfs_file_t *file);
+  fun gridfs_file_destroy = mongoc_gridfs_file_destroy(mongoc_gridfs_file_t *file) : Void
+  fun gridfs_file_error = mongoc_gridfs_file_error(mongoc_gridfs_file_t *file, bson_error_t *error) : Bool
+  fun gridfs_file_get_aliases = mongoc_gridfs_file_get_aliases(mongoc_gridfs_file_t *file) : const bson_t*
+  fun gridfs_file_get_chunk_size = mongoc_gridfs_file_get_chunk_size(mongoc_gridfs_file_t *file) : int32_t
+  fun gridfs_file_get_content_type = mongoc_gridfs_file_get_content_type(mongoc_gridfs_file_t *file) : const char*
+  fun gridfs_file_get_filename = mongoc_gridfs_file_get_filename(mongoc_gridfs_file_t *file) : const char *
+  fun gridfs_file_get_id = mongoc_gridfs_file_get_id(mongoc_gridfs_file_t *file) : const bson_value_t*
+  fun gridfs_file_get_length = mongoc_gridfs_file_get_length(mongoc_gridfs_file_t *file) : int64_t
+  fun gridfs_file_get_md5 = mongoc_gridfs_file_get_md5(mongoc_gridfs_file_t *file) : const char*
+  fun gridfs_file_get_metadata = mongoc_gridfs_file_get_metadata(mongoc_gridfs_file_t *file) : const bson_t*
+  fun gridfs_file_get_upload_date = mongoc_gridfs_file_get_upload_date(mongoc_gridfs_file_t *file) : int64_t
+  fun gridfs_file_readv = mongoc_gridfs_file_readv(mongoc_gridfs_file_t *file, mongoc_iovec_t *iov, size_t iovcnt, size_t min_bytes, uint32_t timeout_msec) : ssize_t
+  fun gridfs_file_remove = mongoc_gridfs_file_remove(mongoc_gridfs_file_t *file, bson_error_t *error) : Bool
+  fun gridfs_file_save = mongoc_gridfs_file_save(mongoc_gridfs_file_t *file) : Bool
+  fun gridfs_file_seek = mongoc_gridfs_file_seek(mongoc_gridfs_file_t *file, int64_t delta, int whence) : Int32
+  fun gridfs_file_set_aliases = mongoc_gridfs_file_set_aliases(mongoc_gridfs_file_t *file, const bson_t *bson) : Void
+  fun gridfs_file_set_content_type = mongoc_gridfs_file_set_content_type(mongoc_gridfs_file_t *file, const char *content_type) : Void
+  fun gridfs_file_set_filename = mongoc_gridfs_file_set_filename(mongoc_gridfs_file_t *file, const char *filename) : Void
+  fun gridfs_file_set_id = mongoc_gridfs_file_set_id(mongoc_gridfs_file_t *file, const bson_value_t *id, bson_error_t error) : Bool
+  fun gridfs_file_set_md5 = mongoc_gridfs_file_set_md5(mongoc_gridfs_file_t *file, const char *md5) : Void
+  fun gridfs_file_set_metadata = mongoc_gridfs_file_set_metadata(mongoc_gridfs_file_t *file, const bson_t *metadata) : Void
+  fun gridfs_file_tell = mongoc_gridfs_file_tell(mongoc_gridfs_file_t *file) : UInt64
+  fun gridfs_file_writev = mongoc_gridfs_file_writev(mongoc_gridfs_file_t *file, const mongoc_iovec_t *iov, size_t iovcnt, uint32_t timeout_msec) : ssize_t
+  fun stream_gridfs_new = mongoc_stream_gridfs_new(mongoc_gridfs_file_t *file) : mongoc_stream_t*
 
   ### mongoc_gridfs_bucket_t
   # typedef struct _mongoc_gridfs_bucket_t mongoc_gridfs_bucket_t;
   type GridfsBucket = Void
 
-  # bool mongoc_gridfs_bucket_abort_upload(mongoc_stream_t *stream);
-  # bool mongoc_gridfs_bucket_delete_by_id(mongoc_gridfs_bucket_t *bucket, const bson_value_t *file_id, bson_error_t *error);
-  # void mongoc_gridfs_bucket_destroy(mongoc_gridfs_bucket_t *bucket);
-  # bool mongoc_gridfs_bucket_download_to_stream(mongoc_gridfs_bucket_t *bucket, const bson_value_t *file_id, mongoc_stream_t *destination, bson_error_t *error);
-  # mongoc_cursor_t* mongoc_gridfs_bucket_find(mongoc_gridfs_bucket_t *bucket, const bson_t *filter, const bson_t *opts);
-  # mongoc_gridfs_bucket_t* mongoc_gridfs_bucket_new(mongoc_database_t *db, const bson_t *opts, const mongoc_read_prefs_t *read_prefs, bson_error_t* error);
-  # mongoc_stream_t* mongoc_gridfs_bucket_open_download_stream(mongoc_gridfs_bucket_t *bucket, const bson_value_t *file_id, bson_error_t *error);
-  # mongoc_stream_t* mongoc_gridfs_bucket_open_upload_stream(mongoc_gridfs_bucket_t *bucket, const char *filename, const bson_t *opts, bson_value_t *file_id, bson_error_t *error);
-  # mongoc_stream_t* mongoc_gridfs_bucket_open_upload_stream_with_id(mongoc_gridfs_bucket_t *bucket, const bson_value_t *file_id, const char *filename, const bson_t *opts, bson_error_t *error);
-  # bool mongoc_gridfs_bucket_stream_error(mongoc_stream_t *stream, bson_error_t *error);
-  # bool mongoc_gridfs_bucket_upload_from_stream(mongoc_gridfs_bucket_t *bucket, const char *filename, mongoc_stream_t *source, const bson_t *opts, bson_value_t *file_id, bson_error_t *error);
-  # bool mongoc_gridfs_bucket_upload_from_stream_with_id(mongoc_gridfs_bucket_t *bucket, const bson_value_t *file_id, const char *filename, mongoc_stream_t *source, const bson_t *opts, bson_error_t *error);
+  fun gridfs_bucket_abort_upload = mongoc_gridfs_bucket_abort_upload(mongoc_stream_t *stream) : Bool
+  fun gridfs_bucket_delete_by_id = mongoc_gridfs_bucket_delete_by_id(mongoc_gridfs_bucket_t *bucket, const bson_value_t *file_id, bson_error_t *error) : Bool
+  fun gridfs_bucket_destroy = mongoc_gridfs_bucket_destroy(mongoc_gridfs_bucket_t *bucket) : Void
+  fun gridfs_bucket_download_to_stream = mongoc_gridfs_bucket_download_to_stream(mongoc_gridfs_bucket_t *bucket, const bson_value_t *file_id, mongoc_stream_t *destination, bson_error_t *error) : Bool
+  fun gridfs_bucket_find = mongoc_gridfs_bucket_find(mongoc_gridfs_bucket_t *bucket, const bson_t *filter, const bson_t *opts) : mongoc_cursor_t*
+  fun gridfs_bucket_new = mongoc_gridfs_bucket_new(mongoc_database_t *db, const bson_t *opts, const mongoc_read_prefs_t *read_prefs, bson_error_t* error) : mongoc_gridfs_bucket_t*
+  fun gridfs_bucket_open_download_stream = mongoc_gridfs_bucket_open_download_stream(mongoc_gridfs_bucket_t *bucket, const bson_value_t *file_id, bson_error_t *error) : mongoc_stream_t*
+  fun gridfs_bucket_open_upload_stream = mongoc_gridfs_bucket_open_upload_stream(mongoc_gridfs_bucket_t *bucket, const char *filename, const bson_t *opts, bson_value_t *file_id, bson_error_t *error) : mongoc_stream_t*
+  fun gridfs_bucket_open_upload_stream_with_id = mongoc_gridfs_bucket_open_upload_stream_with_id(mongoc_gridfs_bucket_t *bucket, const bson_value_t *file_id, const char *filename, const bson_t *opts, bson_error_t *error) : mongoc_stream_t*
+  fun gridfs_bucket_stream_error = mongoc_gridfs_bucket_stream_error(mongoc_stream_t *stream, bson_error_t *error) : bool
+  fun gridfs_bucket_upload_from_stream = mongoc_gridfs_bucket_upload_from_stream(mongoc_gridfs_bucket_t *bucket, const char *filename, mongoc_stream_t *source, const bson_t *opts, bson_value_t *file_id, bson_error_t *error) : Bool
+  fun gridfs_bucket_upload_from_stream_with_id = mongoc_gridfs_bucket_upload_from_stream_with_id(mongoc_gridfs_bucket_t *bucket, const bson_value_t *file_id, const char *filename, mongoc_stream_t *source, const bson_t *opts, bson_error_t *error) : Bool
 
   ### mongoc_gridfs_t
   # typedef struct _mongoc_gridfs_t mongoc_gridfs_t;
   type Gridfs = Void
 
-  # mongoc_gridfs_file_t* mongoc_gridfs_create_file(mongoc_gridfs_t *gridfs, mongoc_gridfs_file_opt_t *opt);
-  # mongoc_gridfs_file_t* mongoc_gridfs_create_file_from_stream(mongoc_gridfs_t *gridfs, mongoc_stream_t *stream, mongoc_gridfs_file_opt_t *opt);
-  # void mongoc_gridfs_destroy(mongoc_gridfs_t *gridfs);
-  # bool mongoc_gridfs_drop(mongoc_gridfs_t *gridfs, bson_error_t *error);
-  # mongoc_gridfs_file_list_t* mongoc_gridfs_find(mongoc_gridfs_t *gridfs, const bson_t *query) BSON_GNUC_DEPRECATED_FOR(mongoc_gridfs_find_with_opts);
-  # mongoc_gridfs_file_t* mongoc_gridfs_find_one(mongoc_gridfs_t *gridfs, const bson_t *query, bson_error_t *error) BSON_GNUC_DEPRECATED_FOR (mongoc_gridfs_find_one_with_opts);
-  # mongoc_gridfs_file_t* mongoc_gridfs_find_one_by_filename(mongoc_gridfs_t *gridfs, const char *filename, bson_error_t *error);
-  # mongoc_gridfs_file_t* mongoc_gridfs_find_one_with_opts(mongoc_gridfs_t *gridfs, const bson_t *filter, const bson_t *opts, bson_error_t *error) BSON_GNUC_WARN_UNUSED_RESULT;
-  # mongoc_gridfs_file_list_t* mongoc_gridfs_find_with_opts(mongoc_gridfs_t *gridfs, const bson_t *filter, const bson_t *opts) BSON_GNUC_WARN_UNUSED_RESULT;
-  # mongoc_collection_t* mongoc_gridfs_get_chunks(mongoc_gridfs_t *gridfs);
-  # mongoc_collection_t* mongoc_gridfs_get_files(mongoc_gridfs_t *gridfs);
-  # bool mongoc_gridfs_remove_by_filename(mongoc_gridfs_t *gridfs, const char *filename, bson_error_t *error);
+  fun gridfs_create_file = mongoc_gridfs_create_file(gridfs : Gridfs*, opt : GridfsFileOpt*) : GridfsFile*
+  fun gridfs_create_file_from_stream = mongoc_gridfs_create_file_from_stream(gridfs : Gridfs*, stream : Stream*, opt : GridfsFileOpt*) : GridfsFile*
+  fun gridfs_destroy = mongoc_gridfs_destroy(gridfs : Gridfs*) : Void
+  fun gridfs_drop = mongoc_gridfs_drop(gridfs : Gridfs*, error : BSON_error*) : Bool
+  fun gridfs_find = mongoc_gridfs_find(gridfs : Gridfs*, query : BSON*) : GridfsFileList* # BSON_GNUC_DEPRECATED_FOR(mongoc_gridfs_find_with_opts)
+  fun gridfs_find_one = mongoc_gridfs_find_one(gridfs : Gridfs*, const bson_t *query, bson_error_t *error) : mongoc_gridfs_file_t* # BSON_GNUC_DEPRECATED_FOR (mongoc_gridfs_find_one_with_opts);
+  fun gridfs_find_one_by_filename = mongoc_gridfs_find_one_by_filename(gridfs : Gridfs*, const char *filename, bson_error_t *error) : mongoc_gridfs_file_t*
+  fun gridfs_find_one_with_opts = mongoc_gridfs_find_one_with_opts(gridfs : Gridfs*, const bson_t *filter, const bson_t *opts, bson_error_t *error) : mongoc_gridfs_file_t* # BSON_GNUC_WARN_UNUSED_RESULT;
+  fun gridfs_find_with_opts = mongoc_gridfs_find_with_opts(gridfs : Gridfs*, const bson_t *filter, const bson_t *opts) : mongoc_gridfs_file_list_t* # BSON_GNUC_WARN_UNUSED_RESULT;
+  fun gridfs_get_chunks = mongoc_gridfs_get_chunks(gridfs : Gridfs*) : mongoc_collection_t*
+  fun gridfs_get_files = mongoc_gridfs_get_files(gridfs : Gridfs*) : mongoc_collection_t*
+  fun gridfs_remove_by_filename = mongoc_gridfs_remove_by_filename(gridfs : Gridfs*, const char *filename, bson_error_t *error) : Bool
 
   ### mongoc_host_list_t
-  # @ Typedef
-  # typedef struct {
-  #   mongoc_host_list_t *next;
-  #   char host[BSON_HOST_NAME_MAX + 1];
-  #   char host_and_port[BSON_HOST_NAME_MAX + 7];
-  #   uint16_t port;
-  #   int family;
-  #   void *padding[4];
-  # } mongoc_host_list_t;
+  struct HostList
+    next : HostList*
+    host[BSON_HOST_NAME_MAX + 1] : Int8
+    host_and_port[BSON_HOST_NAME_MAX + 7] : Int8
+    port : UInt16
+    family : Int32
+    padding : Void[4]*
+  end
 
   ### mongoc_index_opt_geo_t
   struct IndexOptGeo
@@ -479,15 +479,14 @@ lib LibMongoc
   fun index_opt_init = mongoc_index_opt_init(opt : IndexOpt*) : Void
 
   ### mongoc_index_opt_wt_t
-  # @ Typedef
-  # typedef struct {
-  #   mongoc_index_opt_storage_t base;
-  #   const char *config_str;
-  #   void *padding[8];
-  # } mongoc_index_opt_wt_t;
-  # @ Function
-  # const mongoc_index_opt_wt_t* mongoc_index_opt_wt_get_default(void) BSON_GNUC_PURE;
-  # void mongoc_index_opt_wt_init(mongoc_index_opt_wt_t *opt);
+  struct IndexOptWt
+    mongoc_index_opt_storage_t base;
+    const char *config_str;
+    void *padding[8];
+  end
+
+  fun index_opt_wt_get_default = mongoc_index_opt_wt_get_default : IndexOptWt* # BSON_GNUC_PURE
+  fun index_opt_wt_init = mongoc_index_opt_wt_init(opt : IndexOptWt*) : Void
 
   ### mongoc_insert_flags_t
   enum InsertFlags
@@ -507,12 +506,12 @@ lib LibMongoc
   #endif
 
   ### mongoc_matcher_t
-  # @ Typedef
   # typedef struct _mongoc_matcher_t mongoc_matcher_t;
-  # @ Function
-  # void mongoc_matcher_destroy(mongoc_matcher_t *matcher);
-  # bool mongoc_matcher_match(const mongoc_matcher_t *matcher, const bson_t *document);
-  # mongoc_matcher_t* mongoc_matcher_new(const bson_t *query, bson_error_t *error);
+  type Matcher = Void
+
+  fun matcher_destroy = mongoc_matcher_destroy(matcher : Matcher*) : Void
+  fun matcher_match = mongoc_matcher_match(matcher : Matcher*, document : BSON*) : Bool
+  fun matcher_new = mongoc_matcher_new(query : BSON*, error : BSON_error*) : Matcher*
 
   ### mongoc_query_flags_t
   enum QueryFlags
@@ -527,42 +526,44 @@ lib LibMongoc
   end
 
   ### mongoc_rand
-  # void mongoc_rand_add(const void *buf, int num, double entropy);
-  # void mongoc_rand_seed(const void *buf, int num);
-  # int mongoc_rand_status(void);
+  fun rand_add = mongoc_rand_add(buf : Void*, num : Int32, entropy : Float64) : Void
+  fun rand_seed = mongoc_rand_seed(buf : Void*, num : Int32) : Void
+  fun rand_status = mongoc_rand_status : Int32
 
   ### mongoc_read_concern_t
   type ReadConcern = Void
-  # bool mongoc_read_concern_append(mongoc_read_concern_t *read_concern, bson_t *opts);
-  # mongoc_read_concern_t* mongoc_read_concern_copy(const mongoc_read_concern_t *read_concern);
-  # void mongoc_read_concern_destroy(mongoc_read_concern_t *read_concern);
-  # const char* mongoc_read_concern_get_level(const mongoc_read_concern_t *read_concern);
-  # bool mongoc_read_concern_is_default(mongoc_read_concern_t *read_concern);
-  # mongoc_read_concern_t* mongoc_read_concern_new(void);
-  # bool mongoc_read_concern_set_level(mongoc_read_concern_t *read_concern, const char *level);
+
+  fun read_concern_append = mongoc_read_concern_append(read_concern : ReadConcern*, opts : BSON*) : Bool
+  fun read_concern_copy = mongoc_read_concern_copy(read_concern : ReadConcern*) : ReadConcern*
+  fun read_concern_destroy = mongoc_read_concern_destroy(read_concern : ReadConcern*) : Void
+  fun read_concern_get_level = mongoc_read_concern_get_level(read_concern : ReadConcern*) : Int8*
+  fun read_concern_is_default = mongoc_read_concern_is_default(read_concern : ReadConcern*) : Bool
+  fun read_concern_new = mongoc_read_concern_new : ReadConcern*
+  fun read_concern_set_level = mongoc_read_concern_set_level(read_concern : ReadConcern*, level : Int8*) : Bool
 
   ### mongoc_read_mode_t
-  # typedef enum {
-  #   MONGOC_READ_PRIMARY = (1 << 0),
-  #   MONGOC_READ_SECONDARY = (1 << 1),
-  #   MONGOC_READ_PRIMARY_PREFERRED = (1 << 2) | MONGOC_READ_PRIMARY,
-  #   MONGOC_READ_SECONDARY_PREFERRED = (1 << 2) | MONGOC_READ_SECONDARY,
-  #   MONGOC_READ_NEAREST = (1 << 3) | MONGOC_READ_SECONDARY,
-  # } mongoc_read_mode_t;
+  enum ReadMode
+    MONGOC_READ_PRIMARY = 1 << 0
+    MONGOC_READ_SECONDARY = 1 << 1
+    MONGOC_READ_PRIMARY_PREFERRED = (1 << 2) | MONGOC_READ_PRIMARY
+    MONGOC_READ_SECONDARY_PREFERRED = (1 << 2) | MONGOC_READ_SECONDARY
+    MONGOC_READ_NEAREST = (1 << 3) | MONGOC_READ_SECONDARY
+  end
 
   ### mongoc_read_prefs_t
   type ReadPrefs = Void
-  # void mongoc_read_prefs_add_tag(mongoc_read_prefs_t *read_prefs, const bson_t *tag);
-  # mongoc_read_prefs_t* mongoc_read_prefs_copy(const mongoc_read_prefs_t *read_prefs);
-  # void mongoc_read_prefs_destroy(mongoc_read_prefs_t *read_prefs);
-  # int64_t mongoc_read_prefs_get_max_staleness_seconds(const mongoc_read_prefs_t *read_prefs);
-  # mongoc_read_mode_t mongoc_read_prefs_get_mode(const mongoc_read_prefs_t *read_prefs);
-  # const bson_t* mongoc_read_prefs_get_tags(const mongoc_read_prefs_t *read_prefs);
-  # bool mongoc_read_prefs_is_valid(const mongoc_read_prefs_t *read_prefs);
-  # mongoc_read_prefs_t* mongoc_read_prefs_new(mongoc_read_mode_t read_mode);
-  # void mongoc_read_prefs_set_max_staleness_seconds(mongoc_read_prefs_t *read_prefs, int64_t max_staleness_seconds);
-  # void mongoc_read_prefs_set_mode(mongoc_read_prefs_t *read_prefs, mongoc_read_mode_t mode);
-  # void mongoc_read_prefs_set_tags(mongoc_read_prefs_t *read_prefs, const bson_t *tags);
+
+  fun read_prefs_add_tag = mongoc_read_prefs_add_tag(read_prefs : ReadPrefs*, tag : BSON*) : Void
+  fun read_prefs_copy = mongoc_read_prefs_copy(read_prefs : ReadPrefs*) : ReadPrefs*
+  fun read_prefs_destroy = mongoc_read_prefs_destroy(read_prefs : ReadPrefs*) : Void
+  fun read_prefs_get_max_staleness_seconds = mongoc_read_prefs_get_max_staleness_seconds(read_prefs : ReadPrefs*) : Int64
+  fun read_prefs_get_mode = mongoc_read_prefs_get_mode(read_prefs : ReadPrefs*) : ReadMode
+  fun read_prefs_get_tags = mongoc_read_prefs_get_tags(read_prefs : ReadPrefs*) : BSON*
+  fun read_prefs_is_valid = mongoc_read_prefs_is_valid(read_prefs : ReadPrefs*) : Bool
+  fun read_prefs_new = mongoc_read_prefs_new(read_mode : ReadMode) : ReadPrefs*
+  fun read_prefs_set_max_staleness_seconds = mongoc_read_prefs_set_max_staleness_seconds(read_prefs : ReadPrefs*, max_staleness_seconds : Int64) : Void
+  fun read_prefs_set_mode = mongoc_read_prefs_set_mode(read_prefs : ReadPrefs*, mode : ReadMode) : Void
+  fun read_prefs_set_tags = mongoc_read_prefs_set_tags(read_prefs : ReadPrefs*, tags : BSON*) : Void
 
   ### mongoc_remove_flags_t
   enum RemoveFlags
@@ -597,126 +598,126 @@ lib LibMongoc
   # typedef struct _mongoc_session_opt_t mongoc_session_opt_t;
   type SessionOpt = Void
 
-  # mongoc_session_opt_t* mongoc_session_opts_new(void);
-  # bool mongoc_session_opts_get_causal_consistency(const mongoc_session_opt_t *opts);
-  # void mongoc_session_opts_set_causal_consistency(mongoc_session_opt_t *opts, bool causal_consistency);
-  # const mongoc_transaction_opt_t* mongoc_session_opts_get_default_transaction_opts(const mongoc_session_opt_t *opts);
-  # void mongoc_session_opts_set_default_transaction_opts(mongoc_session_opt_t *opts, const mongoc_transaction_opt_t *txn_opts);
-  # mongoc_transaction_opt_t* mongoc_session_opts_get_transaction_opts(const mongoc_client_session_t *session);
-  # mongoc_session_opt_t* mongoc_session_opts_clone(const mongoc_session_opt_t *opts);
-  # void mongoc_session_opts_destroy(mongoc_session_opt_t *opts);
+  fun session_opts_new = mongoc_session_opts_new : SessionOpt*
+  fun session_opts_get_causal_consistency = mongoc_session_opts_get_causal_consistency(opts : SessionOpt*) : Bool
+  fun session_opts_set_causal_consistency = mongoc_session_opts_set_causal_consistency(opts : SessionOpt*, causal_consistency : Bool) : Void
+  fun session_opts_get_default_transaction_opts = mongoc_session_opts_get_default_transaction_opts(opts : SessionOpt*) : TransactionOpt*
+  fun session_opts_set_default_transaction_opts = mongoc_session_opts_set_default_transaction_opts(opts : SessionOpt*, txn_opts : TransactionOpt*) : Void
+  fun session_opts_get_transaction_opts = mongoc_session_opts_get_transaction_opts(session : ClientSession*) : TransactionOpt*
+  fun session_opts_clone = mongoc_session_opts_clone(opts : SessionOpt*) : SessionOpt*
+  fun session_opts_destroy = mongoc_session_opts_destroy(opts : SessionOpt*) : Void
 
   ### mongoc_socket_t
-  # @ Typedef
   # typedef struct _mongoc_socket_t mongoc_socket_t
-  # @ Function
-  # mongoc_socket_t* mongoc_socket_accept(mongoc_socket_t *sock, int64_t expire_at);
-  # int mongoc_socket_bind(mongoc_socket_t *sock, const struct sockaddr *addr, mongoc_socklen_t addrlen);
-  # int mongoc_socket_close(mongoc_socket_t *socket);
-  # int mongoc_socket_connect(mongoc_socket_t *sock, const struct sockaddr *addr, mongoc_socklen_t addrlen, int64_t expire_at);
-  # void mongoc_socket_destroy(mongoc_socket_t *sock);
-  # int mongoc_socket_errno(mongoc_socket_t *sock);
-  # char* mongoc_socket_getnameinfo(mongoc_socket_t *sock);
-  # int mongoc_socket_getsockname(mongoc_socket_t *sock, struct sockaddr *addr, mongoc_socklen_t *addrlen);
-  # int mongoc_socket_listen(mongoc_socket_t *sock, unsigned int backlog);
-  # mongoc_socket_t* mongoc_socket_new(int domain, int type, int protocol);
-  # ssize_t mongoc_socket_recv(mongoc_socket_t *sock, void *buf, size_t buflen, int flags, int64_t expire_at);
-  # ssize_t mongoc_socket_send(mongoc_socket_t *sock, const void *buf, size_t buflen, int64_t expire_at);
-  # ssize_t mongoc_socket_sendv(mongoc_socket_t *sock, mongoc_iovec_t *iov, size_t iovcnt, int64_t expire_at);
-  # int mongoc_socket_setsockopt(mongoc_socket_t *sock, int level, int optname, const void *optval, mongoc_socklen_t optlen);
+  type Socket = Void
+
+  fun = mongoc_socket_t* mongoc_socket_accept(mongoc_socket_t *sock, int64_t expire_at);
+  fun = int mongoc_socket_bind(mongoc_socket_t *sock, const struct sockaddr *addr, mongoc_socklen_t addrlen);
+  fun = int mongoc_socket_close(mongoc_socket_t *socket);
+  fun = int mongoc_socket_connect(mongoc_socket_t *sock, const struct sockaddr *addr, mongoc_socklen_t addrlen, int64_t expire_at);
+  fun = void mongoc_socket_destroy(mongoc_socket_t *sock);
+  fun = int mongoc_socket_errno(mongoc_socket_t *sock);
+  fun = char* mongoc_socket_getnameinfo(mongoc_socket_t *sock);
+  fun = int mongoc_socket_getsockname(mongoc_socket_t *sock, struct sockaddr *addr, mongoc_socklen_t *addrlen);
+  fun = int mongoc_socket_listen(mongoc_socket_t *sock, unsigned int backlog);
+  fun = mongoc_socket_t* mongoc_socket_new(int domain, int type, int protocol);
+  fun = ssize_t mongoc_socket_recv(mongoc_socket_t *sock, void *buf, size_t buflen, int flags, int64_t expire_at);
+  fun = ssize_t mongoc_socket_send(mongoc_socket_t *sock, const void *buf, size_t buflen, int64_t expire_at);
+  fun = ssize_t mongoc_socket_sendv(mongoc_socket_t *sock, mongoc_iovec_t *iov, size_t iovcnt, int64_t expire_at);
+  fun = int mongoc_socket_setsockopt(mongoc_socket_t *sock, int level, int optname, const void *optval, mongoc_socklen_t optlen);
 
   ### mongoc_ssl_opt_t
-  # @ Typedef
-  # typedef struct {
-  #   const char *pem_file;
-  #   const char *pem_pwd;
-  #   const char *ca_file;
-  #   const char *ca_dir;
-  #   const char *crl_file;
-  #   bool weak_cert_validation;
-  #   bool allow_invalid_hostname;
-  #   void *padding[7];
-  # } mongoc_ssl_opt_t;
-  # @ Function
-  # const mongoc_ssl_opt_t* mongoc_ssl_opt_get_default(void) BSON_GNUC_PURE;
+  struct SslOpt
+    pem_file : Int8*
+    pem_pwd : Int8*
+    ca_file : Int8*
+    ca_dir : Int8*
+    crl_file : Int8*
+    weak_cert_validation : Bool
+    allow_invalid_hostname : Bool
+    padding : Void[7]*
+  end
+
+  fun ssl_opt_get_default = mongoc_ssl_opt_get_default : SslOpt* # BSON_GNUC_PURE
 
   ### mongoc_stream_buffered_t
-  # @ Typedef
-  # typedef struct _mongoc_stream_buffered_t mongoc_stream_buffered_t;
-  # @ Function
-  # mongoc_stream_t* mongoc_stream_buffered_new(mongoc_stream_t *base_stream, size_t buffer_size);
-  # void mongoc_stream_destroy(mongoc_stream_t *stream);
+  # typedef struct _mongoc_stream_buffered_t mongoc_stream_buffered_t
+  type StreamBuffered = Void
+
+  fun stream_buffered_new = mongoc_stream_buffered_new(base_stream : Stream*, buffer_size : size_t) : Stream*
+  fun stream_destroy = mongoc_stream_destroy(stream : Stream*) : Void
 
   ### mongoc_stream_file_t
-  # @ Typedef
   # typedef struct _mongoc_stream_file_t mongoc_stream_file_t
-  # @ Function
-  # int mongoc_stream_file_get_fd(mongoc_stream_file_t *stream);
-  # mongoc_stream_t* mongoc_stream_file_new(int fd);
-  # mongoc_stream_t* mongoc_stream_file_new_for_path(const char *path, int flags, int mode);
+  type StreamFile = Void
+
+  fun stream_file_get_fd = mongoc_stream_file_get_fd(stream : StreamFile*) : Int32
+  fun stream_file_new = mongoc_stream_file_new(fd : Int32) : Stream*
+  fun stream_file_new_for_path = mongoc_stream_file_new_for_path(path : Int8*, flags : Int32, mode : Int32) : Stream*
 
   ### mongoc_stream_socket_t
-  # @ Typedef
   # typedef struct _mongoc_stream_socket_t mongoc_stream_socket_t
-  # @ Function
-  # mongoc_socket_t* mongoc_stream_socket_get_socket(mongoc_stream_socket_t *stream);
-  # mongoc_stream_t* mongoc_stream_socket_new(mongoc_socket_t *socket);
+  type StreamSocket = Void
+
+  fun stream_socket_get_socket = mongoc_stream_socket_get_socket(stream : StreamSocket*) : Socket*
+  fun stream_socket_new = mongoc_stream_socket_new(socket : Socket*) : Stream*
 
   ### mongoc_stream_t
-  # @ Typedef
   # typedef struct _mongoc_stream_t mongoc_stream_t
-  # @ Function
-  # mongoc_stream_t* mongoc_stream_buffered_new(mongoc_stream_t *base_stream, size_t buffer_size);
-  # int mongoc_stream_close(mongoc_stream_t *stream);
-  # int mongoc_stream_cork(mongoc_stream_t *stream);
-  # void mongoc_stream_destroy(mongoc_stream_t *stream);
-  # int mongoc_stream_flush(mongoc_stream_t *stream);
-  # mongoc_stream_t* mongoc_stream_get_base_stream(mongoc_stream_t *stream);
-  # ssize_t mongoc_stream_read(mongoc_stream_t *stream, void *buf, size_t count, size_t min_bytes, int32_t timeout_msec);
-  # ssize_t mongoc_stream_readv(mongoc_stream_t *stream, mongoc_iovec_t *iov, size_t iovcnt, size_t min_bytes, int32_t timeout_msec);
-  # int mongoc_stream_setsockopt(mongoc_stream_t *stream, int level, int optname, void *optval, mongoc_socklen_t optlen);
-  # bool mongoc_stream_should_retry(mongoc_stream_t *stream);
-  # bool mongoc_stream_timed_out(mongoc_stream_t *stream);
-  # int mongoc_stream_uncork(mongoc_stream_t *stream);
-  # ssize_t mongoc_stream_write(mongoc_stream_t *stream, void *buf, size_t count, int32_t timeout_msec);
-  # ssize_t mongoc_stream_writev(mongoc_stream_t *stream, mongoc_iovec_t *iov, size_t iovcnt, int32_t timeout_msec);
+  type Stream = Void
+
+  fun stream_buffered_new = mongoc_stream_buffered_new(base_stream : Stream*, buffer_size : size_t) : mongoc_stream_t*
+  fun stream_close = mongoc_stream_close(stream : Stream*) : Int32
+  fun stream_cork = mongoc_stream_cork(stream : Stream*) : Int32
+  fun stream_destroy = mongoc_stream_destroy(stream : Stream*) : Void
+  fun stream_flush = mongoc_stream_flush(stream : Stream*) : Int32
+  fun stream_get_base_stream = mongoc_stream_get_base_stream(stream : Stream*) : Stream*
+  fun stream_read = mongoc_stream_read(stream : Stream*, buf : Void*, count : size_t, min_bytes : size_t, timeout_msec : Int32) : ssize_t
+  fun stream_readv = mongoc_stream_readv(stream : Stream*, iov : Iovec*, iovcnt : size_t, min_bytes : size_t, timeout_msec : Int32) : ssize_t
+  fun stream_setsockopt = mongoc_stream_setsockopt(stream : Stream*, level : Int32, optname : Int32, void *optval, optlen : Socklen) : int
+  fun stream_should_retry = mongoc_stream_should_retry(stream : Stream*) : bool
+  fun stream_timed_out = mongoc_stream_timed_out(stream : Stream*) : bool
+  fun stream_uncork = mongoc_stream_uncork(stream : Stream*) : int
+  fun stream_write = mongoc_stream_write(stream : Stream*, void *buf, size_t count, int32_t timeout_msec) : ssize_t
+  fun stream_writev = mongoc_stream_writev(stream : Stream*, mongoc_iovec_t *iov, size_t iovcnt, int32_t timeout_msec) : ssize_t
 
   ### mongoc_stream_tls_t
   # typedef struct _mongoc_stream_tls_t mongoc_stream_tls_t
+  type StreamTls = Void
 
   ### mongoc_topology_description_t
-  # @ Typedef
   # typedef struct _mongoc_topology_description_t mongoc_topology_description_t;
-  # @ Function
-  # mongoc_server_description_t** mongoc_topology_description_get_servers(const mongoc_topology_description_t *td, size_t *n);
-  # bool mongoc_topology_description_has_readable_server(mongoc_topology_description_t *td, const mongoc_read_prefs_t *prefs);
-  # bool mongoc_topology_description_has_writable_server(mongoc_topology_description_t *td);
-  # const char* mongoc_topology_description_type(const mongoc_topology_description_t *td);
+  type TopologyDescription = Void
+
+  fun topology_description_get_servers = mongoc_topology_description_get_servers(td : TopologyDescription*, n : size_t*) : ServerDescription**
+  fun topology_description_has_readable_server = mongoc_topology_description_has_readable_server(td : TopologyDescription*, prefs : ReadPrefs*) : Bool
+  fun topology_description_has_writable_server = mongoc_topology_description_has_writable_server(td : TopologyDescription*) : Bool
+  fun topology_description_type = mongoc_topology_description_type(td : TopologyDescription*) : Int8*
 
   ### mongoc_transaction_opt_t
-  # @ Typedef
   # typedef struct _mongoc_transaction_opt_t mongoc_transaction_opt_t;
-  # @ Function
-  # mongoc_transaction_opt_t* mongoc_transaction_opts_new(void);
-  # const mongoc_read_concern_t* mongoc_transaction_opts_get_read_concern(const mongoc_transaction_opt_t *opts);
-  # void mongoc_transaction_opts_set_read_concern(mongoc_transaction_opt_t *opts, const mongoc_read_concern_t *read_concern);
-  # const mongoc_write_concern_t* mongoc_transaction_opts_get_write_concern(const mongoc_transaction_opt_t *opts);
-  # void mongoc_transaction_opts_set_write_concern(mongoc_transaction_opt_t *opts, const mongoc_write_concern_t *write_concern);
-  # const mongoc_read_prefs_t* mongoc_transaction_opts_get_read_prefs(const mongoc_transaction_opt_t *opts);
-  # void mongoc_transaction_opts_set_read_prefs(mongoc_transaction_opt_t *opts, const mongoc_read_prefs_t *read_prefs);
-  # int64_t mongoc_transaction_opts_get_max_commit_time_ms(const mongoc_transaction_opt_t *opts);
-  # void mongoc_transaction_opts_set_max_commit_time_ms(mongoc_transaction_opt_t *opts, int64_t max_commit_time_ms);
-  # mongoc_transaction_opt_t* mongoc_transaction_opts_clone(const mongoc_transaction_opt_t *opts);
-  # void mongoc_transaction_opts_destroy(mongoc_transaction_opt_t *opts);
+  type TransactionOpt = Void
+
+  fun transaction_opts_new = mongoc_transaction_opts_new : TransactionOpt*
+  fun transaction_opts_get_read_concern = mongoc_transaction_opts_get_read_concern(opts : TransactionOpt*) : ReadConcern*
+  fun transaction_opts_set_read_concern = mongoc_transaction_opts_set_read_concern(opts : TransactionOpt*, read_concern : ReadConcern*) : Void
+  fun transaction_opts_get_write_concern = mongoc_transaction_opts_get_write_concern(opts : TransactionOpt*) : WriteConcern*
+  fun transaction_opts_set_write_concern = mongoc_transaction_opts_set_write_concern(opts : TransactionOpt*, write_concern : WriteConcern*) : Void
+  fun transaction_opts_get_read_prefs = mongoc_transaction_opts_get_read_prefs(TransactionOpt *opts) : ReadPrefs*
+  fun transaction_opts_set_read_prefs = mongoc_transaction_opts_set_read_prefs(TransactionOpt *opts, read_prefs : ReadPrefs*) : Void
+  fun transaction_opts_get_max_commit_time_ms = mongoc_transaction_opts_get_max_commit_time_ms(TransactionOpt *opts) : Int64
+  fun transaction_opts_set_max_commit_time_ms = mongoc_transaction_opts_set_max_commit_time_ms(TransactionOpt *opts, max_commit_time_ms : Int64) : Void
+  fun transaction_opts_clone = mongoc_transaction_opts_clone(TransactionOpt *opts) : TransactionOpt*
+  fun transaction_opts_destroy = mongoc_transaction_opts_destroy(TransactionOpt *opts) : Void
 
   ### mongoc_transaction_state_t
-  # typedef enum {
-  #   MONGOC_TRANSACTION_NONE = 0,
-  #   MONGOC_TRANSACTION_STARTING = 1,
-  #   MONGOC_TRANSACTION_IN_PROGRESS = 2,
-  #   MONGOC_TRANSACTION_COMMITTED = 3,
-  #   MONGOC_TRANSACTION_ABORTED = 4,
-  # } mongoc_transaction_state_t;
+  enum TransactionState
+    MONGOC_TRANSACTION_NONE = 0
+    MONGOC_TRANSACTION_STARTING = 1
+    MONGOC_TRANSACTION_IN_PROGRESS = 2
+    MONGOC_TRANSACTION_COMMITTED = 3
+    MONGOC_TRANSACTION_ABORTED = 4
+  end
 
   ### mongoc_update_flags_t
   enum UpdateFlags
@@ -731,9 +732,35 @@ lib LibMongoc
   # source : http://mongoc.org/libmongoc/1.16.2/mongoc_uri_t.html
 
   ### Version Checks
-  # source : http://mongoc.org/libmongoc/1.16.2/mongoc_version.html
+  fun check_version = mongoc_check_version(required_major : Int32, required_minor : Int32, required_micro : Int32) : Bool
+  fun get_major_version = mongoc_get_major_version : Int32
+  fun get_micro_version = int mongoc_get_micro_version : Int32
+  fun get_minor_version = mongoc_get_minor_version : Int32
+  fun get_version = mongoc_get_version : Int8*
 
   ### mongoc_write_concern_t
   type WriteConcern = Void
-  # source : http://mongoc.org/libmongoc/1.16.2/mongoc_write_concern_t.html
+
+  fun write_concern_append = mongoc_write_concern_append(write_concern : WriteConcern*, command : BSON*) : Bool
+  fun write_concern_copy = mongoc_write_concern_copy(write_concern : WriteConcern*) : WriteConcern*
+  fun write_concern_destroy = mongoc_write_concern_destroy(write_concern : WriteConcern*) : Void
+  fun write_concern_get_fsync = mongoc_write_concern_get_fsync(write_concern : WriteConcern*) : Bool
+  fun write_concern_get_journal = mongoc_write_concern_get_journal(write_concern : WriteConcern*) : Bool
+  fun write_concern_get_w = mongoc_write_concern_get_w(write_concern : WriteConcern*) : Int32
+  fun write_concern_get_wmajority = mongoc_write_concern_get_wmajority(write_concern : WriteConcern*) : Bool
+  fun write_concern_get_wtag = mongoc_write_concern_get_wtag(write_concern : WriteConcern*) : Int8*
+  fun write_concern_get_wtimeout = mongoc_write_concern_get_wtimeout(write_concern : WriteConcern*) : Int32
+  fun write_concern_get_wtimeout_int64 = mongoc_write_concern_get_wtimeout_int64(write_concern : WriteConcern*) : Int64
+  fun write_concern_is_acknowledged = mongoc_write_concern_is_acknowledged(write_concern : WriteConcern*) : Bool
+  fun write_concern_is_default = mongoc_write_concern_is_default(write_concern : WriteConcern*) : Bool
+  fun write_concern_is_valid = mongoc_write_concern_is_valid(write_concern : WriteConcern*) : Bool
+  fun write_concern_journal_is_set = mongoc_write_concern_journal_is_set(write_concern : WriteConcern*) : Bool
+  fun write_concern_new = mongoc_write_concern_new : WriteConcern*
+  fun write_concern_set_fsync = mongoc_write_concern_set_fsync(write_concern : WriteConcern*, fsync_ : Bool) : Void
+  fun write_concern_set_journal = mongoc_write_concern_set_journal(write_concern : WriteConcern*, journal : Bool) : Void
+  fun write_concern_set_w = mongoc_write_concern_set_w(write_concern : WriteConcern*, w : Int32) : Void
+  fun write_concern_set_wmajority = mongoc_write_concern_set_wmajority(write_concern : WriteConcern*, wtimeout_msec : Int32) : Void
+  fun write_concern_set_wtag = mongoc_write_concern_set_wtag(write_concern : WriteConcern*, tag : Int8*) : Void
+  fun write_concern_set_wtimeout = mongoc_write_concern_set_wtimeout(write_concern : WriteConcern*, wtimeout_msec : Int32) : Void
+  fun write_concern_set_wtimeout_int64 = mongoc_write_concern_set_wtimeout_int64(write_concern : WriteConcern*, wtimeout_msec : Int64) : Void
 end
