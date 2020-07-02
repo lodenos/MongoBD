@@ -2,8 +2,8 @@ name: mongodb
 version: 0.1.0
 
 authors:
-  - your-name-here <your-email-here>
+  - lodenos <nikolaiilodenos@gmail.com>
 
-crystal: 0.35.0
+crystal: 0.35.1
 
 license: MIT

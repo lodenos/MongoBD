@@ -4,6 +4,9 @@ lib LibMongoc
   type BSON_error = Void
   type BSON_value = Void
 
+  type SizeT = UInt64
+  type SSizeT = Int64
+
   ### Initialization and Cleanup
   fun init = mongoc_init : Void
   fun cleanup = mongoc_cleanup : Void
@@ -121,8 +124,7 @@ lib LibMongoc
   fun client_pool_enable_auto_encryption = mongoc_client_pool_enable_auto_encryption(pool : ClientPool*, opts : AutoEncryptionOpts*, error : BSON_error*) : Bool
   fun client_pool_max_size = mongoc_client_pool_max_size(pool : ClientPool*, max_pool_size : UInt32) : Void
   fun client_pool_min_size = mongoc_client_pool_min_size(pool : ClientPool*, min_pool_size : UInt32) : Void # BSON_GNUC_DEPRECATED
-  # fun client_pool_new = mongoc_client_pool_new(uri : mongoc_uri_t *) : ClientPool*
-
+  fun client_pool_new = mongoc_client_pool_new(uri : Uri*) : ClientPool*
   fun client_pool_pop = mongoc_client_pool_pop(pool : ClientPool*) : Client*
   fun client_pool_push = mongoc_client_pool_push(pool : ClientPool*, client : Client*) : Void
   fun client_pool_set_apm_callbacks = mongoc_client_pool_set_apm_callbacks(pool : ClientPool*, callbacks : ApmCallbacks*, context : Void*) : Bool
@@ -143,7 +145,7 @@ lib LibMongoc
   fun client_session_abort_transaction = mongoc_client_session_abort_transaction(session : ClientSession*, error : BSON_error*) : Bool
   fun client_session_advance_cluster_time = mongoc_client_session_advance_cluster_time(session : ClientSession*, cluster_time : BSON*) : Void
   fun client_session_advance_operation_time = mongoc_client_session_advance_operation_time(session : ClientSession*, timestamp : UInt32, increment : UInt32) : Void
-  fun client_session_with_transaction = mongoc_client_session_with_transaction(session : ClientSession*, cb : ClientSessionWithTransactionCb, opts : TransactionOpt*, ctx : Void*, reply : BSON*, error : BSON_error*) : Bool
+  # fun client_session_with_transaction = mongoc_client_session_with_transaction(session : ClientSession*, cb : ClientSessionWithTransactionCb, opts : TransactionOpt*, ctx : Void*, reply : BSON*, error : BSON_error*) : Bool
   fun client_session_append = mongoc_client_session_append(client_session : ClientSession*, opts : BSON*, error : BSON_error*) : Bool
   fun client_session_get_client = mongoc_client_session_get_client(session : ClientSession*) : Client*
   fun client_session_get_cluster_time = mongoc_client_session_get_cluster_time(session : ClientSession*) : BSON*
@@ -157,11 +159,12 @@ lib LibMongoc
   # @ Typedef
   # typedef bool (*mongoc_client_session_with_transaction_cb_t)(mongoc_client_session_t *session, void *ctx, bson_t **reply, bson_error_t *error)
 
-  fun client_session_with_transaction = mongoc_client_session_with_transaction(session : ClientSession*, cb : ClientSessionWithTransactionCb, opts : TransactionOpt*, ctx : Void*, reply : BSON*, error : BSON_error*) : Bool
+  # fun client_session_with_transaction = mongoc_client_session_with_transaction(session : ClientSession*, cb : ClientSessionWithTransactionCb, opts : TransactionOpt*, ctx : Void*, reply : BSON*, error : BSON_error*) : Bool
  
   ### mongoc_client_t
   # typedef struct _mongoc_client_t mongoc_client_t;
   type Client = Void
+  type ApmCallbacks = Void
   # typedef mongoc_stream_t *(*mongoc_stream_initiator_t)(const mongoc_uri_t *uri, const mongoc_host_list_t *host, void *user_data, bson_error_t *error)
 
   fun client_command = mongoc_client_command(client : Client*, db_name : Int8*, flags : QueryFlags, skip : UInt32, limit : UInt32, batch_size : UInt32, query : BSON*, fields : BSON*, read_prefs : ReadPrefs*) : Cursor*
@@ -182,17 +185,17 @@ lib LibMongoc
   fun client_get_read_concern = mongoc_client_get_read_concern(client : Client*) : ReadConcern*
   fun client_get_read_prefs = mongoc_client_get_read_prefs(client : Client*) : ReadPrefs*
   fun client_get_server_description = mongoc_client_get_server_description(client : Client*, server_id : UInt32) : ServerDescription*
-  # fun client_get_server_descriptions = mongoc_client_get_server_descriptions(client : Client*, n : size_t *) : ServerDescription**
+  fun client_get_server_descriptions = mongoc_client_get_server_descriptions(client : Client*, n : SizeT*) : ServerDescription**
   fun client_get_server_status = mongoc_client_get_server_status(client : Client*, read_prefs : ReadPrefs*, reply : BSON*, error : BSON_error*) : Bool # BSON_GNUC_DEPRECATED
-  # fun client_get_uri = mongoc_client_get_uri(client : Client*) : # mongoc_uri_t*
+  fun client_get_uri = mongoc_client_get_uri(client : Client*) : Uri*
   fun client_get_write_concern = mongoc_client_get_write_concern(client : Client*) : WriteConcern*
-  fun client_new = mongoc_client_new(uri_string : Int8*) : Client*
-  # fun client_new_from_uri = mongoc_client_new_from_uri(uri : const mongoc_uri_t *) : Client*
+  fun client_new = mongoc_client_new(uri_string : UInt8*) : Client*
+  fun client_new_from_uri = mongoc_client_new_from_uri(uri : Uri*) : Client*
   fun client_read_command_with_opts = mongoc_client_read_command_with_opts(client : Client*, db_name : Int8*, command : BSON*, read_prefs : ReadPrefs*, opts : BSON*, reply : BSON*, error : BSON_error*) : Bool
   fun client_read_write_command_with_opts = mongoc_client_read_write_command_with_opts(client : Client*, db_name : Int8*, command : BSON*, read_prefs : ReadPrefs*, opts : BSON*, reply : BSON*, error : BSON_error*) : Bool
   fun client_reset = mongoc_client_reset(client : Client*) : Void
   fun client_select_server = mongoc_client_select_server(client : Client*, for_writes : Bool, prefs : ReadPrefs*, error : BSON_error*) : ServerDescription*
-  # fun client_set_apm_callbacks = mongoc_client_set_apm_callbacks(client : Client*, callbacks : ApmCallbacks*, context : Void*) : Bool
+  fun client_set_apm_callbacks = mongoc_client_set_apm_callbacks(client : Client*, callbacks : ApmCallbacks*, context : Void*) : Bool
   fun client_set_appname = mongoc_client_set_appname(client : Client*, appname : Int8*) : Bool
   fun client_set_error_api = mongoc_client_set_error_api(client : Client*, version : Int32) : Bool
   fun client_set_read_concern = mongoc_client_set_read_concern(client : Client*, read_concern : ReadConcern*) : Void
@@ -245,7 +248,7 @@ lib LibMongoc
   fun collection_get_write_concern = mongoc_collection_get_write_concern(collection : Collection*) : WriteConcern*
   fun collection_insert = mongoc_collection_insert(collection : Collection*, flags : InsertFlags, document : BSON*, write_concern : WriteConcern*, error : BSON_error*) : Bool
   fun collection_insert_bulk = mongoc_collection_insert_bulk(collection : Collection*, flags : InsertFlags, documents : BSON**, n_documents : UInt32, write_concern : WriteConcern*, error : BSON_error*) : Bool # BSON_GNUC_DEPRECATED_FOR(mongoc_collection_insert_many)
-  # fun collection_insert_many = mongoc_collection_insert_many(collection : Collection*, documents : BSON**, n_documents : size_t, opts : BSON*, reply : BSON*, error : BSON_error*) : Bool
+  fun collection_insert_many = mongoc_collection_insert_many(collection : Collection*, documents : BSON**, n_documents : SizeT, opts : BSON*, reply : BSON*, error : BSON_error*) : Bool
   fun collection_insert_one = mongoc_collection_insert_one(collection : Collection*, document : BSON*, opts : BSON*, reply : BSON*, error : BSON_error*) : Bool
   fun collection_keys_to_index_string = mongoc_collection_keys_to_index_string(keys : BSON*) : Int8*
   fun collection_read_command_with_opts = mongoc_collection_read_command_with_opts(collection : Collection*, command : BSON*, read_prefs : ReadPrefs*, opts : BSON*, reply : BSON*, error : BSON_error*) : Bool
@@ -337,14 +340,14 @@ lib LibMongoc
   fun find_and_modify_opts_destroy = mongoc_find_and_modify_opts_destroy(find_and_modify_opts : FindAndModifyOpts*) : Void
   fun find_and_modify_opts_get_bypass_document_validation = mongoc_find_and_modify_opts_get_bypass_document_validation(opts : FindAndModifyOpts*) : Bool
   fun find_and_modify_opts_get_fields = mongoc_find_and_modify_opts_get_fields(opts : FindAndModifyOpts*, fields : BSON*) : Void
-  fun find_and_modify_opts_get_flags = mongoc_find_and_modify_opts_get_flags(opts : FindAndModifyOpts*) : FindAndModifyFlags
+  # fun find_and_modify_opts_get_flags = mongoc_find_and_modify_opts_get_flags(opts : FindAndModifyOpts*) : FindAndModifyFlags
   fun find_and_modify_opts_get_max_time_ms = mongoc_find_and_modify_opts_get_max_time_ms(opts : FindAndModifyOpts*) : UInt32
   fun find_and_modify_opts_get_sort = mongoc_find_and_modify_opts_get_sort(opts : FindAndModifyOpts*, sort : BSON*) : Void
   fun find_and_modify_opts_get_update = mongoc_find_and_modify_opts_get_update(opts : FindAndModifyOpts*, update : BSON*) : Void
   fun find_and_modify_opts_new = mongoc_find_and_modify_opts_new : FindAndModifyOpts*
   fun find_and_modify_opts_set_bypass_document_validation = mongoc_find_and_modify_opts_set_bypass_document_validation(opts : FindAndModifyOpts*, bypass : Bool) : Bool
   fun find_and_modify_opts_set_fields = mongoc_find_and_modify_opts_set_fields(opts : FindAndModifyOpts*, fields : BSON*) : Bool
-  fun find_and_modify_opts_set_flags = mongoc_find_and_modify_opts_set_flags(opts : FindAndModifyOpts*, flags : FindAndModifyFlags) : Bool
+  # fun find_and_modify_opts_set_flags = mongoc_find_and_modify_opts_set_flags(opts : FindAndModifyOpts*, flags : FindAndModifyFlags) : Bool
   fun find_and_modify_opts_set_max_time_ms = mongoc_find_and_modify_opts_set_max_time_ms(opts : FindAndModifyOpts*, max_time_ms : UInt32) : Bool
   fun find_and_modify_opts_set_sort = mongoc_find_and_modify_opts_set_sort(opts : FindAndModifyOpts*, sort : BSON*) : Bool
   fun find_and_modify_opts_set_update = mongoc_find_and_modify_opts_set_update(opts : FindAndModifyOpts*, update : BSON*) : Bool
@@ -382,18 +385,18 @@ lib LibMongoc
   fun gridfs_file_get_md5 = mongoc_gridfs_file_get_md5(file : GridfsFile*) : Int8*
   fun gridfs_file_get_metadata = mongoc_gridfs_file_get_metadata(file : GridfsFile*) : BSON*
   fun gridfs_file_get_upload_date = mongoc_gridfs_file_get_upload_date(file : GridfsFile*) : Int64
-  # fun gridfs_file_readv = mongoc_gridfs_file_readv(file : GridfsFile*, iov : Iovec*, iovcnt : size_t, min_bytes : size_t, timeout_msec : UInt32) : ssize_t
+  # fun gridfs_file_readv = mongoc_gridfs_file_readv(file : GridfsFile*, iov : Iovec*, iovcnt : SizeT, min_bytes : SizeT, timeout_msec : UInt32) : SSizeT
   fun gridfs_file_remove = mongoc_gridfs_file_remove(file : GridfsFile*, error : BSON_error*) : Bool
   fun gridfs_file_save = mongoc_gridfs_file_save(file : GridfsFile*) : Bool
   fun gridfs_file_seek = mongoc_gridfs_file_seek(file : GridfsFile*, delta : Int64, whence : Int32) : Int32
   fun gridfs_file_set_aliases = mongoc_gridfs_file_set_aliases(file : GridfsFile*, bson : BSON*) : Void
   fun gridfs_file_set_content_type = mongoc_gridfs_file_set_content_type(file : GridfsFile*, content_type : Int8*) : Void
   fun gridfs_file_set_filename = mongoc_gridfs_file_set_filename(file : GridfsFile*, filename : Int8*) : Void
-  fun gridfs_file_set_id = mongoc_gridfs_file_set_id(file : GridfsFile*, id : BSON_value*, error : BSON_error) : Bool
+  # fun gridfs_file_set_id = mongoc_gridfs_file_set_id(file : GridfsFile*, id : BSON_value*, error : BSON_error) : Bool
   fun gridfs_file_set_md5 = mongoc_gridfs_file_set_md5(file : GridfsFile*, md5 : Int8*) : Void
   fun gridfs_file_set_metadata = mongoc_gridfs_file_set_metadata(file : GridfsFile*, metadata : BSON*) : Void
   fun gridfs_file_tell = mongoc_gridfs_file_tell(file : GridfsFile*) : UInt64
-  # fun gridfs_file_writev = mongoc_gridfs_file_writev(file : GridfsFile*, iov : Iovec*, iovcnt : size_st, timeout_msec : UInt32) : ssize_t
+  # fun gridfs_file_writev = mongoc_gridfs_file_writev(file : GridfsFile*, iov : Iovec*, iovcnt : SizeT, timeout_msec : UInt32) : SSizeT
   fun stream_gridfs_new = mongoc_stream_gridfs_new(file : GridfsFile*) : Stream*
 
   ### mongoc_gridfs_bucket_t
@@ -426,8 +429,8 @@ lib LibMongoc
   fun gridfs_find_one_by_filename = mongoc_gridfs_find_one_by_filename(gridfs : Gridfs*, filename : Int8*, error : BSON_error*) : GridfsFile*
   fun gridfs_find_one_with_opts = mongoc_gridfs_find_one_with_opts(gridfs : Gridfs*, filter : BSON*, opts : BSON*, error : BSON_error*) : GridfsFile* # BSON_GNUC_WARN_UNUSED_RESULT;
   fun gridfs_find_with_opts = mongoc_gridfs_find_with_opts(gridfs : Gridfs*, filter : BSON*, opts : BSON*) : GridfsFileList* # BSON_GNUC_WARN_UNUSED_RESULT;
-  fun gridfs_get_chunks = mongoc_gridfs_get_chunks(gridfs : Gridfs*) : Collection_t*
-  fun gridfs_get_files = mongoc_gridfs_get_files(gridfs : Gridfs*) : Collection_t*
+  fun gridfs_get_chunks = mongoc_gridfs_get_chunks(gridfs : Gridfs*) : Collection*
+  fun gridfs_get_files = mongoc_gridfs_get_files(gridfs : Gridfs*) : Collection*
   fun gridfs_remove_by_filename = mongoc_gridfs_remove_by_filename(gridfs : Gridfs*, filename : Int8*, error : BSON_error*) : Bool
 
   ### mongoc_host_list_t
@@ -587,14 +590,14 @@ lib LibMongoc
   type ServerDescription = Void
 
   fun server_description_destroy = mongoc_server_description_destroy(description : ServerDescription*) : Void
-  # fun server_description_host = mongoc_server_description_host(description : ServerDescription*) : HostList*
-  # fun server_description_id = mongoc_server_description_id(description : ServerDescription_t*) : UInt32
+  fun server_description_host = mongoc_server_description_host(description : ServerDescription*) : HostList*
+  fun server_description_id = mongoc_server_description_id(description : ServerDescription*) : UInt32
   fun server_description_ismaster = mongoc_server_description_ismaster(description : ServerDescription*) : BSON*
   fun server_description_last_update_time = mongoc_server_description_last_update_time(description : ServerDescription*) : Int64
   fun server_description_new_copy = mongoc_server_description_new_copy(description : ServerDescription*) : ServerDescription*
   fun server_description_round_trip_time = mongoc_server_description_round_trip_time(description : ServerDescription*) : Int64
   fun server_description_type = mongoc_server_description_type(description : ServerDescription*) : Int8*
-  # fun server_descriptions_destroy_all = mongoc_server_descriptions_destroy_all(sds : ServerDescription**, n : size_t) : Void
+  fun server_descriptions_destroy_all = mongoc_server_descriptions_destroy_all(sds : ServerDescription**, n : SizeT) : Void
 
   ### mongoc_session_opt_t
   # typedef struct _mongoc_session_opt_t mongoc_session_opt_t;
@@ -616,17 +619,17 @@ lib LibMongoc
   fun socket_accept = mongoc_socket_accept(sock : Socket*, expire_at : Int64) : Socket*
   # fun socket_bind = mongoc_socket_bind(sock : Socket*, const struct sockaddr *addr, mongoc_socklen_t addrlen) : Int32
   fun socket_close = mongoc_socket_close(socket : Socket*) : Int32
-  # fun socket_connect = mongoc_socket_connect(sock : Socket*, const struct sockaddr *addr, mongoc_socklen_t addrlen, int64_t expire_at) : int
+  # fun socket_connect = mongoc_socket_connect(sock : Socket*, const struct sockaddr *addr, mongoc_socklen_t addrlen, expire_at : Int64) : Int32
   fun socket_destroy = mongoc_socket_destroy(sock : Socket*) : Void
   fun socket_errno = mongoc_socket_errno(sock : Socket*) : Int32
   fun socket_getnameinfo = mongoc_socket_getnameinfo(sock : Socket*) : Int8*
-  # fun socket_getsockname = mongoc_socket_getsockname(sock : Socket*, struct sockaddr *addr, mongoc_socklen_t *addrlen) : int
+  # fun socket_getsockname = mongoc_socket_getsockname(sock : Socket*, struct sockaddr *addr, mongoc_socklen_t *addrlen) : Int32
   fun socket_listen = mongoc_socket_listen(sock : Socket*, backlog : UInt32) : Int32
   fun socket_new = mongoc_socket_new(domain : Int32, type : Int32, protocol : Int32) : Socket*
-  # fun socket_recv = mongoc_socket_recv(sock : Socket*, buf : Void*, buflen : size_t, flags : Int32, expire_at : Int64) : ssize_t
-  # fun socket_send = mongoc_socket_send(sock : Socket*, buf : Void*, buflen : size_t, expire_at : Int64) : ssize_t
-  # fun socket_sendv = mongoc_socket_sendv(sock : Socket*, iov : Iovec*, iovcnt : size_t, expire_at : Int64) : ssize_t
-  fun socket_setsockopt = mongoc_socket_setsockopt(sock : Socket*, level : Int32, optname : Int32, optval : Void*, optlen : Socklen) : Int32
+  fun socket_recv = mongoc_socket_recv(sock : Socket*, buf : Void*, buflen : SizeT, flags : Int32, expire_at : Int64) : SSizeT
+  fun socket_send = mongoc_socket_send(sock : Socket*, buf : Void*, buflen : SizeT, expire_at : Int64) : SSizeT
+  # fun socket_sendv = mongoc_socket_sendv(sock : Socket*, iov : Iovec*, iovcnt : SizeT, expire_at : Int64) : SSizeT
+  # fun socket_setsockopt = mongoc_socket_setsockopt(sock : Socket*, level : Int32, optname : Int32, optval : Void*, optlen : Socklen) : Int32
 
   ### mongoc_ssl_opt_t
   struct SslOpt
@@ -646,7 +649,7 @@ lib LibMongoc
   # typedef struct _mongoc_stream_buffered_t mongoc_stream_buffered_t
   type StreamBuffered = Void
 
-  # fun stream_buffered_new = mongoc_stream_buffered_new(base_stream : Stream*, buffer_size : size_t) : Stream*
+  fun stream_buffered_new = mongoc_stream_buffered_new(base_stream : Stream*, buffer_size : SizeT) : Stream*
   fun stream_destroy = mongoc_stream_destroy(stream : Stream*) : Void
 
   ### mongoc_stream_file_t
@@ -668,20 +671,20 @@ lib LibMongoc
   # typedef struct _mongoc_stream_t mongoc_stream_t
   type Stream = Void
 
-  # fun stream_buffered_new = mongoc_stream_buffered_new(base_stream : Stream*, buffer_size : size_t) : Stream*
+  fun stream_buffered_new = mongoc_stream_buffered_new(base_stream : Stream*, buffer_size : SizeT) : Stream*
   fun stream_close = mongoc_stream_close(stream : Stream*) : Int32
   fun stream_cork = mongoc_stream_cork(stream : Stream*) : Int32
   fun stream_destroy = mongoc_stream_destroy(stream : Stream*) : Void
   fun stream_flush = mongoc_stream_flush(stream : Stream*) : Int32
   fun stream_get_base_stream = mongoc_stream_get_base_stream(stream : Stream*) : Stream*
-  # fun stream_read = mongoc_stream_read(stream : Stream*, buf : Void*, count : size_t, min_bytes : size_t, timeout_msec : Int32) : ssize_t
-  # fun stream_readv = mongoc_stream_readv(stream : Stream*, iov : Iovec*, iovcnt : size_t, min_bytes : size_t, timeout_msec : Int32) : ssize_t
-  fun stream_setsockopt = mongoc_stream_setsockopt(stream : Stream*, level : Int32, optname : Int32, optval : Void*, optlen : Socklen) : Int32
+  fun stream_read = mongoc_stream_read(stream : Stream*, buf : Void*, count : SizeT, min_bytes : SizeT, timeout_msec : Int32) : SSizeT
+  # fun stream_readv = mongoc_stream_readv(stream : Stream*, iov : Iovec*, iovcnt : SizeT, min_bytes : SizeT, timeout_msec : Int32) : SSizeT
+  # fun stream_setsockopt = mongoc_stream_setsockopt(stream : Stream*, level : Int32, optname : Int32, optval : Void*, optlen : Socklen) : Int32
   fun stream_should_retry = mongoc_stream_should_retry(stream : Stream*) : Bool
   fun stream_timed_out = mongoc_stream_timed_out(stream : Stream*) : Bool
   fun stream_uncork = mongoc_stream_uncork(stream : Stream*) : Int32
-  # fun stream_write = mongoc_stream_write(stream : Stream*, buf : Void*, count : size_t, timeout_msec : Int32) : ssize_t
-  # fun stream_writev = mongoc_stream_writev(stream : Stream*, iov : Iovec*, iovcnt : size_t, timeout_msec : Int32) : ssize_t
+  fun stream_write = mongoc_stream_write(stream : Stream*, buf : Void*, count : SizeT, timeout_msec : Int32) : SSizeT
+  # fun stream_writev = mongoc_stream_writev(stream : Stream*, iov : Iovec*, iovcnt : SizeT, timeout_msec : Int32) : SSizeT
 
   ### mongoc_stream_tls_t
   # typedef struct _mongoc_stream_tls_t mongoc_stream_tls_t
@@ -691,7 +694,7 @@ lib LibMongoc
   # typedef struct _mongoc_topology_description_t mongoc_topology_description_t;
   type TopologyDescription = Void
 
-  # fun topology_description_get_servers = mongoc_topology_description_get_servers(td : TopologyDescription*, n : size_t*) : ServerDescription**
+  fun topology_description_get_servers = mongoc_topology_description_get_servers(td : TopologyDescription*, n : SizeT*) : ServerDescription**
   fun topology_description_has_readable_server = mongoc_topology_description_has_readable_server(td : TopologyDescription*, prefs : ReadPrefs*) : Bool
   fun topology_description_has_writable_server = mongoc_topology_description_has_writable_server(td : TopologyDescription*) : Bool
   fun topology_description_type = mongoc_topology_description_type(td : TopologyDescription*) : Int8*
@@ -767,7 +770,7 @@ lib LibMongoc
   fun uri_set_auth_mechanism = mongoc_uri_set_auth_mechanism(uri : Uri*, value : Int8*) : Bool
   fun uri_set_auth_source = mongoc_uri_set_auth_source(uri : Uri*, value : Int8*) : Bool
   fun uri_set_compressors = mongoc_uri_set_compressors(uri : Uri*, compressors : Int8*) : Bool
-  fun uri_set_database = mongoc_uri_set_database(uri : Uri*, database : INt8*) : Bool
+  fun uri_set_database = mongoc_uri_set_database(uri : Uri*, database : Int8*) : Bool
   fun uri_set_mechanism_properties = mongoc_uri_set_mechanism_properties(uri : Uri*, properties : BSON*) : Bool
   fun uri_set_option_as_bool = mongoc_uri_set_option_as_bool(uri : Uri*, option : Int8*, value : Bool) : Bool
   fun uri_set_option_as_int32 = mongoc_uri_set_option_as_int32(uri : Uri*, option : Int8*, value : Int32) : Bool
