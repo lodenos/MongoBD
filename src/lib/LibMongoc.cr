@@ -174,8 +174,8 @@ lib LibMongoc
   fun client_destroy = mongoc_client_destroy(client : Client*) : Void
   fun client_enable_auto_encryption = mongoc_client_enable_auto_encryption(client : Client*, opts : AutoEncryptionOpts* , error : BSON_error*) : Bool
   fun client_find_databases_with_opts = mongoc_client_find_databases_with_opts(client : Client*, opts : BSON*) : Cursor*
-  fun client_get_collection = mongoc_client_get_collection(client : Client*, db : Int8*, collection : Int8*) : Collection*
-  fun client_get_database = mongoc_client_get_database(client : Client*, name : Int8*) : Database*
+  fun client_get_collection = mongoc_client_get_collection(client : Client*, db : UInt8*, collection : Int8*) : Collection*
+  fun client_get_database = mongoc_client_get_database(client : Client*, name : UInt8*) : Database*
   fun client_get_database_names = mongoc_client_get_database_names(client : Client*, error : BSON_error*) : Int8**
   fun client_get_database_names_with_opts = mongoc_client_get_database_names_with_opts(client : Client*, opts : BSON*, error : BSON_error*) : Int8**
   fun client_get_default_database = mongoc_client_get_default_database(client : Client*) : Database*
@@ -242,7 +242,7 @@ lib LibMongoc
   fun collection_find_indexes_with_opts = mongoc_collection_find_indexes_with_opts(collection : Collection*, opts : BSON*) : Cursor*
   fun collection_find_with_opts = mongoc_collection_find_with_opts(collection : Collection*, filter : BSON*, opts : BSON*, read_prefs : ReadPrefs*) : Cursor* # BSON_GNUC_WARN_UNUSED_RESULT
   fun collection_get_last_error = mongoc_collection_get_last_error(collection : Collection*) : BSON*
-  fun collection_get_name = mongoc_collection_get_name(collection : Collection*) : Int8*
+  fun collection_get_name = mongoc_collection_get_name(collection : Collection*) : UInt8*
   fun collection_get_read_concern = mongoc_collection_get_read_concern(collection : Collection*) : ReadConcern*
   fun collection_get_read_prefs = mongoc_collection_get_read_prefs(collection : Collection*) : ReadPrefs*
   fun collection_get_write_concern = mongoc_collection_get_write_concern(collection : Collection*) : WriteConcern*
@@ -309,10 +309,10 @@ lib LibMongoc
   fun database_drop_with_opts = mongoc_database_drop_with_opts(database : Database*, opts : BSON*, error : BSON_error*) : Bool
   fun database_find_collections = mongoc_database_find_collections(database : Database*, filter : BSON*, error : BSON_error*) : Cursor* # BSON_GNUC_DEPRECATED_FOR(mongoc_database_find_collections_with_opts)
   fun database_find_collections_with_opts = mongoc_database_find_collections_with_opts(database : Database*, opts : BSON*) : Cursor*
-  fun database_get_collection = mongoc_database_get_collection(database : Database*, name : Int8*) : Collection*
+  fun database_get_collection = mongoc_database_get_collection(database : Database*, name : UInt8*) : Collection*
   fun database_get_collection_names = mongoc_database_get_collection_names(database : Database*, error : BSON_error*) : Int8**
   fun database_get_collection_names_with_opts = mongoc_database_get_collection_names_with_opts(database : Database*, opts : BSON*, error : BSON_error*) : Int8**
-  fun database_get_name = mongoc_database_get_name(database : Database*) : Int8*
+  fun database_get_name = mongoc_database_get_name(database : Database*) : UInt8*
   fun database_get_read_concern = mongoc_database_get_read_concern(database : Database*) : ReadConcern*
   fun database_get_read_prefs = mongoc_database_get_read_prefs(database : Database*) : ReadPrefs*
   fun database_get_write_concern = mongoc_database_get_write_concern(database : Database*) : WriteConcern*
