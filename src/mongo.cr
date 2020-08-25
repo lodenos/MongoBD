@@ -4,8 +4,7 @@ require "./database"
 require "./lib/LibMongoc"
 require "./uri"
 
-module Mongo
-end
+module Mongo; end
 
 uri = "mongodb://localhost:27017"
 
