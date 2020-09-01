@@ -1,4 +1,4 @@
-require "./lib/LibMongoc"
+require "../lib/LibMongoc"
 
 module Mongo
   class Client
