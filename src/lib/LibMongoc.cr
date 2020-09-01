@@ -329,8 +329,8 @@ lib LibMongoc
 
   ### mongoc_delete_flags_t
   enum DeleteFlags
-    MONGOC_DELETE_NONE = 0
-    MONGOC_DELETE_SINGLE_REMOVE = 1 << 0
+    DELETE_NONE = 0
+    DELETE_SINGLE_REMOVE = 1 << 0
   end
 
   ### mongoc_find_and_modify_opts_t
@@ -495,8 +495,8 @@ lib LibMongoc
 
   ### mongoc_insert_flags_t
   enum InsertFlags
-    MONGOC_INSERT_NONE = 0
-    MONGOC_INSERT_CONTINUE_ON_ERROR = 1 << 0
+    INSERT_NONE = 0
+    INSERT_CONTINUE_ON_ERROR = 1 << 0
   end
   #define MONGOC_INSERT_NO_VALIDATE (1U << 31)
 
@@ -520,14 +520,14 @@ lib LibMongoc
 
   ### mongoc_query_flags_t
   enum QueryFlags
-    MONGOC_QUERY_NONE = 0
-    MONGOC_QUERY_TAILABLE_CURSOR = 1 << 1
-    MONGOC_QUERY_SLAVE_OK = 1 << 2
-    MONGOC_QUERY_OPLOG_REPLAY = 1 << 3
-    MONGOC_QUERY_NO_CURSOR_TIMEOUT = 1 << 4
-    MONGOC_QUERY_AWAIT_DATA = 1 << 5
-    MONGOC_QUERY_EXHAUST = 1 << 6
-    MONGOC_QUERY_PARTIAL = 1 << 7
+    QUERY_NONE = 0
+    QUERY_TAILABLE_CURSOR = 1 << 1
+    QUERY_SLAVE_OK = 1 << 2
+    QUERY_OPLOG_REPLAY = 1 << 3
+    QUERY_NO_CURSOR_TIMEOUT = 1 << 4
+    QUERY_AWAIT_DATA = 1 << 5
+    QUERY_EXHAUST = 1 << 6
+    QUERY_PARTIAL = 1 << 7
   end
 
   ### mongoc_rand
@@ -548,11 +548,11 @@ lib LibMongoc
 
   ### mongoc_read_mode_t
   enum ReadMode
-    MONGOC_READ_PRIMARY = 1 << 0
-    MONGOC_READ_SECONDARY = 1 << 1
-    MONGOC_READ_PRIMARY_PREFERRED = (1 << 2) | MONGOC_READ_PRIMARY
-    MONGOC_READ_SECONDARY_PREFERRED = (1 << 2) | MONGOC_READ_SECONDARY
-    MONGOC_READ_NEAREST = (1 << 3) | MONGOC_READ_SECONDARY
+    READ_PRIMARY = 1 << 0
+    READ_SECONDARY = 1 << 1
+    READ_PRIMARY_PREFERRED = (1 << 2) | MONGOC_READ_PRIMARY
+    READ_SECONDARY_PREFERRED = (1 << 2) | MONGOC_READ_SECONDARY
+    READ_NEAREST = (1 << 3) | MONGOC_READ_SECONDARY
   end
 
   ### mongoc_read_prefs_t
@@ -572,17 +572,17 @@ lib LibMongoc
 
   ### mongoc_remove_flags_t
   enum RemoveFlags
-    MONGOC_REMOVE_NONE = 0
-    MONGOC_REMOVE_SINGLE_REMOVE = 1 << 0
+    REMOVE_NONE = 0
+    REMOVE_SINGLE_REMOVE = 1 << 0
   end
 
   ### mongoc_reply_flags_t
   enum ReplyFlags
-    MONGOC_REPLY_NONE = 0
-    MONGOC_REPLY_CURSOR_NOT_FOUND = 1 << 0
-    MONGOC_REPLY_QUERY_FAILURE = 1 << 1
-    MONGOC_REPLY_SHARD_CONFIG_STALE = 1 << 2
-    MONGOC_REPLY_AWAIT_CAPABLE = 1 << 3
+    REPLY_NONE = 0
+    REPLY_CURSOR_NOT_FOUND = 1 << 0
+    REPLY_QUERY_FAILURE = 1 << 1
+    REPLY_SHARD_CONFIG_STALE = 1 << 2
+    REPLY_AWAIT_CAPABLE = 1 << 3
   end
 
   ### mongoc_server_description_t
@@ -717,18 +717,18 @@ lib LibMongoc
 
   ### mongoc_transaction_state_t
   enum TransactionState
-    MONGOC_TRANSACTION_NONE = 0
-    MONGOC_TRANSACTION_STARTING = 1
-    MONGOC_TRANSACTION_IN_PROGRESS = 2
-    MONGOC_TRANSACTION_COMMITTED = 3
-    MONGOC_TRANSACTION_ABORTED = 4
+    TRANSACTION_NONE = 0
+    TRANSACTION_STARTING = 1
+    TRANSACTION_IN_PROGRESS = 2
+    TRANSACTION_COMMITTED = 3
+    TRANSACTION_ABORTED = 4
   end
 
   ### mongoc_update_flags_t
   enum UpdateFlags
-    MONGOC_UPDATE_NONE = 0
-    MONGOC_UPDATE_UPSERT = 1 << 0
-    MONGOC_UPDATE_MULTI_UPDATE = 1 << 1
+    UPDATE_NONE = 0
+    UPDATE_UPSERT = 1 << 0
+    UPDATE_MULTI_UPDATE = 1 << 1
   end
   #define MONGOC_UPDATE_NO_VALIDATE (1U << 31)
 
