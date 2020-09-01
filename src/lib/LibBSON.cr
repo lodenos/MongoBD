@@ -79,26 +79,18 @@ lib LibMongoc
   end
 
   fun validate_with_error = bson_validate_with_error(bson : BSON*, flags : ValidateFlags, error : Error*) : Bool
-
   # bson_context_t
-
   fun context_destroy = bson_context_destroy(context : Context*) : Void
   fun context_get_default = bson_context_get_default : Context*
   fun context_new = bson_context_new(flags : ContextFlags) : Context* 
-
   # bson_decimal128_t
-
   fun decimal128_from_string = bson_decimal128_from_string(string : UInt8*, dec : Decimal128*) : Bool
   fun decimal128_from_string_w_len = bson_decimal128_from_string_w_len(string : UInt8*, len : Int32, dec : Decimal128*) : Bool
   fun decimal128_to_string = bson_decimal128_to_string(dec : Decimal128*, str : UInt8*) : Void
-
   # bson_error_t
-
   fun set_error = bson_set_error(error : Error*, domain : UInt32, code : UInt32, format : UInt8*, ...) : Void # BSON_GNUC_PRINTF (4, 5);
   fun strerror_r = bson_strerror_r(err_code : Int32, buf : UInt8*, buflen : SizeT) : UInt32*
-
   # bson_iter_t
-
   fun iter_array = bson_iter_array(iter : Iter*, array_len : UInt32*, array : UInt8**) : Void
   fun iter_as_bool = bson_iter_as_bool(iter : Iter*) : Bool
   fun iter_as_double = bson_iter_as_double(iter : Iter*) : Bool
@@ -173,9 +165,7 @@ lib LibMongoc
   fun iter_utf8 = bson_iter_utf8(iter : Iter*, length : UInt32*) : UInt8*
   fun iter_value = bson_iter_value(iter : Iter*) : Value*
   fun iter_visit_all = bson_iter_visit_all(iter : Iter*, visitor : Visitor*, data : Void*) : Bool
-
   # bson_json_reader_t
-
   fun json_data_reader_ingest = bson_json_data_reader_ingest(reader : JsonReader*, data : UInt8*, len : SizeT) : Void
   fun json_data_reader_new = bson_json_data_reader_new(allow_multiple : Bool, size : SizeT) : JsonReader*
   fun json_reader_destroy = bson_json_reader_destroy(reader : JsonReader*) : Void
@@ -183,15 +173,11 @@ lib LibMongoc
   fun json_reader_new_from_fd = bson_json_reader_new_from_fd(fd : Int32, close_on_destroy : Bool) : JsonReader*
   fun json_reader_new_from_file = bson_json_reader_new_from_file(filename : UInt8*, error : Error*) : JsonReader*
   fun json_reader_read = bson_json_reader_read(reader : JsonReader*, bson : BSON*, error : Error*) : Int32
-
   # bson_md5_t
-
   fun md5_append = bson_md5_append(pms : MD5*, data : UInt8*, nbytes : UInt32) : Void # BSON_GNUC_DEPRECATED;
   fun md5_finish = bson_md5_finish(pms : MD5*, digest : UInt8[16]) : Void # BSON_GNUC_DEPRECATED;
   fun md5_init = bson_md5_init(pms : MD5*) : Void # BSON_GNUC_DEPRECATED;
-
   # bson_oid_t
-
   fun oid_compare = bson_oid_compare(oid1 : Oid*, oid2 : Oid*) : Int32
   fun oid_copy = bson_oid_copy(src : Oid*, dst : Oid*) : Void
   fun oid_equal = bson_oid_equal(oid1 : Oid*, oid2 : Oid*) : Bool
@@ -203,9 +189,7 @@ lib LibMongoc
   fun oid_init_sequence = bson_oid_init_sequence(oid : Oid*, context : Context*) : Void # BSON_GNUC_DEPRECATED
   fun oid_is_valid = bson_oid_is_valid(str : UInt8*, length : SizeT) : Bool
   fun oid_to_string = bson_oid_to_string(oid : Oid*, str : UInt8[25]) : Void
-
   # bson_reader_t
-
   fun reader_destroy = bson_reader_destroy(reader : Reader*) : Void
   # typedef void (*bson_reader_destroy_func_t)(void *handle);
   fun reader_new_from_data = bson_reader_new_from_data(data : UInt8*, length : SizeT) : Reader*
@@ -220,7 +204,6 @@ lib LibMongoc
   # fun reader_tell = bson_reader_tell(bson_reader_t *reader) : off_t
 
   # Character and String Routines
-
   fun ascii_strtoll = bson_ascii_strtoll(str : UInt8*, endptr : UInt8**, base : Int32) : Int64
   fun isspace = bson_isspace(c : Int32) : Bool
   fun snprintf = bson_snprintf(str : UInt8*, size : SizeT, format : UInt8*, ...) : Int32 # BSON_GNUC_PRINTF (3, 4);
@@ -231,24 +214,22 @@ lib LibMongoc
   fun strfreev = bson_strfreev(strv : UInt8**) : Void
   fun strncpy = bson_strncpy(dst : UInt8*, src : UInt8*, size : SizeT) : Void
   fun strndup = bson_strndup(str : UInt8*, n_bytes : SizeT) : UInt8*
-  fun strnlen = bson_strnlen(const char *s, size_t maxlen) : SizeT
-  fun uint32_to_string = bson_uint32_to_string(uint32_t value, const char **strptr, char *str, size_t size) : size_t
-  fun utf8_escape_for_json = bson_utf8_escape_for_json(const char *utf8, ssize_t utf8_len) : char*
-  fun utf8_from_unichar = bson_utf8_from_unichar(bson_unichar_t unichar, char utf8[6], uint32_t *len) : void
-  fun utf8_get_char = bson_utf8_get_char(const char *utf8) : bson_unichar_t
-  fun utf8_next_char = bson_utf8_next_char(const char *utf8) : const char*
-  fun utf8_validate = bson_utf8_validate(const char *utf8, size_t utf8_len, bool allow_null) : bool
-  fun vsnprintf = bson_vsnprintf(char *str, size_t size, const char *format, va_list ap) : int # BSON_GNUC_PRINTF (3, 0)
-
+  fun strnlen = bson_strnlen(s : UInt8*, maxlen : SizeT) : SizeT
+  fun uint32_to_string = bson_uint32_to_string(value : UInt32, strptr : UInt8**, str : UInt8*, size : SizeT) : SizeT
+  fun utf8_escape_for_json = bson_utf8_escape_for_json(utf8 : UInt8*, utf8_len : SSizeT) : UInt8*
+  # fun utf8_from_unichar = bson_utf8_from_unichar(unichar : bson_unichar_t, char utf8[6], uint32_t *len) : void
+  # fun utf8_get_char = bson_utf8_get_char(utf8 : UInt8*) : bson_unichar_t
+  fun utf8_next_char = bson_utf8_next_char(utf8 : UInt8*) : UInt8*
+  fun utf8_validate = bson_utf8_validate(utf8 : UInt8*, utf8_len : SizeT , allow_null : Bool) : Bool
+  # fun vsnprintf = bson_vsnprintf(str : UInt8 *, size : SizeT, format : UInt8*, ap : va_list) : Int32 # BSON_GNUC_PRINTF (3, 0)
   # bson_string_t
-
-  fun string_append = bson_string_append(bson_string_t *string, const char *str) : void
-  fun string_append_c = bson_string_append_c(bson_string_t *string, char str) : void
-  fun string_append_printf = bson_string_append_printf(bson_string_t *string, const char *format, ...) : void # BSON_GNUC_PRINTF (2, 3);
-  fun string_append_unichar = bson_string_append_unichar(bson_string_t *string, bson_unichar_t unichar) : void
+  fun string_append = bson_string_append(string : bson_string_t*, str : UInt8*) : Void
+  fun string_append_c = bson_string_append_c(string : bson_string_t*, str : char) : Void
+  fun string_append_printf = bson_string_append_printf(string : bson_string_t*, format : const char *, ...) : Void # BSON_GNUC_PRINTF (2, 3);
+  fun string_append_unichar = bson_string_append_unichar(bson_string_t *string, bson_unichar_t unichar) : Void
   fun string_free = bson_string_free(bson_string_t *string, bool free_segment) : char*
   fun string_new = bson_string_new(const char *str) : bson_string_t*
-  fun string_truncate = bson_string_truncate(bson_string_t *string, uint32_t len) : void
+  fun string_truncate = bson_string_truncate(bson_string_t *string, uint32_t len) : Void
 
   enum Subtype
     BINARY = 0x00
