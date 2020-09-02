@@ -19,8 +19,9 @@ module Mongo
       # TODO catch the Bool return
     end
 
-    def append # Maybe use the operator <<
-      # LibMongoc.read_concern_append @ptrReadConcern, opts : BSON*) : Bool
+    def append(opts : BSON) # Maybe use the operator <<
+      LibMongoc.read_concern_append @ptrReadConcern, opts.to_unsafe
+      # TODO catch the Bool return
     end
 
     def copy : ReadConcern
@@ -29,6 +30,10 @@ module Mongo
 
     def default? : Bool
       LibMongoc.read_concern_is_default @ptrReadConcern
+    end
+
+    def to_unsafe : Pointer(LibMongoc::ReadConcern)
+      @ptrReadConcern
     end
   end
 end

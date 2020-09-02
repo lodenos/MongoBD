@@ -21,5 +21,9 @@ module Mongo
     def finalize
       LibMongoc.client_destroy @ptrClient
     end
+
+    def to_unsafe : Pointer(LibMongoc::Client)
+      @ptrClient
+    end
   end
 end
