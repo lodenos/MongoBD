@@ -1,6 +1,6 @@
 module Mongo
   class Collection
-    private @ptrCollection : Pointer(LibMongoc::Collection)
+    @ptrCollection : Pointer(LibMongoc::Collection)
 
     def initialize(@ptrCollection : Pointer(LibMongoc::Collection))
     end
@@ -9,25 +9,21 @@ module Mongo
       LibMongoc.collection_destroy @ptrCollection
     end
 
-    ############################################################################
-
-    getter def name : String
+    def name : String
       String.new LibMongoc.collection_get_name @ptrCollection
     end
 
-    getter def readConcern : ReadConcern
+    def readConcern : ReadConcern
       ReadConcern.new LibMongoc.collection_get_read_concern @ptrCollection
     end
 
-    getter def readPrefs : ReadPrefs
+    def readPrefs : ReadPrefs
       ReadPrefs.new LibMongoc.collection_get_read_prefs @ptrCollection
     end
 
-    getter def writeConcern : WriteConcern
+    def writeConcern : WriteConcern
       WriteConcern.new LibMongoc.collection_get_write_concern @ptrCollection
     end
-
-    ############################################################################
 
     def aggregate(flags : QueryFlags, pipeline : BSON, opts : BSON, read_prefs : ReadPrefs) : Cursor
       Cursor.new LibMongoc.collection_aggregate @ptrCollection, flags, pipeline.to_unsafe, opts.to_unsafe, read_prefs.to_unsafe

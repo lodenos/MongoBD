@@ -14,35 +14,35 @@ module Mongo
       LibMongoc.transaction_opts_destroy @ptrTransactionOpt
     end
 
-    getter def readConcern : ReadConcern
+    def readConcern : ReadConcern
       ReadConcern.new LibMongoc.transaction_opts_get_read_concern @ptrTransactionOpt
     end
 
-    setter def readConcern(value : ReadConcern)
+    def readConcern=(value : ReadConcern)
       LibMongoc.transaction_opts_set_read_concern @ptrTransactionOpt, value
     end
 
-    getter def writeConcern : WriteConcern
+    def writeConcern : WriteConcern
       WriteConcern.new LibMongoc.transaction_opts_get_write_concern @ptrTransactionOpt
     end
 
-    setter def writeConcern(value : WriteConcern)
+    def writeConcern=(value : WriteConcern)
       LibMongoc.transaction_opts_set_write_concern @ptrTransactionOpt, value
     end
 
-    getter def readPrefs : ReadPrefs
+    def readPrefs : ReadPrefs
       ReadPrefs.new LibMongoc.transaction_opts_get_read_prefs @ptrTransactionOpt 
     end
 
-    setter def readPrefs(value : ReadPrefs)
+    def readPrefs=(value : ReadPrefs)
       LibMongoc.transaction_opts_set_read_prefs @ptrTransactionOpt, value
     end
 
-    getter def maxCommitTimeMs : Int64
+    def maxCommitTimeMs : Int64
       LibMongoc.transaction_opts_get_max_commit_time_ms @ptrTransactionOpt
     end
 
-    setter def maxCommitTimeMs(value : Int64)
+    def maxCommitTimeMs=(value : Int64)
       LibMongoc.transaction_opts_set_max_commit_time_ms @ptrTransactionOpt, value
     end
 

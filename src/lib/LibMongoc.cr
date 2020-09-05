@@ -4,8 +4,8 @@ lib LibMongoc
   type BSON_error = Void
   type BSON_value = Void
 
-  type SizeT = UInt64
-  type SSizeT = Int64
+  # alias SizeT = UInt64
+  # alias SSizeT = Int64
 
   ### Initialization and Cleanup
   fun init = mongoc_init : Void
@@ -550,9 +550,9 @@ lib LibMongoc
   enum ReadMode
     READ_PRIMARY = 1 << 0
     READ_SECONDARY = 1 << 1
-    READ_PRIMARY_PREFERRED = (1 << 2) | MONGOC_READ_PRIMARY
-    READ_SECONDARY_PREFERRED = (1 << 2) | MONGOC_READ_SECONDARY
-    READ_NEAREST = (1 << 3) | MONGOC_READ_SECONDARY
+    READ_PRIMARY_PREFERRED = (1 << 2) | READ_PRIMARY
+    READ_SECONDARY_PREFERRED = (1 << 2) | READ_SECONDARY
+    READ_NEAREST = (1 << 3) | READ_SECONDARY
   end
 
   ### mongoc_read_prefs_t

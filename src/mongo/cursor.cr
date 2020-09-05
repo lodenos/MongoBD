@@ -20,21 +20,19 @@ module Mongo
       LibMongoc.cursor_destroy @ptrCursor
     end
 
-    ############################################################################
-
-    getter def batchSize : UInt32
+    def batchSize : UInt32
       LibMongoc.cursor_get_batch_size @ptrCursor
     end
 
-    setter def batchSize(value : UInt32)
+    def batchSize=(value : UInt32)
       LibMongoc.cursor_set_batch_size @ptrCursor, value
     end
 
-    getter def hint : UInt32
+    def hint : UInt32
       LibMongoc.cursor_get_hint @ptrCursor
     end
 
-    setter def hint(serverID : UInt32)
+    def hint=(serverID : UInt32)
       LibMongoc.cursor_set_hint @ptrCursor, serverID
       # TODO: Catch Bool return
     end
@@ -43,28 +41,26 @@ module Mongo
       # LibMongoc.cursor_get_host @ptrCursor, host : HostList*
     # end
 
-    getter def id : Int64
+    def id : Int64
       LibMongoc.cursor_get_id @ptrCursor
     end
 
-    getter def limit : Int64
+    def limit : Int64
       LibMongoc.cursor_get_limit @ptrCursor
     end
 
-    setter def limit(value : Int64)
+    def limit=(value : Int64)
       LibMongoc.mongoc_cursor_set_limit @ptrCursor, value
       # TODO: Catch Bool return
     end
 
-    getter def maxAwaitTimeMs : UInt32
+    def maxAwaitTimeMs : UInt32
       LibMongoc.cursor_get_max_await_time_ms @ptrCursor
     end
 
-    setter def maxAwaitTimeMs(value : UInt32)
+    def maxAwaitTimeMs=(value : UInt32)
       LibMongoc.cursor_set_max_await_time_ms @ptrCursor, value
     end
-
-    ############################################################################
 
     def alive? : Bool
       # BSON_GNUC_DEPRECATED_FOR(mongoc_cursor_more)

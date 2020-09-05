@@ -13,27 +13,27 @@ module Mongo
       LibMongoc.read_prefs_destroy @ptrReadPrefs
     end
 
-    getter def maxStalenessSeconds : Int64
+    def maxStalenessSeconds : Int64
       LibMongoc.read_prefs_get_max_staleness_seconds @ptrReadPrefs
     end
 
-    setter def maxStalenessSeconds(value : Int64)
+    def maxStalenessSeconds=(value : Int64)
       LibMongoc.read_prefs_set_max_staleness_seconds @ptrReadPrefs, value
     end
 
-    getter def mode : ReadMode
+    def mode : ReadMode
       LibMongoc.read_prefs_get_mode @ptrReadPrefs
     end
 
-    setter def mode(value : ReadMode)
+    def mode=(value : ReadMode)
       LibMongoc.read_prefs_set_mode @ptrReadPrefs, value
     end
 
-    getter def tags : BSON
+    def tags : BSON
       BSON.new LibMongoc.read_prefs_get_tags @ptrReadPrefs
     end
 
-    setter def tags(value : BSON)
+    def tags=(value : BSON)
       LibMongoc.read_prefs_set_tags @ptrReadPrefs, tags.to_unsafe
     end
 
@@ -47,6 +47,10 @@ module Mongo
 
     def valid? : Bool
       LibMongoc.read_prefs_is_valid @ptrReadPrefs
+    end
+
+    def to_unsafe : Pointer(LibMongoc::ReadPrefs)
+      @ptrReadPrefs
     end
   end
 end

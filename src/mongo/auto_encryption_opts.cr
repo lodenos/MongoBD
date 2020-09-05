@@ -10,32 +10,40 @@ module Mongo
     end
 
     def finalize
-      LibMongoc.auto_encryption_opts_destroy  @ptrAutoEncryptionOpts
+      LibMongoc.auto_encryption_opts_destroy @ptrAutoEncryptionOpts
     end
 
-    setter def keyvault_client(client : Client)
+    def keyvaultClient=(client : Client)
       LibMongoc.auto_encryption_opts_set_keyvault_client @ptrAutoEncryptionOpts, client.to_unsafe
     end
 
-    setter def keyvault_client_pool
-      LibMongoc.auto_encryption_opts_set_keyvault_client_pool @ptrAutoEncryptionOpts, pool : ClientPool*) : Void
+
+    def keyvaultClientPool=(pool : ClientPool)
+      LibMongoc.auto_encryption_opts_set_keyvault_client_pool @ptrAutoEncryptionOpts, pool.to_unsafe
     end
 
-    setter def keyvault_namespace
-      LibMongoc.auto_encryption_opts_set_keyvault_namespace @ptrAutoEncryptionOpts, db : Int8*, coll : Int8*) : Void
+    # def keyvaultNamespace=(db : String, coll : String)
+      # LibMongoc.auto_encryption_opts_set_keyvault_namespace @ptrAutoEncryptionOpts, db.to_unsafe, coll.to_unsafe
+    # end
+
+    def kmsProviders=(kmsProviders : BSON)
+      LibMongoc.auto_encryption_opts_set_kms_providers @ptrAutoEncryptionOpts, kmsProviders.to_unsafe
     end
 
-    setter def kms_providers
-      LibMongoc.auto_encryption_opts_set_kms_providers @ptrAutoEncryptionOpts, kms_providers : BSON*) : Void
+    def schemaMap=(value : BSON)
+      LibMongoc.auto_encryption_opts_set_schema_map @ptrAutoEncryptionOpts, value.to_unsafe
     end
 
-    setter def schema_map = mongoc_auto_encryption_opts_set_schema_map @ptrAutoEncryptionOpts, schema_map : BSON*) : Void
+    def bypassAutoEncryption=(value : Bool)
+      LibMongoc.auto_encryption_opts_set_bypass_auto_encryption @ptrAutoEncryptionOpts, value
     end
-    
-    setter def bypass_auto_encryption = mongoc_auto_encryption_opts_set_bypass_auto_encryption @ptrAutoEncryptionOpts, bypass_auto_encryption : Bool) : Void
+
+    def extra=(value : BSON)
+      LibMongoc.auto_encryption_opts_set_extra @ptrAutoEncryptionOpts, value.to_unsafe
     end
-    
-    setter def extra = mongoc_auto_encryption_opts_set_extra @ptrAutoEncryptionOpts, extra : BSON*) : Void
+
+    def to_unsafe : Pointer(LibMongoc::AutoEncryptionOpts)
+      @ptrAutoEncryptionOpts
     end
   end
 end

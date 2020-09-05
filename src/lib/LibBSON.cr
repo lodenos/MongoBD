@@ -89,8 +89,8 @@ lib LibMongoc
   end
 
   struct Error
-    domain : UInt32_t
-    code : UInt32_t
+    domain : UInt32
+    code : UInt32
     message : UInt8[504]
   end
 
@@ -122,7 +122,7 @@ lib LibMongoc
   fun append_document = bson_append_document(bson : BSON*, key : UInt8*, key_length : Int32, value : BSON*) : Bool
   fun append_document_begin = bson_append_document_begin(bson : BSON*, key : UInt8*, key_length : Int32, child : BSON*) : Bool
   fun append_document_end = bson_append_document_end(bson : BSON*, child : BSON*) : Bool
-  fun append_double = bson_append_double(bson : BSON*, key : UInt8*, key_length : Int32, value : Double) : Bool
+  fun append_double = bson_append_double(bson : BSON*, key : UInt8*, key_length : Int32, value : Float64) : Bool
   fun append_int32 = bson_append_int32(bson : BSON*, key : UInt8*, key_length : Int32, value : Int32) : Bool
   fun append_int64 = bson_append_int64(bson : BSON*, key : UInt8*, key_length : Int32, value : Int64) : Bool
   fun append_iter = bson_append_iter(bson : BSON*, key : UInt8*, key_length : Int32, iter : Iter*) : Bool
@@ -148,7 +148,7 @@ lib LibMongoc
   fun concat = bson_concat(dst : BSON*, src : BSON*) : Bool
   fun copy = bson_copy(bson : BSON*) : BSON*
   fun copy_to = bson_copy_to(src : BSON *, dst : BSON*) : Void
-  fun copy_to_excluding = bson_copy_to_excluding(src : BSON*, dst : BSOM*, first_exclude : UInt8*, ...) : Void # BSON_GNUC_NULL_TERMINATED BSON_GNUC_DEPRECATED_FOR (bson_copy_to_excluding_noinit)
+  fun copy_to_excluding = bson_copy_to_excluding(src : BSON*, dst : BSON*, first_exclude : UInt8*, ...) : Void # BSON_GNUC_NULL_TERMINATED BSON_GNUC_DEPRECATED_FOR (bson_copy_to_excluding_noinit)
   fun copy_to_excluding_noinit = bson_copy_to_excluding_noinit(src : BSON*, dst : BSON*, first_exclude : UInt8*, ...) : Void # BSON_GNUC_NULL_TERMINATED;
   # fun copy_to_excluding_noinit_va = bson_copy_to_excluding_noinit_va(src : BSON*, dst : BSON*, first_exclude : UInt8*, args : va_list) : Void
   fun count_keys = bson_count_keys(bson : BSON*) : UInt32
@@ -190,7 +190,7 @@ lib LibMongoc
   fun iter_dbpointer = bson_iter_dbpointer(iter : Iter*, collection_len : UInt32*, collection : UInt8**, oid : Oid**) : Void
   fun iter_decimal128 = bson_iter_decimal128(iter : Iter*, dec : Decimal128*) : Bool # IN, OUT
   fun iter_document = bson_iter_document(iter : Iter*, document_len : UInt32*, document : UInt8**) : Void
-  fun iter_double = bson_iter_double(iter : Iter*) : Double
+  fun iter_double = bson_iter_double(iter : Iter*) : Float64
   fun iter_dup_utf8 = bson_iter_dup_utf8(iter : Iter*, length : UInt32*) : UInt32*
   fun iter_find = bson_iter_find(iter : Iter*, key : UInt8*) : Bool
   fun iter_find_case = bson_iter_find_case(iter : Iter*, key : UInt8*) : Bool
@@ -226,11 +226,11 @@ lib LibMongoc
   fun iter_type = bson_iter_type(iter : Iter*) : Type
   fun iter_utf8 = bson_iter_utf8(iter : Iter*, length : UInt32*) : UInt8*
   fun iter_value = bson_iter_value(iter : Iter*) : Value*
-  fun iter_visit_all = bson_iter_visit_all(iter : Iter*, visitor : Visitor*, data : Void*) : Bool
+  # fun iter_visit_all = bson_iter_visit_all(iter : Iter*, visitor : Visitor*, data : Void*) : Bool
   fun json_data_reader_ingest = bson_json_data_reader_ingest(reader : JsonReader*, data : UInt8*, len : SizeT) : Void
   fun json_data_reader_new = bson_json_data_reader_new(allow_multiple : Bool, size : SizeT) : JsonReader*
   fun json_reader_destroy = bson_json_reader_destroy(reader : JsonReader*) : Void
-  fun json_reader_new = bson_json_reader_new(data : Void*, cb : JsonReaderCb, dcb : JsonDestroyCb, allow_multiple : Bool, buf_size : SizeT) : JsonReader*
+  # fun json_reader_new = bson_json_reader_new(data : Void*, cb : JsonReaderCb, dcb : JsonDestroyCb, allow_multiple : Bool, buf_size : SizeT) : JsonReader*
   fun json_reader_new_from_fd = bson_json_reader_new_from_fd(fd : Int32, close_on_destroy : Bool) : JsonReader*
   fun json_reader_new_from_file = bson_json_reader_new_from_file(filename : UInt8*, error : Error*) : JsonReader*
   fun json_reader_read = bson_json_reader_read(reader : JsonReader*, bson : BSON*, error : Error*) : Int32
@@ -253,12 +253,12 @@ lib LibMongoc
   fun reader_new_from_data = bson_reader_new_from_data(data : UInt8*, length : SizeT) : Reader*
   fun reader_new_from_fd = bson_reader_new_from_fd(fd : Int32, close_on_destroy : Bool) : Reader*
   fun reader_new_from_file = bson_reader_new_from_file(path : UInt8*, error : Error*) : Reader*
-  fun reader_new_from_handle = bson_reader_new_from_handle(handle : Void*, rf : ReaderReadFunc, df : ReaderDestroyFunc) : Reader*
+  # fun reader_new_from_handle = bson_reader_new_from_handle(handle : Void*, rf : ReaderReadFunc, df : ReaderDestroyFunc) : Reader*
   fun reader_read = bson_reader_read(reader : Reader*, reached_eof : Bool*) : BSON*
   # typedef ssize_t (*bson_reader_read_func_t)(void *handle, void *buf, size_t count);
   fun reader_reset = bson_reader_reset(reader : Reader*) : Void
-  fun reader_set_destroy_func = bson_reader_set_destroy_func(reader : Reader*, func : ReaderDestroyFunc) : Void
-  fun reader_set_read_func = bson_reader_set_read_func(reader : Reader*, func : ReaderReadFunc) : Void
+  # fun reader_set_destroy_func = bson_reader_set_destroy_func(reader : Reader*, func : ReaderDestroyFunc) : Void
+  # fun reader_set_read_func = bson_reader_set_read_func(reader : Reader*, func : ReaderReadFunc) : Void
   fun reader_tell = bson_reader_tell(reader : Reader*) : Off
   fun ascii_strtoll = bson_ascii_strtoll(str : UInt8*, endptr : UInt8**, base : Int32) : Int64
   fun isspace = bson_isspace(c : Int32) : Bool

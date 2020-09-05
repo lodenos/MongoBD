@@ -10,11 +10,11 @@ module Mongo
       LibMongoc.read_concern_destroy @ptrReadConcern
     end
 
-    getter def level : String
+    def level : String
       String.new LibMongoc.mongoc_read_concern_get_level @ptrReadConcern
     end
 
-    setter def level(value : String)
+    def level=(value : String)
       LibMongoc.read_concern_set_level @ptrReadConcern, value.to_unsafe
       # TODO catch the Bool return
     end
