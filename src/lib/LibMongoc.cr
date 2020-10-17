@@ -1,9 +1,8 @@
+require "./libBSON"
+
+module Mongoc
 @[Link(ldflags: "-lmongoc-1.0")]
 lib LibMongoc
-  type BSON = Void
-  type BSON_error = Void
-  type BSON_value = Void
-
   # alias SizeT = UInt64
   # alias SSizeT = Int64
 
@@ -44,24 +43,24 @@ lib LibMongoc
   fun bulk_operation_delete = mongoc_bulk_operation_delete(bulk : BulkOperation*, selector : BSON*) : Void
   fun bulk_operation_delete_one = mongoc_bulk_operation_delete_one(bulk : BulkOperation*, selector : BSON*) : Void
   fun bulk_operation_destroy = mongoc_bulk_operation_destroy(bulk : BulkOperation*) : Void
-  fun bulk_operation_execute = mongoc_bulk_operation_execute(bulk : BulkOperation*, reply : BSON*, error : BSON_error*) : UInt32
+  fun bulk_operation_execute = mongoc_bulk_operation_execute(bulk : BulkOperation*, reply : BSON*, error : BSONerror*) : UInt32
   fun bulk_operation_get_hint = mongoc_bulk_operation_get_hint(bulk : BulkOperation*) : UInt32
   fun bulk_operation_get_write_concern = mongoc_bulk_operation_get_write_concern(bulk : BulkOperation*) : WriteConcern*
   fun bulk_operation_insert = mongoc_bulk_operation_insert(bulk : BulkOperation*, document : BSON*) : Void
-  fun bulk_operation_insert_with_opts = mongoc_bulk_operation_insert_with_opts(bulk : BulkOperation*, document : BSON*, opts : BSON*, error : BSON_error*) : Bool
+  fun bulk_operation_insert_with_opts = mongoc_bulk_operation_insert_with_opts(bulk : BulkOperation*, document : BSON*, opts : BSON*, error : BSONerror*) : Bool
   fun bulk_operation_remove = mongoc_bulk_operation_remove(bulk : BulkOperation*, selector : BSON*) : Void
-  fun bulk_operation_remove_many_with_opts = mongoc_bulk_operation_remove_many_with_opts(bulk : BulkOperation*, selector : BSON*, opts : BSON*, error : BSON_error*) : Bool
+  fun bulk_operation_remove_many_with_opts = mongoc_bulk_operation_remove_many_with_opts(bulk : BulkOperation*, selector : BSON*, opts : BSON*, error : BSONerror*) : Bool
   fun bulk_operation_remove_one = mongoc_bulk_operation_remove_one(bulk : BulkOperation*, selector : BSON*) : Void
-  fun bulk_operation_remove_one_with_opts = mongoc_bulk_operation_remove_one_with_opts(bulk : BulkOperation*, selector : BSON*, opts : BSON*, error : BSON_error*) : Bool
+  fun bulk_operation_remove_one_with_opts = mongoc_bulk_operation_remove_one_with_opts(bulk : BulkOperation*, selector : BSON*, opts : BSON*, error : BSONerror*) : Bool
   fun bulk_operation_replace_one = mongoc_bulk_operation_replace_one(bulk : BulkOperation*, selector : BSON*, document : BSON*, upsert : Bool) : Void
-  fun bulk_operation_replace_one_with_opts = mongoc_bulk_operation_replace_one_with_opts(bulk : BulkOperation*, selector : BSON*, document : BSON*, opts : BSON*, error : BSON_error*) : Bool
+  fun bulk_operation_replace_one_with_opts = mongoc_bulk_operation_replace_one_with_opts(bulk : BulkOperation*, selector : BSON*, document : BSON*, opts : BSON*, error : BSONerror*) : Bool
   fun bulk_operation_set_bypass_document_validation = mongoc_bulk_operation_set_bypass_document_validation(bulk : BulkOperation*, bypass : Bool) : Void
   fun bulk_operation_set_client_session = mongoc_bulk_operation_set_client_session(bulk : BulkOperation*, client_session : ClientSession*) : Void
   fun bulk_operation_set_hint = mongoc_bulk_operation_set_hint(bulk : BulkOperation*, server_id : UInt32) : Void
   fun bulk_operation_update = mongoc_bulk_operation_update(bulk : BulkOperation*, selector : BSON*, document : BSON*, upsert : Bool) : Void
-  fun bulk_operation_update_many_with_opts = mongoc_bulk_operation_update_many_with_opts(bulk : BulkOperation*, selector : BSON*, document : BSON*, opts : BSON*, error : BSON_error*) : Bool
+  fun bulk_operation_update_many_with_opts = mongoc_bulk_operation_update_many_with_opts(bulk : BulkOperation*, selector : BSON*, document : BSON*, opts : BSON*, error : BSONerror*) : Bool
   fun bulk_operation_update_one = mongoc_bulk_operation_update_one(bulk : BulkOperation*, selector : BSON*, document : BSON*, upsert : Bool) : Void
-  fun bulk_operation_update_one_with_opts = mongoc_bulk_operation_update_one_with_opts(bulk : BulkOperation*, selector : BSON*, document : BSON*, opts : BSON*, error : BSON_error*) : Bool
+  fun bulk_operation_update_one_with_opts = mongoc_bulk_operation_update_one_with_opts(bulk : BulkOperation*, selector : BSON*, document : BSON*, opts : BSON*, error : BSONerror*) : Bool
 
   ### mongoc_change_stream_t
   # typedef struct _mongoc_change_stream_t mongoc_change_stream_t
@@ -72,18 +71,18 @@ lib LibMongoc
   fun collection_watch = mongoc_collection_watch(coll : Collection*, pipeline : BSON*, opts : BSON*) : ChangeStream*
   fun change_stream_next = mongoc_change_stream_next(stream : ChangeStream*, bson : BSON**) : Bool
   fun change_stream_get_resume_token = mongoc_change_stream_get_resume_token(stream : ChangeStream*) : BSON*
-  fun change_stream_error_document = mongoc_change_stream_error_document(stream : ChangeStream*, err : BSON_error*, reply : BSON**) : Bool
+  fun change_stream_error_document = mongoc_change_stream_error_document(stream : ChangeStream*, err : BSONerror*, reply : BSON**) : Bool
   fun change_stream_destroy = mongoc_change_stream_destroy(stream : ChangeStream*) : Void
 
   ### mongoc_client_encryption_t
   # typedef struct _mongoc_client_encryption_t mongoc_client_encryption_t
   type ClientEncryption = Void
 
-  fun client_encryption_new = mongoc_client_encryption_new(opts : ClientEncryptionOpts*, error : BSON_error*) : ClientEncryption*
+  fun client_encryption_new = mongoc_client_encryption_new(opts : ClientEncryptionOpts*, error : BSONerror*) : ClientEncryption*
   fun client_encryption_destroy = mongoc_client_encryption_destroy(client_encryption : ClientEncryption*) : Void
-  fun client_encryption_create_datakey = mongoc_client_encryption_create_datakey(client_encryption : ClientEncryption*, kms_provider : Int8*, opts : ClientEncryptionDatakeyOpts*, keyid : BSON_value*, error : BSON_error*) : Bool
-  fun client_encryption_encrypt = mongoc_client_encryption_encrypt(client_encryption : ClientEncryption*, value : BSON_value*, opts : ClientEncryptionEncryptOpts*, ciphertext : BSON_value*, error : BSON_error*) : Bool
-  fun client_encryption_decrypt = mongoc_client_encryption_decrypt(client_encryption : ClientEncryption*, ciphertext : BSON_value*, value : BSON_value*, error : BSON_error*) : Bool
+  fun client_encryption_create_datakey = mongoc_client_encryption_create_datakey(client_encryption : ClientEncryption*, kms_provider : Int8*, opts : ClientEncryptionDatakeyOpts*, keyid : BSONvalue*, error : BSONerror*) : Bool
+  fun client_encryption_encrypt = mongoc_client_encryption_encrypt(client_encryption : ClientEncryption*, value : BSONvalue*, opts : ClientEncryptionEncryptOpts*, ciphertext : BSONvalue*, error : BSONerror*) : Bool
+  fun client_encryption_decrypt = mongoc_client_encryption_decrypt(client_encryption : ClientEncryption*, ciphertext : BSONvalue*, value : BSONvalue*, error : BSONerror*) : Bool
 
   ### mongoc_client_encryption_datakey_opts_t
   # typedef struct _mongoc_client_encryption_datakey_opts_t mongoc_client_encryption_datakey_opts_t;
@@ -100,7 +99,7 @@ lib LibMongoc
 
   fun client_encryption_encrypt_opts_new = mongoc_client_encryption_encrypt_opts_new : ClientEncryptionEncryptOpts*
   fun client_encryption_encrypt_opts_destroy = mongoc_client_encryption_encrypt_opts_destroy(opts : ClientEncryptionEncryptOpts*) : Void
-  fun client_encryption_encrypt_opts_set_keyid = mongoc_client_encryption_encrypt_opts_set_keyid(opts : ClientEncryptionEncryptOpts*, keyid : BSON_value*) : Void
+  fun client_encryption_encrypt_opts_set_keyid = mongoc_client_encryption_encrypt_opts_set_keyid(opts : ClientEncryptionEncryptOpts*, keyid : BSONvalue*) : Void
   fun client_encryption_encrypt_opts_set_keyaltname = mongoc_client_encryption_encrypt_opts_set_keyaltname(opts : ClientEncryptionEncryptOpts*, keyaltname : Int8*) : Void
   fun client_encryption_encrypt_opts_set_algorithm = mongoc_client_encryption_encrypt_opts_set_algorithm(opts : ClientEncryptionEncryptOpts*, algorithm : Int8*) : Void
   #define MONGOC_AEAD_AES_256_CBC_HMAC_SHA_512_RANDOM "AEAD_AES_256_CBC_HMAC_SHA_512-Random"
@@ -121,7 +120,7 @@ lib LibMongoc
   type ClientPool = Void
 
   fun client_pool_destroy = mongoc_client_pool_destroy(pool : ClientPool*) : Void
-  fun client_pool_enable_auto_encryption = mongoc_client_pool_enable_auto_encryption(pool : ClientPool*, opts : AutoEncryptionOpts*, error : BSON_error*) : Bool
+  fun client_pool_enable_auto_encryption = mongoc_client_pool_enable_auto_encryption(pool : ClientPool*, opts : AutoEncryptionOpts*, error : BSONerror*) : Bool
   fun client_pool_max_size = mongoc_client_pool_max_size(pool : ClientPool*, max_pool_size : UInt32) : Void
   fun client_pool_min_size = mongoc_client_pool_min_size(pool : ClientPool*, min_pool_size : UInt32) : Void # BSON_GNUC_DEPRECATED
   fun client_pool_new = mongoc_client_pool_new(uri : Uri*) : ClientPool*
@@ -138,15 +137,15 @@ lib LibMongoc
   ### mongoc_client_session_t
   type ClientSession = Void
 
-  fun client_session_start_transaction = mongoc_client_session_start_transaction(session : ClientSession*, opts : TransactionOpt*, error : BSON_error*) : Bool
+  fun client_session_start_transaction = mongoc_client_session_start_transaction(session : ClientSession*, opts : TransactionOpt*, error : BSONerror*) : Bool
   fun client_session_in_transaction = mongoc_client_session_in_transaction(session : ClientSession*) : Bool
   fun client_session_get_transaction_state = mongoc_client_session_get_transaction_state(session : ClientSession*) : TransactionState
-  fun client_session_commit_transaction = mongoc_client_session_commit_transaction(session : ClientSession*, reply : BSON*, error : BSON_error*) : Bool
-  fun client_session_abort_transaction = mongoc_client_session_abort_transaction(session : ClientSession*, error : BSON_error*) : Bool
+  fun client_session_commit_transaction = mongoc_client_session_commit_transaction(session : ClientSession*, reply : BSON*, error : BSONerror*) : Bool
+  fun client_session_abort_transaction = mongoc_client_session_abort_transaction(session : ClientSession*, error : BSONerror*) : Bool
   fun client_session_advance_cluster_time = mongoc_client_session_advance_cluster_time(session : ClientSession*, cluster_time : BSON*) : Void
   fun client_session_advance_operation_time = mongoc_client_session_advance_operation_time(session : ClientSession*, timestamp : UInt32, increment : UInt32) : Void
-  # fun client_session_with_transaction = mongoc_client_session_with_transaction(session : ClientSession*, cb : ClientSessionWithTransactionCb, opts : TransactionOpt*, ctx : Void*, reply : BSON*, error : BSON_error*) : Bool
-  fun client_session_append = mongoc_client_session_append(client_session : ClientSession*, opts : BSON*, error : BSON_error*) : Bool
+  # fun client_session_with_transaction = mongoc_client_session_with_transaction(session : ClientSession*, cb : ClientSessionWithTransactionCb, opts : TransactionOpt*, ctx : Void*, reply : BSON*, error : BSONerror*) : Bool
+  fun client_session_append = mongoc_client_session_append(client_session : ClientSession*, opts : BSON*, error : BSONerror*) : Bool
   fun client_session_get_client = mongoc_client_session_get_client(session : ClientSession*) : Client*
   fun client_session_get_cluster_time = mongoc_client_session_get_cluster_time(session : ClientSession*) : BSON*
   fun client_session_get_operation_time = mongoc_client_session_get_operation_time(session : ClientSession*, timestamp : UInt32*, increment : UInt32*) : Void
@@ -157,44 +156,44 @@ lib LibMongoc
 
   ### mongoc_client_session_with_transaction_cb_t
   # @ Typedef
-  # typedef bool (*mongoc_client_session_with_transaction_cb_t)(mongoc_client_session_t *session, void *ctx, bson_t **reply, bson_error_t *error)
+  # typedef bool (*mongoc_client_session_with_transaction_cb_t)(mongoc_client_session_t *session, void *ctx, bson_t **reply, bsonerror_t *error)
 
-  # fun client_session_with_transaction = mongoc_client_session_with_transaction(session : ClientSession*, cb : ClientSessionWithTransactionCb, opts : TransactionOpt*, ctx : Void*, reply : BSON*, error : BSON_error*) : Bool
+  # fun client_session_with_transaction = mongoc_client_session_with_transaction(session : ClientSession*, cb : ClientSessionWithTransactionCb, opts : TransactionOpt*, ctx : Void*, reply : BSON*, error : BSONerror*) : Bool
  
   ### mongoc_client_t
   # typedef struct _mongoc_client_t mongoc_client_t;
   type Client = Void
   type ApmCallbacks = Void
-  # typedef mongoc_stream_t *(*mongoc_stream_initiator_t)(const mongoc_uri_t *uri, const mongoc_host_list_t *host, void *user_data, bson_error_t *error)
+  # typedef mongoc_stream_t *(*mongoc_stream_initiator_t)(const mongoc_uri_t *uri, const mongoc_host_list_t *host, void *user_data, bsonerror_t *error)
 
   fun client_command = mongoc_client_command(client : Client*, db_name : Int8*, flags : QueryFlags, skip : UInt32, limit : UInt32, batch_size : UInt32, query : BSON*, fields : BSON*, read_prefs : ReadPrefs*) : Cursor*
-  fun client_command_simple = mongoc_client_command_simple(client : Client*, db_name : Int8*, command : BSON*, read_prefs : ReadPrefs*, reply : BSON*, error : BSON_error*) : Bool
-  fun client_command_simple_with_server_id = mongoc_client_command_simple_with_server_id(client : Client*, db_name : Int8*, command : BSON*, read_prefs : ReadPrefs*, server_id : UInt32, reply : BSON*, error : BSON_error*) : Bool
-  fun client_command_with_opts = mongoc_client_command_with_opts(client : Client*, db_name : Int8*, command : BSON*, read_prefs : ReadPrefs*, opts : BSON*, reply : BSON*, error : BSON_error*) : Bool
+  fun client_command_simple = mongoc_client_command_simple(client : Client*, db_name : Int8*, command : BSON*, read_prefs : ReadPrefs*, reply : BSON*, error : BSONerror*) : Bool
+  fun client_command_simple_with_server_id = mongoc_client_command_simple_with_server_id(client : Client*, db_name : Int8*, command : BSON*, read_prefs : ReadPrefs*, server_id : UInt32, reply : BSON*, error : BSONerror*) : Bool
+  fun client_command_with_opts = mongoc_client_command_with_opts(client : Client*, db_name : Int8*, command : BSON*, read_prefs : ReadPrefs*, opts : BSON*, reply : BSON*, error : BSONerror*) : Bool
   fun client_destroy = mongoc_client_destroy(client : Client*) : Void
-  fun client_enable_auto_encryption = mongoc_client_enable_auto_encryption(client : Client*, opts : AutoEncryptionOpts* , error : BSON_error*) : Bool
+  fun client_enable_auto_encryption = mongoc_client_enable_auto_encryption(client : Client*, opts : AutoEncryptionOpts* , error : BSONerror*) : Bool
   fun client_find_databases_with_opts = mongoc_client_find_databases_with_opts(client : Client*, opts : BSON*) : Cursor*
   fun client_get_collection = mongoc_client_get_collection(client : Client*, db : UInt8*, collection : Int8*) : Collection*
   fun client_get_database = mongoc_client_get_database(client : Client*, name : UInt8*) : Database*
-  fun client_get_database_names = mongoc_client_get_database_names(client : Client*, error : BSON_error*) : Int8**
-  fun client_get_database_names_with_opts = mongoc_client_get_database_names_with_opts(client : Client*, opts : BSON*, error : BSON_error*) : Int8**
+  fun client_get_database_names = mongoc_client_get_database_names(client : Client*, error : BSONerror*) : Int8**
+  fun client_get_database_names_with_opts = mongoc_client_get_database_names_with_opts(client : Client*, opts : BSON*, error : BSONerror*) : Int8**
   fun client_get_default_database = mongoc_client_get_default_database(client : Client*) : Database*
-  fun client_get_gridfs = mongoc_client_get_gridfs(client : Client*, db : Int8*, prefix : Int8*, error : BSON_error*) : Gridfs*
+  fun client_get_gridfs = mongoc_client_get_gridfs(client : Client*, db : Int8*, prefix : Int8*, error : BSONerror*) : Gridfs*
   fun client_get_max_bson_size = mongoc_client_get_max_bson_size(client : Client*) : Int32
   fun client_get_max_message_size = mongoc_client_get_max_message_size(client : Client*) : Int32
   fun client_get_read_concern = mongoc_client_get_read_concern(client : Client*) : ReadConcern*
   fun client_get_read_prefs = mongoc_client_get_read_prefs(client : Client*) : ReadPrefs*
   fun client_get_server_description = mongoc_client_get_server_description(client : Client*, server_id : UInt32) : ServerDescription*
-  fun client_get_server_descriptions = mongoc_client_get_server_descriptions(client : Client*, n : SizeT*) : ServerDescription**
-  fun client_get_server_status = mongoc_client_get_server_status(client : Client*, read_prefs : ReadPrefs*, reply : BSON*, error : BSON_error*) : Bool # BSON_GNUC_DEPRECATED
+  # fun client_get_server_descriptions = mongoc_client_get_server_descriptions(client : Client*, n : SizeT*) : ServerDescription**
+  fun client_get_server_status = mongoc_client_get_server_status(client : Client*, read_prefs : ReadPrefs*, reply : BSON*, error : BSONerror*) : Bool # BSON_GNUC_DEPRECATED
   fun client_get_uri = mongoc_client_get_uri(client : Client*) : Uri*
   fun client_get_write_concern = mongoc_client_get_write_concern(client : Client*) : WriteConcern*
   fun client_new = mongoc_client_new(uri_string : UInt8*) : Client*
   fun client_new_from_uri = mongoc_client_new_from_uri(uri : Uri*) : Client*
-  fun client_read_command_with_opts = mongoc_client_read_command_with_opts(client : Client*, db_name : Int8*, command : BSON*, read_prefs : ReadPrefs*, opts : BSON*, reply : BSON*, error : BSON_error*) : Bool
-  fun client_read_write_command_with_opts = mongoc_client_read_write_command_with_opts(client : Client*, db_name : Int8*, command : BSON*, read_prefs : ReadPrefs*, opts : BSON*, reply : BSON*, error : BSON_error*) : Bool
+  fun client_read_command_with_opts = mongoc_client_read_command_with_opts(client : Client*, db_name : Int8*, command : BSON*, read_prefs : ReadPrefs*, opts : BSON*, reply : BSON*, error : BSONerror*) : Bool
+  fun client_read_write_command_with_opts = mongoc_client_read_write_command_with_opts(client : Client*, db_name : Int8*, command : BSON*, read_prefs : ReadPrefs*, opts : BSON*, reply : BSON*, error : BSONerror*) : Bool
   fun client_reset = mongoc_client_reset(client : Client*) : Void
-  fun client_select_server = mongoc_client_select_server(client : Client*, for_writes : Bool, prefs : ReadPrefs*, error : BSON_error*) : ServerDescription*
+  fun client_select_server = mongoc_client_select_server(client : Client*, for_writes : Bool, prefs : ReadPrefs*, error : BSONerror*) : ServerDescription*
   fun client_set_apm_callbacks = mongoc_client_set_apm_callbacks(client : Client*, callbacks : ApmCallbacks*, context : Void*) : Bool
   fun client_set_appname = mongoc_client_set_appname(client : Client*, appname : Int8*) : Bool
   fun client_set_error_api = mongoc_client_set_error_api(client : Client*, version : Int32) : Bool
@@ -205,9 +204,9 @@ lib LibMongoc
   #endif
   # fun client_set_stream_initiator = mongoc_client_set_stream_initiator(client : Client*, initiator : StreamInitiator, user_data : Void*) : Void
   fun client_set_write_concern = mongoc_client_set_write_concern(client : Client*, write_concern : WriteConcern*) : Void
-  fun client_start_session = mongoc_client_start_session(client : Client*, opts : SessionOpt*, error : BSON_error*) : ClientSession*
+  fun client_start_session = mongoc_client_start_session(client : Client*, opts : SessionOpt*, error : BSONerror*) : ClientSession*
   fun client_watch = mongoc_client_watch(client : Client*, pipeline : BSON*, opts : BSON*) : ChangeStream*
-  fun client_write_command_with_opts = mongoc_client_write_command_with_opts(client : Client*, db_name : Int8*, command : BSON*, opts : BSON*, reply : BSON*, error : BSON_error*) : Bool
+  fun client_write_command_with_opts = mongoc_client_write_command_with_opts(client : Client*, db_name : Int8*, command : BSON*, opts : BSON*, reply : BSON*, error : BSONerror*) : Bool
 
   ### mongoc_collection_t
   # typedef struct _mongoc_collection_t mongoc_collection_t;
@@ -215,30 +214,30 @@ lib LibMongoc
 
   fun collection_aggregate = mongoc_collection_aggregate(collection : Collection*, flags : QueryFlags, pipeline : BSON*, opts : BSON*, read_prefs : ReadPrefs*) : Cursor* # BSON_GNUC_WARN_UNUSED_RESULT
   fun collection_command = mongoc_collection_command(collection : Collection*, flags : QueryFlags, skip : UInt32, limit : UInt32, batch_size : UInt32, command : BSON*, fields : BSON*, read_prefs : ReadPrefs*) : Cursor* # BSON_GNUC_WARN_UNUSED_RESULT
-  fun collection_command_simple = mongoc_collection_command_simple(collection : Collection*, command : BSON*, read_prefs : ReadPrefs*, reply : BSON*, error : BSON_error*) : Bool
-  fun collection_command_with_opts = mongoc_collection_command_with_opts(collection : Collection*, command : BSON*, read_prefs : ReadPrefs*, opts : BSON*, reply : BSON*, error : BSON_error*) : Bool
+  fun collection_command_simple = mongoc_collection_command_simple(collection : Collection*, command : BSON*, read_prefs : ReadPrefs*, reply : BSON*, error : BSONerror*) : Bool
+  fun collection_command_with_opts = mongoc_collection_command_with_opts(collection : Collection*, command : BSON*, read_prefs : ReadPrefs*, opts : BSON*, reply : BSON*, error : BSONerror*) : Bool
   fun collection_copy = mongoc_collection_copy(collection : Collection*) : Collection*
-  fun collection_count_documents = mongoc_collection_count_documents(collection : Collection*, filter : BSON*, opts : BSON*, read_prefs : ReadPrefs*, reply : BSON*, error : BSON_error*) : Int64
-  fun collection_estimated_document_count = mongoc_collection_estimated_document_count(collection : Collection*, opts : BSON*, read_prefs : ReadPrefs*, reply : BSON*, error : BSON_error*) : Int64
-  fun collection_count = mongoc_collection_count(collection : Collection*, flags : QueryFlags, query : BSON*, skip : Int64, limit : Int64, read_prefs : ReadPrefs*, error : BSON_error*) : Int64 # BSON_GNUC_DEPRECATED_FOR(mongoc_collection_count_documents or mongoc_collection_estimated_document_count)
-  fun collection_count_with_opts = mongoc_collection_count_with_opts(collection : Collection*, flags : QueryFlags, query : BSON*, skip : Int64, limit : Int64, opts : BSON*, read_prefs : ReadPrefs*, error : BSON_error*) : Int64 # BSON_GNUC_DEPRECATED_FOR(mongoc_collection_count_documents or mongoc_collection_estimated_document_count)
+  fun collection_count_documents = mongoc_collection_count_documents(collection : Collection*, filter : BSON*, opts : BSON*, read_prefs : ReadPrefs*, reply : BSON*, error : BSONerror*) : Int64
+  fun collection_estimated_document_count = mongoc_collection_estimated_document_count(collection : Collection*, opts : BSON*, read_prefs : ReadPrefs*, reply : BSON*, error : BSONerror*) : Int64
+  fun collection_count = mongoc_collection_count(collection : Collection*, flags : QueryFlags, query : BSON*, skip : Int64, limit : Int64, read_prefs : ReadPrefs*, error : BSONerror*) : Int64 # BSON_GNUC_DEPRECATED_FOR(mongoc_collection_count_documents or mongoc_collection_estimated_document_count)
+  fun collection_count_with_opts = mongoc_collection_count_with_opts(collection : Collection*, flags : QueryFlags, query : BSON*, skip : Int64, limit : Int64, opts : BSON*, read_prefs : ReadPrefs*, error : BSONerror*) : Int64 # BSON_GNUC_DEPRECATED_FOR(mongoc_collection_count_documents or mongoc_collection_estimated_document_count)
   fun collection_create_bulk_operation = mongoc_collection_create_bulk_operation(collection : Collection*, ordered : Bool, write_concern : WriteConcern*) : BulkOperation* # BSON_GNUC_WARN_UNUSED_RESULT BSON_GNUC_DEPRECATED_FOR(mongoc_collection_create_bulk_operation_with_opts)
   fun collection_create_bulk_operation_with_opts = mongoc_collection_create_bulk_operation_with_opts(collection : Collection*, opts : BSON*) : BulkOperation* # BSON_GNUC_WARN_UNUSED_RESULT
-  fun collection_create_index = mongoc_collection_create_index(collection : Collection*, keys : BSON*, opt : IndexOpt*, error : BSON_error*) : Bool
-  fun collection_create_index_with_opts = mongoc_collection_create_index_with_opts(collection : Collection*, keys : BSON*, index_opts : IndexOpt*, command_opts : BSON*, reply : BSON*, error : BSON_error*) : Bool
-  fun collection_delete = mongoc_collection_delete(collection : Collection*, flags : DeleteFlags, selector : BSON*, write_concern : WriteConcern*, error : BSON_error*) : Bool # BSON_GNUC_DEPRECATED_FOR(mongoc_collection_delete_one or mongoc_collection_delete_many)
-  fun collection_delete_many = mongoc_collection_delete_many(collection : Collection*, selector : BSON*, opts : BSON*, reply : BSON*, error : BSON_error*) : Bool
-  fun collection_delete_one = mongoc_collection_delete_one(collection : Collection*, selector : BSON*, opts : BSON*, reply : BSON*, error : BSON_error*) : Bool
+  fun collection_create_index = mongoc_collection_create_index(collection : Collection*, keys : BSON*, opt : IndexOpt*, error : BSONerror*) : Bool
+  fun collection_create_index_with_opts = mongoc_collection_create_index_with_opts(collection : Collection*, keys : BSON*, index_opts : IndexOpt*, command_opts : BSON*, reply : BSON*, error : BSONerror*) : Bool
+  fun collection_delete = mongoc_collection_delete(collection : Collection*, flags : DeleteFlags, selector : BSON*, write_concern : WriteConcern*, error : BSONerror*) : Bool # BSON_GNUC_DEPRECATED_FOR(mongoc_collection_delete_one or mongoc_collection_delete_many)
+  fun collection_delete_many = mongoc_collection_delete_many(collection : Collection*, selector : BSON*, opts : BSON*, reply : BSON*, error : BSONerror*) : Bool
+  fun collection_delete_one = mongoc_collection_delete_one(collection : Collection*, selector : BSON*, opts : BSON*, reply : BSON*, error : BSONerror*) : Bool
   fun collection_destroy = mongoc_collection_destroy(collection : Collection*) : Void
-  fun collection_drop = mongoc_collection_drop(collection : Collection*, error : BSON_error*) : Bool
-  fun collection_drop_index = mongoc_collection_drop_index(collection : Collection*, index_name : Int8*, error : BSON_error*) : Bool
-  fun collection_drop_index_with_opts = mongoc_collection_drop_index_with_opts(collection : Collection*, index_name : Int8*, opts : BSON*, error : BSON_error*) : Bool
-  fun collection_drop_with_opts = mongoc_collection_drop_with_opts(collection : Collection*, opts : BSON*, error : BSON_error*) : Bool
-  fun collection_ensure_index = mongoc_collection_ensure_index(collection : Collection*, keys : BSON*, opt : IndexOpt*, error : BSON_error*) : Bool # BSON_GNUC_DEPRECATED
+  fun collection_drop = mongoc_collection_drop(collection : Collection*, error : BSONerror*) : Bool
+  fun collection_drop_index = mongoc_collection_drop_index(collection : Collection*, index_name : Int8*, error : BSONerror*) : Bool
+  fun collection_drop_index_with_opts = mongoc_collection_drop_index_with_opts(collection : Collection*, index_name : Int8*, opts : BSON*, error : BSONerror*) : Bool
+  fun collection_drop_with_opts = mongoc_collection_drop_with_opts(collection : Collection*, opts : BSON*, error : BSONerror*) : Bool
+  fun collection_ensure_index = mongoc_collection_ensure_index(collection : Collection*, keys : BSON*, opt : IndexOpt*, error : BSONerror*) : Bool # BSON_GNUC_DEPRECATED
   fun collection_find = mongoc_collection_find(collection : Collection*, flags : QueryFlags, skip : UInt32, limit : UInt32, batch_size : UInt32, query : BSON*, fields : BSON*, read_prefs : ReadPrefs*) : Cursor* # BSON_GNUC_DEPRECATED_FOR(mongoc_collection_find_with_opts) BSON_GNUC_WARN_UNUSED_RESULT
-  fun collection_find_and_modify = mongoc_collection_find_and_modify(collection : Collection*, query : BSON*, sort : BSON*, update : BSON*, fields : BSON*, _remove : Bool, upsert : Bool, _new : Bool, reply : BSON*, error : BSON_error*) : Bool
-  fun collection_find_and_modify_with_opts = mongoc_collection_find_and_modify_with_opts(collection : Collection*, query : BSON*, opts : FindAndModifyOpts*, reply : BSON*, error : BSON_error*) : Bool
-  fun collection_find_indexes = mongoc_collection_find_indexes(collection : Collection*, error : BSON_error*) : Cursor* 
+  fun collection_find_and_modify = mongoc_collection_find_and_modify(collection : Collection*, query : BSON*, sort : BSON*, update : BSON*, fields : BSON*, _remove : Bool, upsert : Bool, _new : Bool, reply : BSON*, error : BSONerror*) : Bool
+  fun collection_find_and_modify_with_opts = mongoc_collection_find_and_modify_with_opts(collection : Collection*, query : BSON*, opts : FindAndModifyOpts*, reply : BSON*, error : BSONerror*) : Bool
+  fun collection_find_indexes = mongoc_collection_find_indexes(collection : Collection*, error : BSONerror*) : Cursor* 
   fun collection_find_indexes_with_opts = mongoc_collection_find_indexes_with_opts(collection : Collection*, opts : BSON*) : Cursor*
   fun collection_find_with_opts = mongoc_collection_find_with_opts(collection : Collection*, filter : BSON*, opts : BSON*, read_prefs : ReadPrefs*) : Cursor* # BSON_GNUC_WARN_UNUSED_RESULT
   fun collection_get_last_error = mongoc_collection_get_last_error(collection : Collection*) : BSON*
@@ -246,27 +245,27 @@ lib LibMongoc
   fun collection_get_read_concern = mongoc_collection_get_read_concern(collection : Collection*) : ReadConcern*
   fun collection_get_read_prefs = mongoc_collection_get_read_prefs(collection : Collection*) : ReadPrefs*
   fun collection_get_write_concern = mongoc_collection_get_write_concern(collection : Collection*) : WriteConcern*
-  fun collection_insert = mongoc_collection_insert(collection : Collection*, flags : InsertFlags, document : BSON*, write_concern : WriteConcern*, error : BSON_error*) : Bool
-  fun collection_insert_bulk = mongoc_collection_insert_bulk(collection : Collection*, flags : InsertFlags, documents : BSON**, n_documents : UInt32, write_concern : WriteConcern*, error : BSON_error*) : Bool # BSON_GNUC_DEPRECATED_FOR(mongoc_collection_insert_many)
-  fun collection_insert_many = mongoc_collection_insert_many(collection : Collection*, documents : BSON**, n_documents : SizeT, opts : BSON*, reply : BSON*, error : BSON_error*) : Bool
-  fun collection_insert_one = mongoc_collection_insert_one(collection : Collection*, document : BSON*, opts : BSON*, reply : BSON*, error : BSON_error*) : Bool
+  fun collection_insert = mongoc_collection_insert(collection : Collection*, flags : InsertFlags, document : BSON*, write_concern : WriteConcern*, error : BSONerror*) : Bool
+  fun collection_insert_bulk = mongoc_collection_insert_bulk(collection : Collection*, flags : InsertFlags, documents : BSON**, n_documents : UInt32, write_concern : WriteConcern*, error : BSONerror*) : Bool # BSON_GNUC_DEPRECATED_FOR(mongoc_collection_insert_many)
+  # fun collection_insert_many = mongoc_collection_insert_many(collection : Collection*, documents : BSON**, n_documents : SizeT, opts : BSON*, reply : BSON*, error : BSONerror*) : Bool
+  fun collection_insert_one = mongoc_collection_insert_one(collection : Collection*, document : BSON*, opts : BSON*, reply : BSON*, error : BSONerror*) : Bool
   fun collection_keys_to_index_string = mongoc_collection_keys_to_index_string(keys : BSON*) : Int8*
-  fun collection_read_command_with_opts = mongoc_collection_read_command_with_opts(collection : Collection*, command : BSON*, read_prefs : ReadPrefs*, opts : BSON*, reply : BSON*, error : BSON_error*) : Bool
-  fun collection_read_write_command_with_opts = mongoc_collection_read_write_command_with_opts(collection : Collection*, command : BSON*, read_prefs : ReadPrefs*, opts : BSON*, reply : BSON*, error : BSON_error*) : Bool
-  fun collection_remove = mongoc_collection_remove(collection : Collection*, flags : RemoveFlags, selector : BSON*, write_concern : WriteConcern*, error : BSON_error*) : Bool
-  fun collection_rename = mongoc_collection_rename(collection : Collection*, new_db : Int8*, new_name : Int8*, drop_target_before_rename : Bool, error : BSON_error*) : Bool
-  fun collection_rename_with_opts = mongoc_collection_rename_with_opts(collection : Collection*, new_db : Int8, new_name : Int8, drop_target_before_rename : Bool, opts : BSON*, error : BSON_error*) : Bool
-  fun collection_replace_one = mongoc_collection_replace_one(collection : Collection*, selector : BSON*, replacement : BSON*, opts : BSON*, reply : BSON*, error : BSON_error*) : Bool
-  fun collection_save = mongoc_collection_save(collection : Collection*, document : BSON*, write_concern : WriteConcern*, error : BSON_error*) : Bool # BSON_GNUC_DEPRECATED_FOR(mongoc_collection_insert_one or mongoc_collection_replace_one)
+  fun collection_read_command_with_opts = mongoc_collection_read_command_with_opts(collection : Collection*, command : BSON*, read_prefs : ReadPrefs*, opts : BSON*, reply : BSON*, error : BSONerror*) : Bool
+  fun collection_read_write_command_with_opts = mongoc_collection_read_write_command_with_opts(collection : Collection*, command : BSON*, read_prefs : ReadPrefs*, opts : BSON*, reply : BSON*, error : BSONerror*) : Bool
+  fun collection_remove = mongoc_collection_remove(collection : Collection*, flags : RemoveFlags, selector : BSON*, write_concern : WriteConcern*, error : BSONerror*) : Bool
+  fun collection_rename = mongoc_collection_rename(collection : Collection*, new_db : Int8*, new_name : Int8*, drop_target_before_rename : Bool, error : BSONerror*) : Bool
+  fun collection_rename_with_opts = mongoc_collection_rename_with_opts(collection : Collection*, new_db : Int8, new_name : Int8, drop_target_before_rename : Bool, opts : BSON*, error : BSONerror*) : Bool
+  fun collection_replace_one = mongoc_collection_replace_one(collection : Collection*, selector : BSON*, replacement : BSON*, opts : BSON*, reply : BSON*, error : BSONerror*) : Bool
+  fun collection_save = mongoc_collection_save(collection : Collection*, document : BSON*, write_concern : WriteConcern*, error : BSONerror*) : Bool # BSON_GNUC_DEPRECATED_FOR(mongoc_collection_insert_one or mongoc_collection_replace_one)
   fun collection_set_read_concern = mongoc_collection_set_read_concern(collection : Collection*, read_concern : ReadConcern*) : Void
   fun collection_set_read_prefs = mongoc_collection_set_read_prefs(collection : Collection*, read_prefs : ReadPrefs*) : Void
   fun collection_set_write_concern = mongoc_collection_set_write_concern(collection : Collection*, write_concern : WriteConcern *) : Void
-  fun collection_stats = mongoc_collection_stats(collection : Collection*, options : BSON*, reply : BSON*, error : BSON_error*) : Bool # BSON_GNUC_DEPRECATED
-  fun collection_update = mongoc_collection_update(collection : Collection*, flags : UpdateFlags, selector : BSON*, update : BSON*, write_concern : WriteConcern*, error : BSON_error*) : Bool
-  fun collection_update_one = mongoc_collection_update_one(collection : Collection*, selector : BSON*, update : BSON*, opts : BSON*, reply : BSON*, error : BSON_error*) : Bool
-  fun collection_update_many = mongoc_collection_update_many(collection : Collection*, selector : BSON*, update : BSON*, opts : BSON*, reply : BSON*, error : BSON_error*) : Bool
-  fun collection_validate = mongoc_collection_validate(collection : Collection*, options : BSON*, reply : BSON*, error : BSON_error*) : Bool
-  fun collection_write_command_with_opts = mongoc_collection_write_command_with_opts(collection : Collection*, command : BSON*, opts : BSON*, reply : BSON*, error : BSON_error*) : Bool
+  fun collection_stats = mongoc_collection_stats(collection : Collection*, options : BSON*, reply : BSON*, error : BSONerror*) : Bool # BSON_GNUC_DEPRECATED
+  fun collection_update = mongoc_collection_update(collection : Collection*, flags : UpdateFlags, selector : BSON*, update : BSON*, write_concern : WriteConcern*, error : BSONerror*) : Bool
+  fun collection_update_one = mongoc_collection_update_one(collection : Collection*, selector : BSON*, update : BSON*, opts : BSON*, reply : BSON*, error : BSONerror*) : Bool
+  fun collection_update_many = mongoc_collection_update_many(collection : Collection*, selector : BSON*, update : BSON*, opts : BSON*, reply : BSON*, error : BSONerror*) : Bool
+  fun collection_validate = mongoc_collection_validate(collection : Collection*, options : BSON*, reply : BSON*, error : BSONerror*) : Bool
+  fun collection_write_command_with_opts = mongoc_collection_write_command_with_opts(collection : Collection*, command : BSON*, opts : BSON*, reply : BSON*, error : BSONerror*) : Bool
 
   ### mongoc_cursor_t
   # typedef struct _mongoc_cursor_t mongoc_cursor_t;
@@ -275,7 +274,7 @@ lib LibMongoc
   fun cursor_clone = mongoc_cursor_clone(cursor : Cursor*) : Cursor* # BSON_GNUC_WARN_UNUSED_RESULT
   fun cursor_current = mongoc_cursor_current(cursor : Cursor*) : BSON*
   fun cursor_destroy = mongoc_cursor_destroy(cursor : Cursor*) : Void
-  fun cursor_error = mongoc_cursor_error(cursor : Cursor*, error : BSON_error*) : Bool
+  fun cursor_error = mongoc_cursor_error(cursor : Cursor*, error : BSONerror*) : Bool
   fun cursor_error_document = mongoc_cursor_error_document(cursor : Cursor*, error : BSON*, reply : BSON**) : Bool
   fun cursor_get_batch_size = mongoc_cursor_get_batch_size(cursor : Cursor*) : UInt32
   fun cursor_get_hint = mongoc_cursor_get_hint(cursor : Cursor*) : UInt32
@@ -297,35 +296,35 @@ lib LibMongoc
   # typedef struct _mongoc_database_t mongoc_database_t;
   type Database = Void
 
-  fun database_add_user = mongoc_database_add_user(database : Database*, username : Int8*, password : Int8*, roles : BSON*, custom_data : BSON*, error : BSON_error*) : Bool
+  fun database_add_user = mongoc_database_add_user(database : Database*, username : Int8*, password : Int8*, roles : BSON*, custom_data : BSON*, error : BSONerror*) : Bool
   fun database_aggregate = mongoc_database_aggregate(database : Database*, pipeline : BSON*, opts : BSON *, read_prefs : ReadPrefs*) : Cursor* # BSON_GNUC_WARN_UNUSED_RESULT
   fun database_command = mongoc_database_command(database : Database*, flags : QueryFlags, skip : UInt32, limit : UInt32, batch_size : UInt32, command : BSON*, fields : BSON*, read_prefs : ReadPrefs*) : Cursor*
-  fun database_command_simple = mongoc_database_command_simple(database : Database*, command : BSON*, read_prefs : ReadPrefs*, reply : BSON*, error : BSON_error*) : Bool
-  fun database_command_with_opts = mongoc_database_command_with_opts(database : Database*, command : BSON*, read_prefs : ReadPrefs*, opts : BSON*, reply : BSON*, error : BSON_error*) : Bool
+  fun database_command_simple = mongoc_database_command_simple(database : Database*, command : BSON*, read_prefs : ReadPrefs*, reply : BSON*, error : BSONerror*) : Bool
+  fun database_command_with_opts = mongoc_database_command_with_opts(database : Database*, command : BSON*, read_prefs : ReadPrefs*, opts : BSON*, reply : BSON*, error : BSONerror*) : Bool
   fun database_copy = mongoc_(database : Database*) : Database*
-  fun database_create_collection = mongoc_database_create_collection(database : Database*, name : Int8*, opts : BSON*, error : BSON_error*) : Collection*
+  fun database_create_collection = mongoc_database_create_collection(database : Database*, name : Int8*, opts : BSON*, error : BSONerror*) : Collection*
   fun database_destroy = mongoc_database_destroy(database : Database*) : Void
-  fun database_drop = mongoc_database_drop(database : Database*, error : BSON_error*) : Bool
-  fun database_drop_with_opts = mongoc_database_drop_with_opts(database : Database*, opts : BSON*, error : BSON_error*) : Bool
-  fun database_find_collections = mongoc_database_find_collections(database : Database*, filter : BSON*, error : BSON_error*) : Cursor* # BSON_GNUC_DEPRECATED_FOR(mongoc_database_find_collections_with_opts)
+  fun database_drop = mongoc_database_drop(database : Database*, error : BSONerror*) : Bool
+  fun database_drop_with_opts = mongoc_database_drop_with_opts(database : Database*, opts : BSON*, error : BSONerror*) : Bool
+  fun database_find_collections = mongoc_database_find_collections(database : Database*, filter : BSON*, error : BSONerror*) : Cursor* # BSON_GNUC_DEPRECATED_FOR(mongoc_database_find_collections_with_opts)
   fun database_find_collections_with_opts = mongoc_database_find_collections_with_opts(database : Database*, opts : BSON*) : Cursor*
   fun database_get_collection = mongoc_database_get_collection(database : Database*, name : UInt8*) : Collection*
-  fun database_get_collection_names = mongoc_database_get_collection_names(database : Database*, error : BSON_error*) : Int8**
-  fun database_get_collection_names_with_opts = mongoc_database_get_collection_names_with_opts(database : Database*, opts : BSON*, error : BSON_error*) : Int8**
+  fun database_get_collection_names = mongoc_database_get_collection_names(database : Database*, error : BSONerror*) : Int8**
+  fun database_get_collection_names_with_opts = mongoc_database_get_collection_names_with_opts(database : Database*, opts : BSON*, error : BSONerror*) : Int8**
   fun database_get_name = mongoc_database_get_name(database : Database*) : UInt8*
   fun database_get_read_concern = mongoc_database_get_read_concern(database : Database*) : ReadConcern*
   fun database_get_read_prefs = mongoc_database_get_read_prefs(database : Database*) : ReadPrefs*
   fun database_get_write_concern = mongoc_database_get_write_concern(database : Database*) : WriteConcern*
-  fun database_has_collection = mongoc_database_has_collection(database : Database*, name : Int8*, error : BSON_error*) : Bool
-  fun database_read_command_with_opts = mongoc_database_read_command_with_opts(database : Database*, command : BSON*, read_prefs : ReadPrefs*, opts : BSON*, reply : BSON*, error : BSON_error*) : Bool
-  fun database_read_write_command_with_opts = mongoc_database_read_write_command_with_opts(database : Database*, command : BSON*, read_prefs : ReadPrefs*, opts : BSON*, reply : BSON*, error : BSON_error*) : Bool
-  fun database_remove_all_users = mongoc_database_remove_all_users(database : Database*, error : BSON_error*) : Bool
-  fun database_remove_user = mongoc_database_remove_user(database : Database*, username : Int8*, error : BSON_error*) : Bool
+  fun database_has_collection = mongoc_database_has_collection(database : Database*, name : Int8*, error : BSONerror*) : Bool
+  fun database_read_command_with_opts = mongoc_database_read_command_with_opts(database : Database*, command : BSON*, read_prefs : ReadPrefs*, opts : BSON*, reply : BSON*, error : BSONerror*) : Bool
+  fun database_read_write_command_with_opts = mongoc_database_read_write_command_with_opts(database : Database*, command : BSON*, read_prefs : ReadPrefs*, opts : BSON*, reply : BSON*, error : BSONerror*) : Bool
+  fun database_remove_all_users = mongoc_database_remove_all_users(database : Database*, error : BSONerror*) : Bool
+  fun database_remove_user = mongoc_database_remove_user(database : Database*, username : Int8*, error : BSONerror*) : Bool
   fun database_set_read_concern = mongoc_database_set_read_concern(database : Database*, read_concern : ReadConcern*) : Void
   fun database_set_read_prefs = mongoc_database_set_read_prefs(database : Database*, read_prefs : ReadPrefs*) : Void
   fun database_set_write_concern = mongoc_database_set_write_concern(database : Database*, write_concern : WriteConcern*) : Void
   fun database_watch = mongoc_database_watch(db : Database*, pipeline : BSON*, opts : BSON*) : ChangeStream*
-  fun database_write_command_with_opts = mongoc_database_write_command_with_opts(database : Database*, command : BSON*, opts : BSON*, reply : BSON*, error : BSON_error*) : Bool 
+  fun database_write_command_with_opts = mongoc_database_write_command_with_opts(database : Database*, command : BSON*, opts : BSON*, reply : BSON*, error : BSONerror*) : Bool 
 
   ### mongoc_delete_flags_t
   enum DeleteFlags
@@ -357,7 +356,7 @@ lib LibMongoc
   type GridfsFileList = Void
 
   fun gridfs_file_list_destroy = mongoc_gridfs_file_list_destroy(list : GridfsFileList*) : Void
-  fun gridfs_file_list_error = mongoc_gridfs_file_list_error(list : GridfsFileList*, error : BSON_error*) : Bool
+  fun gridfs_file_list_error = mongoc_gridfs_file_list_error(list : GridfsFileList*, error : BSONerror*) : Bool
   fun gridfs_file_list_next = mongoc_gridfs_file_list_next(list : GridfsFileList*) : GridfsFile*
 
   ### mongoc_gridfs_file_opt_t
@@ -375,24 +374,24 @@ lib LibMongoc
   type GridfsFile = Void
 
   fun gridfs_file_destroy = mongoc_gridfs_file_destroy(file : GridfsFile*) : Void
-  fun gridfs_file_error = mongoc_gridfs_file_error(file : GridfsFile*, error : BSON_error*) : Bool
+  fun gridfs_file_error = mongoc_gridfs_file_error(file : GridfsFile*, error : BSONerror*) : Bool
   fun gridfs_file_get_aliases = mongoc_gridfs_file_get_aliases(file : GridfsFile*) : BSON*
   fun gridfs_file_get_chunk_size = mongoc_gridfs_file_get_chunk_size(file : GridfsFile*) : Int32
   fun gridfs_file_get_content_type = mongoc_gridfs_file_get_content_type(file : GridfsFile*) : Int8*
   fun gridfs_file_get_filename = mongoc_gridfs_file_get_filename(file : GridfsFile*) : Int8*
-  fun gridfs_file_get_id = mongoc_gridfs_file_get_id(file : GridfsFile*) : BSON_value*
+  fun gridfs_file_get_id = mongoc_gridfs_file_get_id(file : GridfsFile*) : BSONvalue*
   fun gridfs_file_get_length = mongoc_gridfs_file_get_length(file : GridfsFile*) : Int64
   fun gridfs_file_get_md5 = mongoc_gridfs_file_get_md5(file : GridfsFile*) : Int8*
   fun gridfs_file_get_metadata = mongoc_gridfs_file_get_metadata(file : GridfsFile*) : BSON*
   fun gridfs_file_get_upload_date = mongoc_gridfs_file_get_upload_date(file : GridfsFile*) : Int64
   # fun gridfs_file_readv = mongoc_gridfs_file_readv(file : GridfsFile*, iov : Iovec*, iovcnt : SizeT, min_bytes : SizeT, timeout_msec : UInt32) : SSizeT
-  fun gridfs_file_remove = mongoc_gridfs_file_remove(file : GridfsFile*, error : BSON_error*) : Bool
+  fun gridfs_file_remove = mongoc_gridfs_file_remove(file : GridfsFile*, error : BSONerror*) : Bool
   fun gridfs_file_save = mongoc_gridfs_file_save(file : GridfsFile*) : Bool
   fun gridfs_file_seek = mongoc_gridfs_file_seek(file : GridfsFile*, delta : Int64, whence : Int32) : Int32
   fun gridfs_file_set_aliases = mongoc_gridfs_file_set_aliases(file : GridfsFile*, bson : BSON*) : Void
   fun gridfs_file_set_content_type = mongoc_gridfs_file_set_content_type(file : GridfsFile*, content_type : Int8*) : Void
   fun gridfs_file_set_filename = mongoc_gridfs_file_set_filename(file : GridfsFile*, filename : Int8*) : Void
-  # fun gridfs_file_set_id = mongoc_gridfs_file_set_id(file : GridfsFile*, id : BSON_value*, error : BSON_error) : Bool
+  # fun gridfs_file_set_id = mongoc_gridfs_file_set_id(file : GridfsFile*, id : BSONvalue*, error : BSONerror) : Bool
   fun gridfs_file_set_md5 = mongoc_gridfs_file_set_md5(file : GridfsFile*, md5 : Int8*) : Void
   fun gridfs_file_set_metadata = mongoc_gridfs_file_set_metadata(file : GridfsFile*, metadata : BSON*) : Void
   fun gridfs_file_tell = mongoc_gridfs_file_tell(file : GridfsFile*) : UInt64
@@ -404,17 +403,17 @@ lib LibMongoc
   type GridfsBucket = Void
 
   fun gridfs_bucket_abort_upload = mongoc_gridfs_bucket_abort_upload(stream : Stream*) : Bool
-  fun gridfs_bucket_delete_by_id = mongoc_gridfs_bucket_delete_by_id(bucket : GridfsBucket*, file_id : BSON_value*, error : BSON_error*) : Bool
+  fun gridfs_bucket_delete_by_id = mongoc_gridfs_bucket_delete_by_id(bucket : GridfsBucket*, file_id : BSONvalue*, error : BSONerror*) : Bool
   fun gridfs_bucket_destroy = mongoc_gridfs_bucket_destroy(bucket : GridfsBucket*) : Void
-  fun gridfs_bucket_download_to_stream = mongoc_gridfs_bucket_download_to_stream(bucket : GridfsBucket*, file_id : BSON_value*, destination : Stream*, error : BSON_error*) : Bool
+  fun gridfs_bucket_download_to_stream = mongoc_gridfs_bucket_download_to_stream(bucket : GridfsBucket*, file_id : BSONvalue*, destination : Stream*, error : BSONerror*) : Bool
   fun gridfs_bucket_find = mongoc_gridfs_bucket_find(bucket : GridfsBucket*, filter : BSON*, opts : BSON*) : Cursor*
-  fun gridfs_bucket_new = mongoc_gridfs_bucket_new(db : Database*, opts : BSON*, read_prefs : ReadPrefs*, error : BSON_error*) : GridfsBucket*
-  fun gridfs_bucket_open_download_stream = mongoc_gridfs_bucket_open_download_stream(bucket : GridfsBucket*, file_id : BSON_value*, error : BSON_error*) : Stream*
-  fun gridfs_bucket_open_upload_stream = mongoc_gridfs_bucket_open_upload_stream(bucket : GridfsBucket*, filename : Int8*, opts : BSON*, file_id : BSON_value*, error : BSON_error*) : Stream*
-  fun gridfs_bucket_open_upload_stream_with_id = mongoc_gridfs_bucket_open_upload_stream_with_id(bucket : GridfsBucket*, file_id : BSON_value*, filename : Int8*, opts : BSON*, error : BSON_error*) : Stream*
-  fun gridfs_bucket_stream_error = mongoc_gridfs_bucket_stream_error(stream : Stream*, error : BSON_error*) : Bool
-  fun gridfs_bucket_upload_from_stream = mongoc_gridfs_bucket_upload_from_stream(bucket : GridfsBucket*, filename : Int8*, source : Stream*, opts : BSON*, file_id : BSON_value*, error : BSON_error*) : Bool
-  fun gridfs_bucket_upload_from_stream_with_id = mongoc_gridfs_bucket_upload_from_stream_with_id(bucket : GridfsBucket*, file_id : BSON_value*, filename : Int8*, source : Stream*, opts : BSON*, error : BSON_error*) : Bool
+  fun gridfs_bucket_new = mongoc_gridfs_bucket_new(db : Database*, opts : BSON*, read_prefs : ReadPrefs*, error : BSONerror*) : GridfsBucket*
+  fun gridfs_bucket_open_download_stream = mongoc_gridfs_bucket_open_download_stream(bucket : GridfsBucket*, file_id : BSONvalue*, error : BSONerror*) : Stream*
+  fun gridfs_bucket_open_upload_stream = mongoc_gridfs_bucket_open_upload_stream(bucket : GridfsBucket*, filename : Int8*, opts : BSON*, file_id : BSONvalue*, error : BSONerror*) : Stream*
+  fun gridfs_bucket_open_upload_stream_with_id = mongoc_gridfs_bucket_open_upload_stream_with_id(bucket : GridfsBucket*, file_id : BSONvalue*, filename : Int8*, opts : BSON*, error : BSONerror*) : Stream*
+  fun gridfs_bucket_stream_error = mongoc_gridfs_bucket_stream_error(stream : Stream*, error : BSONerror*) : Bool
+  fun gridfs_bucket_upload_from_stream = mongoc_gridfs_bucket_upload_from_stream(bucket : GridfsBucket*, filename : Int8*, source : Stream*, opts : BSON*, file_id : BSONvalue*, error : BSONerror*) : Bool
+  fun gridfs_bucket_upload_from_stream_with_id = mongoc_gridfs_bucket_upload_from_stream_with_id(bucket : GridfsBucket*, file_id : BSONvalue*, filename : Int8*, source : Stream*, opts : BSON*, error : BSONerror*) : Bool
 
   ### mongoc_gridfs_t
   # typedef struct _mongoc_gridfs_t mongoc_gridfs_t;
@@ -423,15 +422,15 @@ lib LibMongoc
   fun gridfs_create_file = mongoc_gridfs_create_file(gridfs : Gridfs*, opt : GridfsFileOpt*) : GridfsFile*
   fun gridfs_create_file_from_stream = mongoc_gridfs_create_file_from_stream(gridfs : Gridfs*, stream : Stream*, opt : GridfsFileOpt*) : GridfsFile*
   fun gridfs_destroy = mongoc_gridfs_destroy(gridfs : Gridfs*) : Void
-  fun gridfs_drop = mongoc_gridfs_drop(gridfs : Gridfs*, error : BSON_error*) : Bool
+  fun gridfs_drop = mongoc_gridfs_drop(gridfs : Gridfs*, error : BSONerror*) : Bool
   fun gridfs_find = mongoc_gridfs_find(gridfs : Gridfs*, query : BSON*) : GridfsFileList* # BSON_GNUC_DEPRECATED_FOR(mongoc_gridfs_find_with_opts)
-  fun gridfs_find_one = mongoc_gridfs_find_one(gridfs : Gridfs*, query : BSON*, error : BSON_error*) : GridfsFile* # BSON_GNUC_DEPRECATED_FOR (mongoc_gridfs_find_one_with_opts);
-  fun gridfs_find_one_by_filename = mongoc_gridfs_find_one_by_filename(gridfs : Gridfs*, filename : Int8*, error : BSON_error*) : GridfsFile*
-  fun gridfs_find_one_with_opts = mongoc_gridfs_find_one_with_opts(gridfs : Gridfs*, filter : BSON*, opts : BSON*, error : BSON_error*) : GridfsFile* # BSON_GNUC_WARN_UNUSED_RESULT;
+  fun gridfs_find_one = mongoc_gridfs_find_one(gridfs : Gridfs*, query : BSON*, error : BSONerror*) : GridfsFile* # BSON_GNUC_DEPRECATED_FOR (mongoc_gridfs_find_one_with_opts);
+  fun gridfs_find_one_by_filename = mongoc_gridfs_find_one_by_filename(gridfs : Gridfs*, filename : Int8*, error : BSONerror*) : GridfsFile*
+  fun gridfs_find_one_with_opts = mongoc_gridfs_find_one_with_opts(gridfs : Gridfs*, filter : BSON*, opts : BSON*, error : BSONerror*) : GridfsFile* # BSON_GNUC_WARN_UNUSED_RESULT;
   fun gridfs_find_with_opts = mongoc_gridfs_find_with_opts(gridfs : Gridfs*, filter : BSON*, opts : BSON*) : GridfsFileList* # BSON_GNUC_WARN_UNUSED_RESULT;
   fun gridfs_get_chunks = mongoc_gridfs_get_chunks(gridfs : Gridfs*) : Collection*
   fun gridfs_get_files = mongoc_gridfs_get_files(gridfs : Gridfs*) : Collection*
-  fun gridfs_remove_by_filename = mongoc_gridfs_remove_by_filename(gridfs : Gridfs*, filename : Int8*, error : BSON_error*) : Bool
+  fun gridfs_remove_by_filename = mongoc_gridfs_remove_by_filename(gridfs : Gridfs*, filename : Int8*, error : BSONerror*) : Bool
 
   ### mongoc_host_list_t
   type HostList = Void
@@ -516,7 +515,7 @@ lib LibMongoc
 
   fun matcher_destroy = mongoc_matcher_destroy(matcher : Matcher*) : Void
   fun matcher_match = mongoc_matcher_match(matcher : Matcher*, document : BSON*) : Bool
-  fun matcher_new = mongoc_matcher_new(query : BSON*, error : BSON_error*) : Matcher*
+  fun matcher_new = mongoc_matcher_new(query : BSON*, error : BSONerror*) : Matcher*
 
   ### mongoc_query_flags_t
   enum QueryFlags
@@ -597,7 +596,7 @@ lib LibMongoc
   fun server_description_new_copy = mongoc_server_description_new_copy(description : ServerDescription*) : ServerDescription*
   fun server_description_round_trip_time = mongoc_server_description_round_trip_time(description : ServerDescription*) : Int64
   fun server_description_type = mongoc_server_description_type(description : ServerDescription*) : Int8*
-  fun server_descriptions_destroy_all = mongoc_server_descriptions_destroy_all(sds : ServerDescription**, n : SizeT) : Void
+  # fun server_descriptions_destroy_all = mongoc_server_descriptions_destroy_all(sds : ServerDescription**, n : SizeT) : Void
 
   ### mongoc_session_opt_t
   # typedef struct _mongoc_session_opt_t mongoc_session_opt_t;
@@ -626,8 +625,8 @@ lib LibMongoc
   # fun socket_getsockname = mongoc_socket_getsockname(sock : Socket*, struct sockaddr *addr, mongoc_socklen_t *addrlen) : Int32
   fun socket_listen = mongoc_socket_listen(sock : Socket*, backlog : UInt32) : Int32
   fun socket_new = mongoc_socket_new(domain : Int32, type : Int32, protocol : Int32) : Socket*
-  fun socket_recv = mongoc_socket_recv(sock : Socket*, buf : Void*, buflen : SizeT, flags : Int32, expire_at : Int64) : SSizeT
-  fun socket_send = mongoc_socket_send(sock : Socket*, buf : Void*, buflen : SizeT, expire_at : Int64) : SSizeT
+  # fun socket_recv = mongoc_socket_recv(sock : Socket*, buf : Void*, buflen : SizeT, flags : Int32, expire_at : Int64) : SSizeT
+  # fun socket_send = mongoc_socket_send(sock : Socket*, buf : Void*, buflen : SizeT, expire_at : Int64) : SSizeT
   # fun socket_sendv = mongoc_socket_sendv(sock : Socket*, iov : Iovec*, iovcnt : SizeT, expire_at : Int64) : SSizeT
   # fun socket_setsockopt = mongoc_socket_setsockopt(sock : Socket*, level : Int32, optname : Int32, optval : Void*, optlen : Socklen) : Int32
 
@@ -649,7 +648,7 @@ lib LibMongoc
   # typedef struct _mongoc_stream_buffered_t mongoc_stream_buffered_t
   type StreamBuffered = Void
 
-  fun stream_buffered_new = mongoc_stream_buffered_new(base_stream : Stream*, buffer_size : SizeT) : Stream*
+  # fun stream_buffered_new = mongoc_stream_buffered_new(base_stream : Stream*, buffer_size : SizeT) : Stream*
   fun stream_destroy = mongoc_stream_destroy(stream : Stream*) : Void
 
   ### mongoc_stream_file_t
@@ -671,19 +670,19 @@ lib LibMongoc
   # typedef struct _mongoc_stream_t mongoc_stream_t
   type Stream = Void
 
-  fun stream_buffered_new = mongoc_stream_buffered_new(base_stream : Stream*, buffer_size : SizeT) : Stream*
+  # fun stream_buffered_new = mongoc_stream_buffered_new(base_stream : Stream*, buffer_size : SizeT) : Stream*
   fun stream_close = mongoc_stream_close(stream : Stream*) : Int32
   fun stream_cork = mongoc_stream_cork(stream : Stream*) : Int32
   fun stream_destroy = mongoc_stream_destroy(stream : Stream*) : Void
   fun stream_flush = mongoc_stream_flush(stream : Stream*) : Int32
   fun stream_get_base_stream = mongoc_stream_get_base_stream(stream : Stream*) : Stream*
-  fun stream_read = mongoc_stream_read(stream : Stream*, buf : Void*, count : SizeT, min_bytes : SizeT, timeout_msec : Int32) : SSizeT
+  # fun stream_read = mongoc_stream_read(stream : Stream*, buf : Void*, count : SizeT, min_bytes : SizeT, timeout_msec : Int32) : SSizeT
   # fun stream_readv = mongoc_stream_readv(stream : Stream*, iov : Iovec*, iovcnt : SizeT, min_bytes : SizeT, timeout_msec : Int32) : SSizeT
   # fun stream_setsockopt = mongoc_stream_setsockopt(stream : Stream*, level : Int32, optname : Int32, optval : Void*, optlen : Socklen) : Int32
   fun stream_should_retry = mongoc_stream_should_retry(stream : Stream*) : Bool
   fun stream_timed_out = mongoc_stream_timed_out(stream : Stream*) : Bool
   fun stream_uncork = mongoc_stream_uncork(stream : Stream*) : Int32
-  fun stream_write = mongoc_stream_write(stream : Stream*, buf : Void*, count : SizeT, timeout_msec : Int32) : SSizeT
+  # fun stream_write = mongoc_stream_write(stream : Stream*, buf : Void*, count : SizeT, timeout_msec : Int32) : SSizeT
   # fun stream_writev = mongoc_stream_writev(stream : Stream*, iov : Iovec*, iovcnt : SizeT, timeout_msec : Int32) : SSizeT
 
   ### mongoc_stream_tls_t
@@ -694,7 +693,7 @@ lib LibMongoc
   # typedef struct _mongoc_topology_description_t mongoc_topology_description_t;
   type TopologyDescription = Void
 
-  fun topology_description_get_servers = mongoc_topology_description_get_servers(td : TopologyDescription*, n : SizeT*) : ServerDescription**
+  # fun topology_description_get_servers = mongoc_topology_description_get_servers(td : TopologyDescription*, n : SizeT*) : ServerDescription**
   fun topology_description_has_readable_server = mongoc_topology_description_has_readable_server(td : TopologyDescription*, prefs : ReadPrefs*) : Bool
   fun topology_description_has_writable_server = mongoc_topology_description_has_writable_server(td : TopologyDescription*) : Bool
   fun topology_description_type = mongoc_topology_description_type(td : TopologyDescription*) : Int8*
@@ -762,7 +761,7 @@ lib LibMongoc
   fun uri_get_write_concern = mongoc_uri_get_write_concern(uri : Uri*) : WriteConcern*
   fun uri_new = mongoc_uri_new(uri_string : Int8*) : Uri* # BSON_GNUC_WARN_UNUSED_RESULT
   fun uri_new_for_host_port = mongoc_uri_new_for_host_port(hostname : Int8*, port : UInt16) : Uri*
-  fun uri_new_with_error = mongoc_uri_new_with_error(uri_string : Int8*, error : BSON_error*) : Uri* # BSON_GNUC_WARN_UNUSED_RESULT
+  fun uri_new_with_error = mongoc_uri_new_with_error(uri_string : Int8*, error : BSONerror*) : Uri* # BSON_GNUC_WARN_UNUSED_RESULT
   fun uri_option_is_bool = mongoc_uri_option_is_bool(option : Int8*) : Bool
   fun uri_option_is_int32 = mongoc_uri_option_is_int32(option : Int8*) : Bool
   fun uri_option_is_int64 = mongoc_uri_option_is_int64(option : Int8*) : Bool
@@ -791,7 +790,23 @@ lib LibMongoc
   fun get_version = mongoc_get_version : Int8*
 
   ### mongoc_write_concern_t
-  type WriteConcern = Void
+
+  #define MONGOC_WRITE_CONCERN_W_UNACKNOWLEDGED 0
+  #define MONGOC_WRITE_CONCERN_W_ERRORS_IGNORED -1 /* deprecated */
+  #define MONGOC_WRITE_CONCERN_W_DEFAULT -2
+  #define MONGOC_WRITE_CONCERN_W_MAJORITY -3
+  #define MONGOC_WRITE_CONCERN_W_TAG -4
+
+  struct WriteConcern
+    fsync_ : Int8 # deprecated
+    journal : Int8
+    w : Int32
+    wtimeout : UInt64
+    wtag : Int8*
+    frozen : Bool
+    # compiled : BSON
+    is_default : Bool
+  end
 
   fun write_concern_append = mongoc_write_concern_append(write_concern : WriteConcern*, command : BSON*) : Bool
   fun write_concern_copy = mongoc_write_concern_copy(write_concern : WriteConcern*) : WriteConcern*
@@ -815,4 +830,5 @@ lib LibMongoc
   fun write_concern_set_wtag = mongoc_write_concern_set_wtag(write_concern : WriteConcern*, tag : Int8*) : Void
   fun write_concern_set_wtimeout = mongoc_write_concern_set_wtimeout(write_concern : WriteConcern*, wtimeout_msec : Int32) : Void
   fun write_concern_set_wtimeout_int64 = mongoc_write_concern_set_wtimeout_int64(write_concern : WriteConcern*, wtimeout_msec : Int64) : Void
+end
 end

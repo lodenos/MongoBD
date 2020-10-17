@@ -2,7 +2,7 @@
 
 Binding of MongoDB in Crystal
 
-http://mongoc.org/libmongoc/1.16.2/api.html
+http://mongoc.org/libmongoc/1.17.1/api.html
 
 ## Installation
 

@@ -1,113 +1,117 @@
 @[Link(ldflags: "-lmongoc-1.0")]
-lib LibMongoc
-  alias TimeT = UInt64
-  alias SusecondsT = UInt64
-  alias Unichar = UInt32
+lib LibBSON
+  # alias TimeT = UInt64
+  # alias SusecondsT = UInt64
+  # alias Unichar = UInt32
 
-  type Context = Void
-  type Iter = Void
-  type JsonReader = Void
-  type Off = Void
-  type Reader = Void
-  type SizeT = UInt64
-  type SSizeT = Int64
-  type Value = Void
+  # type Context = Void
+  # type Iter = Void
+  # type JsonReader = Void
+  # type Off = Void
+  # type Reader = Void
+  # type SizeT = UInt64
+  # type SSizeT = Int64
+  # type Value = Void
 
-  enum ContextFlags
-    CONTEXT_NONE = 0
-    CONTEXT_THREAD_SAFE = 1 << 0
-    CONTEXT_DISABLE_HOST_CACHE = 1 << 1
-    CONTEXT_DISABLE_PID_CACHE = 1 << 2
-    #ifdef BSON_HAVE_SYSCALL_TID
-    CONTEXT_USE_TASK_ID = 1 << 3
-    #endif
-  end
+  type BSON = Void
+  # type BSONerror = Void
+  # type BSONvalue = Void
 
-  enum Subtype
-    BINARY = 0x00
-    FUNCTION = 0x01
-    BINARY_DEPRECATED = 0x02
-    UUID_DEPRECATED = 0x03
-    UUID = 0x04
-    MD5 = 0x05
-    USER = 0x80
-  end
+  # enum ContextFlags
+  #   CONTEXT_NONE = 0
+  #   CONTEXT_THREAD_SAFE = 1 << 0
+  #   CONTEXT_DISABLE_HOST_CACHE = 1 << 1
+  #   CONTEXT_DISABLE_PID_CACHE = 1 << 2
+  #   #ifdef BSON_HAVE_SYSCALL_TID
+  #   CONTEXT_USE_TASK_ID = 1 << 3
+  #   #endif
+  # end
 
-  enum ValidateFlags
-    VALIDATE_NONE = 0
-    VALIDATE_UTF8 = 1 << 0
-    VALIDATE_DOLLAR_KEYS = 1 << 1
-    VALIDATE_DOT_KEYS = 1 << 2
-    VALIDATE_UTF8_ALLOW_NULL = 1 << 3
-    VALIDATE_EMPTY_KEYS = 1 << 4
-  end
+  # enum Subtype
+  #   BINARY = 0x00
+  #   FUNCTION = 0x01
+  #   BINARY_DEPRECATED = 0x02
+  #   UUID_DEPRECATED = 0x03
+  #   UUID = 0x04
+  #   MD5 = 0x05
+  #   USER = 0x80
+  # end
 
-  enum Type
-    EOD = 0x00
-    DOUBLE = 0x01
-    UTF8 = 0x02
-    DOCUMENT = 0x03
-    ARRAY = 0x04
-    BINARY = 0x05
-    UNDEFINED = 0x06
-    OID = 0x07
-    BOOL = 0x08
-    DATE_TIME = 0x09
-    NULL = 0x0A
-    REGEX = 0x0B
-    DBPOINTER = 0x0C
-    CODE = 0x0D
-    SYMBOL = 0x0E
-    CODEWSCOPE = 0x0F
-    INT32 = 0x10
-    TIMESTAMP = 0x11
-    INT64 = 0x12
-    MAXKEY = 0x7F
-    MINKEY = 0xFF
-  end
+  # enum ValidateFlags
+  #   VALIDATE_NONE = 0
+  #   VALIDATE_UTF8 = 1 << 0
+  #   VALIDATE_DOLLAR_KEYS = 1 << 1
+  #   VALIDATE_DOT_KEYS = 1 << 2
+  #   VALIDATE_UTF8_ALLOW_NULL = 1 << 3
+  #   VALIDATE_EMPTY_KEYS = 1 << 4
+  # end
 
-  enum JsonError
-    JSON_ERROR_READ_CORRUPT_JS = 1
-    JSON_ERROR_READ_INVALID_PARAM
-    JSON_ERROR_READ_CB_FAILURE
-  end
+  # enum Type
+  #   EOD = 0x00
+  #   DOUBLE = 0x01
+  #   UTF8 = 0x02
+  #   DOCUMENT = 0x03
+  #   ARRAY = 0x04
+  #   BINARY = 0x05
+  #   UNDEFINED = 0x06
+  #   OID = 0x07
+  #   BOOL = 0x08
+  #   DATE_TIME = 0x09
+  #   NULL = 0x0A
+  #   REGEX = 0x0B
+  #   DBPOINTER = 0x0C
+  #   CODE = 0x0D
+  #   SYMBOL = 0x0E
+  #   CODEWSCOPE = 0x0F
+  #   INT32 = 0x10
+  #   TIMESTAMP = 0x11
+  #   INT64 = 0x12
+  #   MAXKEY = 0x7F
+  #   MINKEY = 0xFF
+  # end
 
-  struct BString
-    str : UInt8*
-    len : UInt32
-    alloc : UInt32
-  end
+  # enum JsonError
+  #   JSON_ERROR_READ_CORRUPT_JS = 1
+  #   JSON_ERROR_READ_INVALID_PARAM
+  #   JSON_ERROR_READ_CB_FAILURE
+  # end
 
-  struct Decimal128
-    #if BSON_BYTE_ORDER == BSON_LITTLE_ENDIAN
-    # uint64_t low;
-    # uint64_t high;
-    #elif BSON_BYTE_ORDER == BSON_BIG_ENDIAN
-    high : UInt64;
-    low : UInt64;
-    #endif
-  end
+  # struct BString
+  #   str : UInt8*
+  #   len : UInt32
+  #   alloc : UInt32
+  # end
 
-  struct Error
-    domain : UInt32
-    code : UInt32
-    message : UInt8[504]
-  end
+  # struct Decimal128
+  #   #if BSON_BYTE_ORDER == BSON_LITTLE_ENDIAN
+  #   # uint64_t low;
+  #   # uint64_t high;
+  #   #elif BSON_BYTE_ORDER == BSON_BIG_ENDIAN
+  #   high : UInt64;
+  #   low : UInt64;
+  #   #endif
+  # end
 
-  struct MD5
-    count : UInt32[2] # message length in bits, lsw first
-    abcd : UInt32[4] # digest buffer
-    buf : UInt8[64] # accumulate block
-  end
+  # struct Error
+  #   domain : UInt32
+  #   code : UInt32
+  #   message : UInt8[504]
+  # end
 
-  struct Oid
-    bytes : UInt8[12]
-  end
+  # struct MD5
+  #   count : UInt32[2] # message length in bits, lsw first
+  #   abcd : UInt32[4] # digest buffer
+  #   buf : UInt8[64] # accumulate block
+  # end
 
-  struct Timeval
-    tv_sec : TimeT # seconds
-    tv_usec : SusecondsT # microseconds
-  end
+  # struct Oid
+  #   bytes : UInt8[12]
+  # end
+
+  # struct Timeval
+  #   tv_sec : TimeT # seconds
+  #   tv_usec : SusecondsT # microseconds
+  # end
 
   fun append_array = bson_append_array(bson : BSON*, key : UInt8*, key_length : Int32, array : BSON*) : Bool
   fun append_array_begin = bson_append_array_begin(bson : BSON*, key : UInt8*, key_length : Int32, child : BSON*) : Bool

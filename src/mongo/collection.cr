@@ -1,3 +1,6 @@
+require "../bson/bson"
+require "../lib/LibMongoc"
+
 module Mongo
   class Collection
     @ptrCollection : Pointer(LibMongoc::Collection)
@@ -83,8 +86,8 @@ module Mongo
       # LibMongoc.collection_delete @ptrCollection, flags : DeleteFlags, selector : BSON*, write_concern : WriteConcern*, error : BSON_error*) : Bool 
     end
 
-    def delete_many
-      # LibMongoc.collection_delete_many @ptrCollection, selector : BSON*, opts : BSON*, reply : BSON*, error : BSON_error*) : Bool
+    def delete_many(selector : BSON, opts : BSON, reply : BSON) : Bool
+      # LibMongoc.collection_delete_many @ptrCollection, selector.to_unsafe, opts.to_unsafe, reply.to_unsafe, error : BSON_error*) : Bool
     end
 
     def delete_one
@@ -151,7 +154,12 @@ module Mongo
       # LibMongoc.collection_get_last_error @ptrCollection) : BSON*
     end
 
-    def insert
+    def insert(document : Hash(String, AnyType))
+      data : BSON = BSON.new document
+      # error : LibMongoc::BSONerror.new
+      unless LibMongoc.collection_insert @ptrCollection, LibMongoc::InsertFlags::INSERT_NONE, data.to_unsafe, nil, nil
+        puts "ERROR"
+      end
       # LibMongoc.collection_insert @ptrCollection, flags : InsertFlags, document : BSON*, write_concern : WriteConcern*, error : BSON_error*) : Bool
     end
 
